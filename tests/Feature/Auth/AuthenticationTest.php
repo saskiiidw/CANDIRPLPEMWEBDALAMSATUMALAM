@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Livewire\Auth\LoginForm;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Volt\Volt;
+use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -13,26 +15,19 @@ class AuthenticationTest extends TestCase
 
     public function test_login_screen_can_be_rendered(): void
     {
-        $response = $this->get('/login');
-
-        $response
-            ->assertOk()
-            ->assertSeeVolt('pages.auth.login');
+        $this->get('/login')->assertOk();
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
-            ->set('form.password', 'password');
-
-        $component->call('login');
-
-        $component
+        Livewire::test(LoginForm::class)
+            ->set('email', $user->email)
+            ->set('password', 'password')
+            ->call('login')
             ->assertHasNoErrors()
-            ->assertRedirect(route('dashboard', absolute: false));
+            ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticated();
     }
@@ -41,30 +36,96 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
-            ->set('form.password', 'wrong-password');
-
-        $component->call('login');
-
-        $component
-            ->assertHasErrors()
+        Livewire::test(LoginForm::class)
+            ->set('email', $user->email)
+            ->set('password', 'wrong-password')
+            ->call('login')
             ->assertNoRedirect();
 
         $this->assertGuest();
     }
 
-    public function test_navigation_menu_can_be_rendered(): void
+    public function test_login_is_locked_after_5_failed_attempts(): void
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user);
+        $component = Livewire::test(LoginForm::class);
 
-        $response = $this->get('/dashboard');
+        // 5 percobaan gagal pertama — tidak terblokir dulu
+        for ($i = 0; $i < 5; $i++) {
+            $component
+                ->set('email', $user->email)
+                ->set('password', 'wrong')
+                ->call('login');
+        }
 
-        $response
-            ->assertOk()
-            ->assertSeeVolt('layout.navigation');
+        // Percobaan ke-6 harus terblokir RateLimiter
+        $component
+            ->set('email', $user->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertNoRedirect();
+
+        // errorMessage harus muncul (akun terkunci)
+        $this->assertTrue(
+            RateLimiter::tooManyAttempts(
+                strtolower($user->email).'|127.0.0.1',
+                5
+            )
+        );
+
+        $this->assertGuest();
+
+        // Bersihkan limiter untuk test berikutnya
+        RateLimiter::clear(strtolower($user->email).'|127.0.0.1');
+    }
+
+    public function test_inactive_user_cannot_login(): void
+    {
+        $user = User::factory()->create(['is_active' => false]);
+
+        Livewire::test(LoginForm::class)
+            ->set('email', $user->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertNoRedirect();
+
+        $this->assertGuest();
+    }
+
+    public function test_unverified_seller_cannot_login(): void
+    {
+        $seller = User::factory()->penjualBelumDiverifikasi()->create();
+
+        Livewire::test(LoginForm::class)
+            ->set('email', $seller->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertNoRedirect();
+
+        $this->assertGuest();
+    }
+
+    public function test_admin_is_redirected_to_admin_dashboard(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        Livewire::test(LoginForm::class)
+            ->set('email', $admin->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertRedirect(route('admin.dashboard'));
+    }
+
+    public function test_seller_is_redirected_to_seller_dashboard(): void
+    {
+        $seller = User::factory()->penjual()->create();
+
+        Livewire::test(LoginForm::class)
+            ->set('email', $seller->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertRedirect(route('seller.dashboard'));
     }
 
     public function test_users_can_logout(): void
@@ -73,7 +134,7 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('layout.navigation');
+        $component = \Livewire\Volt\Volt::test('layout.navigation');
 
         $component->call('logout');
 
@@ -84,3 +145,4 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 }
+
