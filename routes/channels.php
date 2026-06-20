@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('seller.{sellerId}', function ($user, $sellerId) {
+    return (int) $user->id === (int) $sellerId && $user->role === 'penjual';
+});
+
+Broadcast::channel('order.{orderId}', function ($user, $orderId) {
+    $order = \App\Models\Order::find($orderId);
+    return $order && (int) $user->id === (int) $order->buyer_id;
 });

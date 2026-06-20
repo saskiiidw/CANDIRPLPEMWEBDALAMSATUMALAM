@@ -5,11 +5,10 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'pages.auth.register')
-        ->name('register');
-
-    Volt::route('login', 'pages.auth.login')
-        ->name('login');
+    // Login & Register ditangani oleh Livewire class kustom di routes/web.php
+    // (dengan logika rate-limit, role-redirect, dan validasi penjual terverifikasi)
+    // Volt::route('register', 'pages.auth.register')->name('register');
+    // Volt::route('login', 'pages.auth.login')->name('login');
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
         ->name('password.request');
