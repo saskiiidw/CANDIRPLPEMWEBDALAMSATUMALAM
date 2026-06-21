@@ -15,8 +15,17 @@ class RegisterForm extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public string $role = 'mahasiswa'; // mahasiswa|penjual
+    public string $role = 'mahasiswa'; // mahasiswa|penjual — dikunci dari route, bukan input user
     public string $store_name = '';
+
+    public function mount(string $role): void
+    {
+        if (!in_array($role, ['mahasiswa', 'penjual'], true)) {
+            abort(404);
+        }
+
+        $this->role = $role;
+    }
 
     protected function rules(): array
     {
@@ -27,6 +36,17 @@ class RegisterForm extends Component
             'role' => 'required|in:mahasiswa,penjual',
             'store_name' => 'required_if:role,penjual|nullable|string|max:100',
         ];
+    }
+
+    // Live validation email saat user mengetik (FR-001)
+    public function updatedEmail(): void
+    {
+        $this->validateOnly('email');
+    }
+
+    public function updatedStoreName(): void
+    {
+        $this->validateOnly('store_name');
     }
 
     public function register(): void
@@ -55,6 +75,8 @@ class RegisterForm extends Component
 
     public function render()
     {
-        return view('livewire.auth.register-form');
+        return view($this->role === 'penjual'
+            ? 'livewire.auth.register-form-seller'
+            : 'livewire.auth.register-form-student');
     }
 }

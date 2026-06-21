@@ -12,9 +12,17 @@ use App\Livewire\SellerDashboard;
 use App\Livewire\SellerVerification;
 use App\Livewire\UserManagement;
 
+
 // ── Auth (Guest) ─────────────────────────────────────────────────────────────
-Route::get('/login', LoginForm::class)->name('login')->middleware('guest');
-Route::get('/register', RegisterForm::class)->name('register')->middleware('guest');
+Route::middleware('guest')->group(function () {
+Route::get('/register', function () {
+        return view('register-choice');
+    })->name('register.choice');
+
+    Route::get('/register/{role}', RegisterForm::class)
+        ->whereIn('role', ['mahasiswa', 'penjual'])
+        ->name('register');
+});
 
 // ── Auth Umum (Semua role yang login) ────────────────────────────────────────
 Route::middleware('auth')->group(function () {
