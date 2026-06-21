@@ -63,8 +63,11 @@ Route::middleware(['auth', 'role:penjual'])->group(function () {
 
 // ── Admin ─────────────────────────────────────────────────────────────────────
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', UserManagement::class)->name('admin.dashboard');
-    Route::get('/admin/seller-verification', SellerVerification::class)->name('admin.seller-verification');
+    Route::get('/admin/dashboard', \App\Livewire\AdminDashboard::class)->name('admin.dashboard');
+    Route::get('/admin/seller-verification', \App\Livewire\SellerVerification::class)->name('admin.seller-verification');
+    Route::get('/admin/user-management', \App\Livewire\UserManagement::class)->name('admin.user-management');
+    Route::get('/admin/audit-log', \App\Livewire\AdminAuditLog::class)->name('admin.audit-log');
+    Route::get('/admin/profile', \App\Livewire\AdminProfile::class)->name('admin.profile');
 });
 
 // ── Landing page ──────────────────────────────────────────────────────────────
