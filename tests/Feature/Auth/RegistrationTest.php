@@ -21,7 +21,7 @@ class RegistrationTest extends TestCase
 
     public function test_mahasiswa_can_register(): void
     {
-        Livewire::test(RegisterForm::class)
+        Livewire::test(RegisterForm::class, ['role' => 'mahasiswa'])
             ->set('name', 'Budi Santoso')
             ->set('email', 'budi@mhs.unsoed.ac.id')
             ->set('password', 'password123')
@@ -39,7 +39,7 @@ class RegistrationTest extends TestCase
 
     public function test_penjual_can_register_with_store_name(): void
     {
-        Livewire::test(RegisterForm::class)
+        Livewire::test(RegisterForm::class, ['role' => 'penjual'])
             ->set('name', 'Mas Eko')
             ->set('email', 'eko@kantin.unsoed.ac.id')
             ->set('password', 'password123')
@@ -59,7 +59,7 @@ class RegistrationTest extends TestCase
 
     public function test_penjual_registration_fails_without_store_name(): void
     {
-        Livewire::test(RegisterForm::class)
+        Livewire::test(RegisterForm::class, ['role' => 'penjual'])
             ->set('name', 'Mas Eko')
             ->set('email', 'eko@kantin.unsoed.ac.id')
             ->set('password', 'password123')
@@ -76,7 +76,7 @@ class RegistrationTest extends TestCase
     {
         // Verifikasi bug mass-assignment sudah diperbaiki:
         // kolom 'role' harus tersimpan, bukan default 'mahasiswa'.
-        Livewire::test(RegisterForm::class)
+        Livewire::test(RegisterForm::class, ['role' => 'penjual'])
             ->set('name', 'Pak Dosen')
             ->set('email', 'dosen@ft.unsoed.ac.id')
             ->set('password', 'password123')
