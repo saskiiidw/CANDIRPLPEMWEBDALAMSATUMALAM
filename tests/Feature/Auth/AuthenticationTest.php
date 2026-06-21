@@ -106,6 +106,22 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_rejected_seller_sees_rejection_reason(): void
+    {
+        $seller = User::factory()->penjualBelumDiverifikasi()->create([
+            'rejection_reason' => 'KTP buram'
+        ]);
+
+        Livewire::test(LoginForm::class)
+            ->set('email', $seller->email)
+            ->set('password', 'password')
+            ->call('login')
+            ->assertSet('errorMessage', 'Pendaftaran Anda ditolak. Alasan: KTP buram')
+            ->assertNoRedirect();
+
+        $this->assertGuest();
+    }
+
     public function test_admin_is_redirected_to_admin_dashboard(): void
     {
         $admin = User::factory()->admin()->create();

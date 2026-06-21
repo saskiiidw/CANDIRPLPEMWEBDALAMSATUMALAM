@@ -11,6 +11,7 @@ class SellerVerification extends Component
     use AuthorizesRole;
 
     public $pendingSellers;
+    public string $rejectionReason = '';
 
     public function mount(): void
     {
@@ -22,22 +23,30 @@ class SellerVerification extends Component
     {
         $this->pendingSellers = User::where('role', 'penjual')
             ->where('is_verified', false)
+            ->whereNull('rejection_reason')
             ->get();
     }
 
     public function approve(int $userId): void
     {
         $seller = User::where('role', 'penjual')->findOrFail($userId);
-        $seller->update(['is_verified' => true]);
+        $seller->update(['is_verified' => true, 'rejection_reason' => null]);
         \App\Services\AuditLogger::log('seller.verified', "Penjual #{$seller->id} disetujui admin");
         $this->loadPending();
     }
 
-    public function reject(int $userId): void
+    public function reject(int $userId, string $reason): void
     {
         $seller = User::where('role', 'penjual')->findOrFail($userId);
-        \App\Services\AuditLogger::log('seller.rejected', "Penjual #{$seller->id} ditolak admin");
-        $seller->delete();
+
+        $seller->update([
+            'rejection_reason' => $reason,
+            'is_active' => false
+        ]);
+
+        \App\Services\AuditLogger::log('seller.rejected', "Penjual #{$seller->id} ditolak. Alasan: {$reason}");
+
+        $this->reset('rejectionReason');
         $this->loadPending();
     }
 

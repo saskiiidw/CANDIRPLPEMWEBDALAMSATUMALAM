@@ -52,7 +52,31 @@ class CanteenOrderTest extends TestCase
         $this->actingAs($mahasiswa);
 
         Livewire::test(CanteenOrder::class, ['sellerId' => $seller->id])
-            ->assertViewHas('menus');
+            ->assertViewHas('filteredMenus');
+    }
+
+    public function test_menus_can_be_filtered_and_searched(): void
+    {
+        $seller    = $this->makeSeller();
+        $mahasiswa = $this->makeMahasiswa();
+        $menu1     = $this->makeMenu($seller, ['name' => 'Nasi Goreng Spesial', 'category' => 'makanan_berat']);
+        $menu2     = $this->makeMenu($seller, ['name' => 'Es Teh Manis', 'category' => 'minuman']);
+
+        $this->actingAs($mahasiswa);
+
+        // Test search
+        Livewire::test(CanteenOrder::class, ['sellerId' => $seller->id])
+            ->set('search', 'Goreng')
+            ->assertViewHas('filteredMenus', function ($menus) use ($menu1, $menu2) {
+                return $menus->contains($menu1) && !$menus->contains($menu2);
+            });
+
+        // Test category filter
+        Livewire::test(CanteenOrder::class, ['sellerId' => $seller->id])
+            ->set('category', 'minuman')
+            ->assertViewHas('filteredMenus', function ($menus) use ($menu1, $menu2) {
+                return !$menus->contains($menu1) && $menus->contains($menu2);
+            });
     }
 
     public function test_checkout_creates_order_and_decrements_stock(): void

@@ -10,9 +10,24 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CanteenOrder extends Component
 {
+    use WithPagination;
+
+    public string $search = '';
+    public string $category = '';
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCategory(): void
+    {
+        $this->resetPage();
+    }
     public int $sellerId;
 
     /** @var \Illuminate\Support\Collection<int, Menu> */
@@ -237,6 +252,19 @@ class CanteenOrder extends Component
 
     public function render()
     {
-        return view('livewire.canteen-order');
+        $filteredMenus = Menu::where('seller_id', $this->sellerId)
+            ->where('is_active', true)
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->category, function ($query) {
+                $query->where('category', $this->category);
+            })
+            ->orderBy('name')
+            ->paginate(12);
+
+        return view('livewire.canteen-order', [
+            'filteredMenus' => $filteredMenus,
+        ]);
     }
 }

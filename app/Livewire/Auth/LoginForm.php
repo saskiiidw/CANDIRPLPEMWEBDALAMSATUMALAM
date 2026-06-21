@@ -47,7 +47,11 @@ class LoginForm extends Component
 
         if ($user->role === 'penjual' && ! $user->is_verified) {
             Auth::logout();
-            $this->errorMessage = 'Akun dalam proses verifikasi admin.';
+            if ($user->rejection_reason) {
+                $this->errorMessage = 'Pendaftaran Anda ditolak. Alasan: ' . $user->rejection_reason;
+            } else {
+                $this->errorMessage = 'Akun dalam proses verifikasi admin.';
+            }
             return;
         }
 
