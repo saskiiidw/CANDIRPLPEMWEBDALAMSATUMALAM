@@ -47,9 +47,9 @@ class CanteenOrder extends Component
     public int $customizeQuantity = 1;
     public string $customizeNote = '';
 
-    public function mount(int $sellerId): void
+    public function mount(?int $seller = null, ?int $sellerId = null): void
     {
-        $this->sellerId = $sellerId;
+        $this->sellerId = $seller ?? $sellerId ?? throw new \InvalidArgumentException('Seller ID is required');
         $this->loadMenus();
         $this->cart = session('cart', []);
         $this->itemNotes = session('itemNotes', []);
