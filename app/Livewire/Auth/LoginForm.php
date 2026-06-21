@@ -59,9 +59,9 @@ class LoginForm extends Component
         \App\Services\AuditLogger::log('user.login', "User #{$user->id} login");
 
         $this->redirect(match ($user->role) {
-            'admin' => route('admin.dashboard'),
+            'admin'   => route('admin.dashboard'),
             'penjual' => route('seller.dashboard'),
-            default => route('dashboard'),
+            default   => route('home.student'),
         }, navigate: true);
     }
 
