@@ -47,10 +47,10 @@
                     Login
                 </button>
 
-                @if (Route::has('register'))
+                @if (Route::has('register.choice'))
                     <p class="text-center font-body-md text-body-md text-on-surface-variant mt-gutter">
-                        Don't have an account?
-                        <a href="{{ route('register') }}" wire:navigate class="font-label-lg text-label-lg text-primary hover:text-secondary transition-colors ml-1">Register here</a>
+                        Don't have an account? 
+                        <a href="{{ route('register.choice') }}" wire:navigate class="...">Register here</a>
                     </p>
                 @endif
             </div>
