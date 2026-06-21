@@ -34,7 +34,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/canteen/{seller}', CanteenOrder::class)->name('canteen.order');
 
     // Halaman dashboard umum (redirect sesuai role)
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', function () {
+        $role = auth()->user()->role;
+        if ($role === 'penjual') {
+            return redirect()->route('seller.dashboard');
+        }
+        if ($role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        // mahasiswa: tampilkan StudentHome
+        return redirect()->route('home.student');
+    })->name('dashboard');
+
+    // Mahasiswa: home via Livewire full-page component
+    Route::get('/home', \App\Livewire\StudentHome::class)->name('home.student');
 });
 
 // ── Penjual ───────────────────────────────────────────────────────────────────
