@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price_snapshot');
             $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('subtotal');
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

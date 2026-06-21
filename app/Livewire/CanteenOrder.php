@@ -19,6 +19,7 @@ class CanteenOrder extends Component
     public $menus;
 
     public array $cart = []; // [menu_id => quantity]
+    public array $itemNotes = []; // [menu_id => notes]
     public ?string $note = null;
 
     public ?int $currentOrderId = null;
@@ -26,10 +27,17 @@ class CanteenOrder extends Component
     public string $stockError = '';
     public ?int $etaMinutes = null;
 
+    public string $step = 'menu'; // menu|checkout|customize
+    public ?int $selectedMenuId = null;
+    public int $customizeQuantity = 1;
+    public string $customizeNote = '';
+
     public function mount(int $sellerId): void
     {
         $this->sellerId = $sellerId;
         $this->loadMenus();
+        $this->cart = session('cart', []);
+        $this->itemNotes = session('itemNotes', []);
     }
 
     public function loadMenus(): void
@@ -38,6 +46,12 @@ class CanteenOrder extends Component
             ->where('is_active', true)
             ->orderBy('name')
             ->get();
+    }
+
+    public function syncSession(): void
+    {
+        session(['cart' => $this->cart]);
+        session(['itemNotes' => $this->itemNotes]);
     }
 
     /**
@@ -51,7 +65,9 @@ class CanteenOrder extends Component
 
         if ($qty <= 0) {
             unset($this->cart[$menuId]);
+            unset($this->itemNotes[$menuId]);
             $this->stockError = '';
+            $this->syncSession();
             return;
         }
 
@@ -60,10 +76,101 @@ class CanteenOrder extends Component
         if (! $menu || ! $menu->isAvailable($qty)) {
             $this->stockError = "Stok tidak mencukupi untuk menu \"{$menu?->name}\".";
             $this->cart[$menuId] = $menu?->stock ?? 0;
+            $this->syncSession();
             return;
         }
 
         $this->stockError = '';
+        $this->syncSession();
+    }
+
+    public function openCustomize(int $menuId): void
+    {
+        $this->selectedMenuId = $menuId;
+        $this->customizeQuantity = $this->cart[$menuId] ?? 1;
+        $this->customizeNote = $this->itemNotes[$menuId] ?? '';
+        $this->step = 'customize';
+    }
+
+    public function closeCustomize(): void
+    {
+        $this->step = 'menu';
+    }
+
+    public function incrementCustomize(): void
+    {
+        $menu = Menu::find($this->selectedMenuId);
+        if ($menu && $this->customizeQuantity < $menu->stock) {
+            $this->customizeQuantity++;
+        }
+    }
+
+    public function decrementCustomize(): void
+    {
+        if ($this->customizeQuantity > 1) {
+            $this->customizeQuantity--;
+        }
+    }
+
+    public function addCustomizeToCart(): void
+    {
+        $menu = Menu::find($this->selectedMenuId);
+        if (!$menu) return;
+
+        if (!$menu->isAvailable($this->customizeQuantity)) {
+            $this->stockError = "Stok tidak mencukupi untuk menu \"{$menu->name}\".";
+            return;
+        }
+
+        $this->cart[$this->selectedMenuId] = $this->customizeQuantity;
+        if (!empty($this->customizeNote)) {
+            $this->itemNotes[$this->selectedMenuId] = $this->customizeNote;
+        } else {
+            unset($this->itemNotes[$this->selectedMenuId]);
+        }
+
+        $this->syncSession();
+        $this->step = 'menu';
+        $this->stockError = '';
+    }
+
+    public function goToCheckout(): void
+    {
+        $this->step = 'checkout';
+    }
+
+    public function goToMenu(): void
+    {
+        $this->step = 'menu';
+    }
+
+    public function incrementQty(int $menuId): void
+    {
+        $menu = Menu::find($menuId);
+        $currentQty = $this->cart[$menuId] ?? 0;
+        if ($menu && $currentQty < $menu->stock) {
+            $this->cart[$menuId] = $currentQty + 1;
+            $this->syncSession();
+        }
+    }
+
+    public function decrementQty(int $menuId): void
+    {
+        $currentQty = $this->cart[$menuId] ?? 0;
+        if ($currentQty > 1) {
+            $this->cart[$menuId] = $currentQty - 1;
+        } else {
+            unset($this->cart[$menuId]);
+            unset($this->itemNotes[$menuId]);
+        }
+        $this->syncSession();
+    }
+
+    public function removeFromCart(int $menuId): void
+    {
+        unset($this->cart[$menuId]);
+        unset($this->itemNotes[$menuId]);
+        $this->syncSession();
     }
 
     public function getTotalPriceProperty(): int
@@ -154,6 +261,7 @@ class CanteenOrder extends Component
                         'price_snapshot'     => $menu->price,
                         'quantity'           => $qty,
                         'subtotal'           => $menu->price * $qty,
+                        'notes'              => $this->itemNotes[$menu->id] ?? null,
                     ]);
 
                     // Stok dikurangi sementara, menunggu konfirmasi simulasi pembayaran.
@@ -204,11 +312,20 @@ class CanteenOrder extends Component
 
         $this->showPaymentModal = false;
         $this->cart = [];
+        $this->itemNotes = [];
         $this->note = null;
+        $this->syncSession();
         $this->loadMenus();
 
         $this->dispatch('payment-completed', orderId: $order->id);
+        $this->redirect(route('orders.track', ['order' => $order->id]), navigate: true);
     }
+
+    public function cancelPaymentModal(): void
+    {
+        $this->showPaymentModal = false;
+    }
+
     // FR-014 / UC-11: pembatalan hanya boleh sebelum penjual mulai memproses.
     public function cancelOrder(int $orderId): void
     {
@@ -228,11 +345,6 @@ class CanteenOrder extends Component
         // Broadcast agar dashboard penjual menampilkan pembatalan secara real-time.
         broadcast(new OrderStatusUpdated($order))->toOthers();
         \App\Services\AuditLogger::log('order.cancelled', "Order #{$order->id} dibatalkan mahasiswa");
-    }
-
-    public function cancelPaymentModal(): void
-    {
-        $this->showPaymentModal = false;
     }
 
     public function render()
