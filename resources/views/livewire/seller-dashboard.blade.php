@@ -1,323 +1,896 @@
-<div class="flex min-h-screen bg-[#F7F4F0] font-sans">
-
-    {{-- ═══════════════════════════════════════════
-         SIDEBAR
-    ═══════════════════════════════════════════ --}}
-    <aside class="hidden md:flex flex-col w-64 bg-[#1C1208] text-white flex-shrink-0 sticky top-0 h-screen">
-
-        {{-- Logo --}}
-        <div class="px-6 py-7 border-b border-white/10">
+<div class="flex min-h-screen bg-[#FFFBF7] font-sans text-[#331C0E]" x-data="{ openMenuModal: @entangle('showMenuModal') }">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="hidden md:flex flex-col w-64 bg-[#FFF1E5] border-r border-[#F4E1D2] flex-shrink-0 sticky top-0 h-screen justify-between p-6">
+        <div class="space-y-6">
+            <!-- Store Profile Header -->
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-[#E8813A] rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-xs text-white/50 leading-none mb-0.5">CampusBites</p>
-                    <p class="text-sm font-bold leading-none text-white">Seller Panel</p>
-                </div>
-            </div>
-        </div>
-
-        {{-- Toko Info --}}
-        <div class="px-6 py-5 border-b border-white/10">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#E8813A] to-[#9b4500] flex items-center justify-center font-bold text-sm text-white flex-shrink-0">
-                    {{ strtoupper(substr(auth()->user()->store_name ?? auth()->user()->name, 0, 2)) }}
+                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#E27226] to-[#9E460B] flex items-center justify-center font-bold text-white shadow-md text-base">
+                    {{ strtoupper(substr($storeName ?: auth()->user()->name, 0, 2)) }}
                 </div>
                 <div class="min-w-0">
-                    <p class="text-sm font-bold text-white truncate">{{ auth()->user()->store_name ?? auth()->user()->name }}</p>
-                    <div class="flex items-center gap-1.5 mt-0.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                        <span class="text-xs text-white/50">Buka Sekarang</span>
-                    </div>
+                    <h2 class="text-base font-extrabold text-[#331C0E] truncate leading-tight font-display">{{ $storeName ?: 'My Kitchen' }}</h2>
+                    <span class="text-xs text-[#8A7160] flex items-center gap-1.5 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full {{ auth()->user()->is_active ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
+                        {{ auth()->user()->is_active ? 'Active Session' : 'Closed' }}
+                    </span>
                 </div>
             </div>
+
+            <!-- Add New Item button -->
+            <button wire:click="openMenuModal" 
+                    class="w-full bg-[#9E460B] hover:bg-[#803708] text-white py-3.5 px-4 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-xs shadow-sm active:scale-95 duration-150">
+                <span class="material-symbols-outlined text-sm font-bold">add</span>
+                <span>Add New Item</span>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1 pt-4">
+                <button wire:click="$set('activeTab', 'dashboard')" 
+                        class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all duration-150 {{ $activeTab === 'dashboard' ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
+                    <span class="material-symbols-outlined text-lg">dashboard</span>
+                    <span>Dashboard</span>
+                </button>
+                <button wire:click="$set('activeTab', 'menu_stock')" 
+                        class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all duration-150 {{ $activeTab === 'menu_stock' ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
+                    <span class="material-symbols-outlined text-lg">restaurant_menu</span>
+                    <span>Menu & Stock</span>
+                </button>
+                <button wire:click="$set('activeTab', 'reports')" 
+                        class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all duration-150 {{ $activeTab === 'reports' ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
+                    <span class="material-symbols-outlined text-lg">monitoring</span>
+                    <span>Reports</span>
+                </button>
+                <button wire:click="$set('activeTab', 'profile')" 
+                        class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all duration-150 {{ $activeTab === 'profile' ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
+                    <span class="material-symbols-outlined text-lg">person</span>
+                    <span>Profile</span>
+                </button>
+            </nav>
         </div>
 
-        {{-- Nav --}}
-        <nav class="flex-1 px-4 py-5 space-y-1 overflow-y-auto">
-            <p class="px-3 mb-3 text-[10px] font-bold tracking-widest text-white/30 uppercase">Menu Utama</p>
-
-            <a href="{{ route('seller.dashboard') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all bg-[#E8813A]/20 text-[#E8813A] border border-[#E8813A]/30">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                </svg>
-                Dashboard Live
-            </a>
-
-            <a href="{{ route('seller.sales-report') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-white/60 hover:bg-white/5 hover:text-white">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-                Laporan Penjualan
-            </a>
-
-            <a href="{{ route('profile') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-white/60 hover:bg-white/5 hover:text-white">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                Profil Toko
-            </a>
-        </nav>
-
-        {{-- Logout --}}
-        <div class="px-4 py-5 border-t border-white/10">
+        <!-- Support & Logout -->
+        <div class="space-y-1">
+            <button class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-xs font-bold text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B] transition-all">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span>Support</span>
+            </button>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit"
-                        class="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-semibold text-white/60 hover:bg-red-500/10 hover:text-red-400 transition-all">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                    </svg>
-                    Keluar
+                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-xs font-bold text-[#8A7160] hover:bg-red-50 hover:text-red-650 transition-all">
+                    <span class="material-symbols-outlined text-lg">logout</span>
+                    <span>Logout</span>
                 </button>
             </form>
         </div>
     </aside>
 
-    {{-- ═══════════════════════════════════════════
-         MAIN CONTENT
-    ═══════════════════════════════════════════ --}}
-    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-
-        {{-- Top Bar --}}
-        <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-gray-100 px-8 py-4 flex items-center justify-between flex-shrink-0">
+    <!-- Main Panel -->
+    <div class="flex-grow flex flex-col min-w-0 min-h-screen overflow-y-auto">
+        <!-- Top Navigation -->
+        <header class="bg-white border-b border-[#F4E1D2] h-20 px-8 flex items-center justify-between sticky top-0 z-25">
             <div>
-                <h1 class="text-xl font-bold text-gray-900">Live Order Feed</h1>
-                <p class="text-xs text-gray-400 mt-0.5">Pesanan masuk diperbarui secara otomatis <span class="text-green-500 font-medium">(Real-time)</span></p>
+                <h1 class="text-lg font-extrabold text-[#331C0E] font-display">Canteen Manager</h1>
             </div>
-            <div class="flex items-center gap-4">
-                {{-- Live Badge --}}
-                <div class="flex items-center gap-2 bg-green-50 border border-green-200 px-4 py-2 rounded-full">
-                    <span class="relative flex w-2.5 h-2.5">
-                        <span class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
-                        <span class="relative inline-flex w-2.5 h-2.5 bg-green-500 rounded-full"></span>
-                    </span>
-                    <span class="text-sm font-semibold text-green-700">{{ count($orders) }} Pesanan Aktif</span>
+            
+            <div class="flex items-center gap-6">
+                <!-- Store Status Toggle -->
+                <div class="flex items-center gap-3 bg-[#FFF8F2] border border-[#F4E1D2] px-4 py-2 rounded-full">
+                    <span class="text-xs font-bold text-[#8A7160]">Store Open</span>
+                    <button wire:click="toggleStoreStatus" 
+                            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none {{ auth()->user()->is_active ? 'bg-[#E27226]' : 'bg-gray-200' }}">
+                        <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ auth()->user()->is_active ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                    </button>
                 </div>
 
-                {{-- User info --}}
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#E8813A] to-[#9b4500] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-                    <div class="hidden sm:block">
-                        <p class="text-sm font-semibold text-gray-800 leading-none">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-gray-400 mt-0.5">Penjual</p>
+                <!-- Notifications -->
+                <button class="relative p-2 text-[#8A7160] hover:bg-[#FFF8F2] rounded-xl transition">
+                    <span class="material-symbols-outlined text-xl">notifications</span>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E27226] rounded-full"></span>
+                </button>
+
+                <!-- Settings -->
+                <button wire:click="$set('activeTab', 'profile')" class="p-2 text-[#8A7160] hover:bg-[#FFF8F2] rounded-xl transition" title="Settings">
+                    <span class="material-symbols-outlined text-xl">settings</span>
+                </button>
+
+                <!-- Avatar Profile with Dropdown -->
+                <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                    <button @click="open = !open" class="w-9 h-9 rounded-full bg-orange-100 border border-[#F4E1D2] overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#E27226]/50 flex items-center justify-center">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ auth()->user()->name }}" alt="avatar" class="w-full h-full object-cover">
+                    </button>
+
+                    <!-- Dropdown Panel -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="transform opacity-0 scale-95"
+                         x-transition:enter-end="transform opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="transform opacity-100 scale-100"
+                         x-transition:leave-end="transform opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 bg-white border border-[#F4E1D2] rounded-2xl shadow-xl py-2 z-30"
+                         x-cloak>
+                        
+                        <!-- User Info -->
+                        <div class="px-4 py-2 border-b border-[#F4E1D2] mb-1">
+                            <p class="text-xs font-bold text-[#331C0E] truncate">{{ auth()->user()->name }}</p>
+                            <p class="text-[10px] text-[#8A7160] truncate">{{ auth()->user()->email }}</p>
+                        </div>
+
+                        <!-- Dropdown Items -->
+                        <button @click="open = false" wire:click="$set('activeTab', 'profile')" 
+                                class="w-full text-left px-4 py-2.5 text-xs text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B] font-bold transition flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">person</span>
+                            <span>View Profile</span>
+                        </button>
+
+                        <button @click="open = false" wire:click="$set('activeTab', 'profile')" 
+                                class="w-full text-left px-4 py-2.5 text-xs text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B] font-bold transition flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">settings</span>
+                            <span>Settings</span>
+                        </button>
+
+                        <div class="border-t border-[#F4E1D2] my-1"></div>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" 
+                                    class="w-full text-left px-4 py-2.5 text-xs text-red-650 hover:bg-red-50 font-bold transition flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">logout</span>
+                                <span>Logout</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </header>
 
-        {{-- Stats Row --}}
-        <div class="px-8 pt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            @php
-                $totalToday  = \App\Models\Order::where('seller_id', auth()->id())
-                                ->whereDate('created_at', today())
-                                ->count();
-                $revenueToday = \App\Models\Order::where('seller_id', auth()->id())
-                                ->whereDate('created_at', today())
-                                ->where('status', 'selesai')
-                                ->sum('total_price');
-                $pendingCount = \App\Models\Order::where('seller_id', auth()->id())
-                                ->whereIn('status', ['diterima'])
-                                ->count();
-                $processingCount = \App\Models\Order::where('seller_id', auth()->id())
-                                ->where('status', 'diproses')
-                                ->count();
-            @endphp
-
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Pesanan Hari Ini</span>
-                    <div class="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                        </svg>
-                    </div>
+        <!-- Main Content -->
+        <main class="flex-grow p-8">
+            
+            @if (session()->has('message'))
+                <div class="mb-6 p-4 bg-[#FFF8F2] border border-[#F4E1D2] text-[#9E460B] rounded-2xl text-xs font-bold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                    <span>{{ session('message') }}</span>
                 </div>
-                <p class="text-3xl font-extrabold text-gray-900">{{ $totalToday }}</p>
-                <p class="text-xs text-gray-400 mt-1">Total masuk hari ini</p>
-            </div>
+            @endif
 
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Pendapatan</span>
-                    <div class="w-8 h-8 bg-green-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-2xl font-extrabold text-gray-900">Rp {{ number_format($revenueToday, 0, ',', '.') }}</p>
-                <p class="text-xs text-gray-400 mt-1">Pesanan selesai hari ini</p>
-            </div>
+            <!-- 1. DASHBOARD TAB -->
+            @if($activeTab === 'dashboard')
+                @if(!$selectedOrderId)
+                    <!-- Dashboard Feed Grid -->
+                    <div class="space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Operational Overview</h2>
+                            <p class="text-xs text-[#8A7160] mt-1">Real-time canteen performance and active orders.</p>
+                        </div>
 
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Menunggu Konfirmasi</span>
-                    <div class="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-3xl font-extrabold text-gray-900">{{ $pendingCount }}</p>
-                <p class="text-xs text-gray-400 mt-1">Pesanan baru masuk</p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Sedang Dimasak</span>
-                    <div class="w-8 h-8 bg-purple-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-3xl font-extrabold text-gray-900">{{ $processingCount }}</p>
-                <p class="text-xs text-gray-400 mt-1">Sedang dalam proses</p>
-            </div>
-        </div>
-
-        {{-- Order Grid --}}
-        <div class="px-8 py-6">
-            <div class="flex items-center justify-between mb-5">
-                <h2 class="text-lg font-bold text-gray-800">Antrian Pesanan Aktif</h2>
-                <span class="text-xs text-gray-400">Auto-refresh setiap 5 detik</span>
-            </div>
-
-            <div class="grid grid-cols-1 gap-5 xl:grid-cols-2" wire:poll.5000ms>
-                @forelse($orders as $order)
-                    <div class="flex flex-col bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden"
-                         wire:key="order-{{ $order->id }}">
-
-                        {{-- Order Header --}}
-                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <span class="text-sm font-bold text-gray-600">#{{ $order->id }}</span>
+                        <!-- Stats Row -->
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                            <!-- Stat 1 -->
+                            <div class="bg-[#E27226] rounded-[24px] p-6 text-white shadow-sm flex flex-col justify-between h-36">
+                                <div class="flex items-center justify-between">
+                                    <span class="material-symbols-outlined text-xl">new_releases</span>
+                                    <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px] font-bold">+12%</span>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-gray-900">{{ $order->buyer->name ?? 'Mahasiswa' }}</p>
-                                    <p class="text-xs text-gray-400">{{ $order->created_at->format('H:i') }} WIB · {{ $order->created_at->diffForHumans() }}</p>
+                                    <span class="text-xs font-bold opacity-90 uppercase">New Orders</span>
+                                    <p class="text-3xl font-extrabold mt-1 font-display">{{ $stats['new_orders'] }}</p>
+                                </div>
+                            </div>
+                            <!-- Stat 2 -->
+                            <div class="bg-[#FFF1E5] border border-[#F4E1D2] rounded-[24px] p-6 shadow-sm flex flex-col justify-between h-36">
+                                <div class="flex items-center justify-between">
+                                    <span class="material-symbols-outlined text-xl text-[#9E460B]">soup_kitchen</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-[#8A7160] uppercase">Processing</span>
+                                    <p class="text-3xl font-extrabold mt-1 text-[#331C0E] font-display">{{ $stats['processing'] }}</p>
+                                </div>
+                            </div>
+                            <!-- Stat 3 -->
+                            <div class="bg-[#FFF1E5] border border-[#F4E1D2] rounded-[24px] p-6 shadow-sm flex flex-col justify-between h-36">
+                                <div class="flex items-center justify-between">
+                                    <span class="material-symbols-outlined text-xl text-[#9E460B]">inventory_2</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-[#8A7160] uppercase">Ready</span>
+                                    <p class="text-3xl font-extrabold mt-1 text-[#331C0E] font-display">{{ $stats['ready'] }}</p>
+                                </div>
+                            </div>
+                            <!-- Stat 4 -->
+                            <div class="bg-[#FFF1E5] border border-[#F4E1D2] rounded-[24px] p-6 shadow-sm flex flex-col justify-between h-36">
+                                <div class="flex items-center justify-between">
+                                    <span class="material-symbols-outlined text-xl text-[#9E460B]">done_all</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-[#8A7160] uppercase">Completed</span>
+                                    <p class="text-3xl font-extrabold mt-1 text-[#331C0E] font-display">{{ $stats['completed'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Today's Revenue card -->
+                        <div class="bg-white border border-[#F4E1D2] rounded-[24px] p-6 max-w-sm flex items-center justify-between shadow-sm relative overflow-hidden">
+                            <div class="space-y-1 relative z-10">
+                                <div class="flex items-center gap-1 text-xs text-[#8A7160] font-bold">
+                                    <span>Today's Revenue</span>
+                                    <span class="material-symbols-outlined text-sm">info</span>
+                                </div>
+                                <p class="text-3xl font-extrabold text-[#331C0E] font-display">Rp {{ number_format($stats['today_revenue'], 0, ',', '.') }}</p>
+                                <span class="text-xs text-green-600 font-bold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xs">trending_up</span> 8% vs yesterday
+                                </span>
+                            </div>
+                            <div class="w-16 h-16 bg-[#FFF1E5] text-[#9E460B] rounded-2xl flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-3xl">payments</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Order Feed table -->
+                        <div class="space-y-4 pt-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-bold text-[#331C0E] font-display">Live Order Feed</h3>
+                                <button class="text-xs font-bold text-[#9E460B] hover:underline">View All History</button>
+                            </div>
+
+                            <div class="bg-white rounded-[24px] border border-[#F4E1D2] shadow-sm overflow-hidden" wire:poll.5000ms>
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-[#FFF8F2] border-b border-[#F4E1D2] text-xs font-bold text-[#8A7160] uppercase tracking-wider">
+                                            <th class="px-6 py-4.5">Order ID</th>
+                                            <th class="px-6 py-4.5">Items Summary</th>
+                                            <th class="px-6 py-4.5">Time</th>
+                                            <th class="px-6 py-4.5">Status</th>
+                                            <th class="px-6 py-4.5 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#F4E1D2] text-sm text-[#331C0E]">
+                                        @forelse($orders as $order)
+                                            <tr wire:click="selectOrder({{ $order->id }})" class="hover:bg-[#FFF8F2]/50 cursor-pointer transition">
+                                                <td class="px-6 py-4 font-bold text-xs">#ORD-{{ $order->id }}</td>
+                                                <td class="px-6 py-4">
+                                                    <p class="font-bold truncate max-w-md">
+                                                        @foreach($order->items as $item)
+                                                            {{ $item->quantity }}x {{ $item->menu_name_snapshot ?? ($item->menu->name ?? 'Item') }}{{ !$loop->last ? ', ' : '' }}
+                                                        @endforeach
+                                                    </p>
+                                                </td>
+                                                <td class="px-6 py-4 text-xs text-[#8A7160]">{{ $order->created_at->diffForHumans() }}</td>
+                                                <td class="px-6 py-4">
+                                                    @if($order->status === 'diterima')
+                                                        <span class="bg-orange-100 text-[#E27226] px-3 py-1 rounded-full text-xs font-bold">New Order</span>
+                                                    @elseif($order->status === 'diproses')
+                                                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Processing</span>
+                                                    @elseif($order->status === 'siap_diambil')
+                                                        <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Ready</span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <div class="flex justify-end gap-2" @click.stop>
+                                                        @if($order->status === 'diterima')
+                                                            <button wire:click="process({{ $order->id }})" class="bg-[#9E460B] hover:bg-[#803708] text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                                                                Accept
+                                                            </button>
+                                                        @elseif($order->status === 'diproses')
+                                                            <button wire:click="markReady({{ $order->id }})" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                                                                Mark Ready
+                                                            </button>
+                                                        @elseif($order->status === 'siap_diambil')
+                                                            <button wire:click="completeOrder({{ $order->id }})" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                                                                Complete
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center py-16 text-[#8A7160]">
+                                                    <span class="material-symbols-outlined text-4xl text-gray-300">receipt_long</span>
+                                                    <p class="text-sm font-bold mt-2">No active orders right now.</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <!-- Detailed Order view (Mockup Image 2) -->
+                    <div class="space-y-6">
+                        <!-- Navigation Header -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button wire:click="selectOrder(null)" class="w-10 h-10 bg-white border border-[#F4E1D2] rounded-full flex items-center justify-center hover:bg-[#FFF8F2] transition">
+                                    <span class="material-symbols-outlined text-lg">arrow_back</span>
+                                </button>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Order #{{ $selectedOrder->id }}-B</h2>
+                                        <span class="bg-orange-100 text-[#E27226] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">{{ $selectedOrder->status }}</span>
+                                    </div>
+                                    <p class="text-xs text-[#8A7160] mt-0.5">Placed {{ $selectedOrder->created_at->format('M d, Y \a\t H:i A') }}</p>
                                 </div>
                             </div>
 
-                            @if($order->status === 'diterima')
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-orange-700 bg-orange-100 rounded-full">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
-                                    Pesanan Baru
-                                </span>
-                            @elseif($order->status === 'diproses')
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-blue-700 bg-blue-100 rounded-full">
-                                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
-                                    Sedang Dimasak
-                                </span>
-                            @elseif($order->status === 'siap_diambil')
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-green-700 bg-green-100 rounded-full">
-                                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                                    Siap Diambil
-                                </span>
-                            @endif
+                            <!-- Reject / Accept buttons -->
+                            <div class="flex gap-3">
+                                @if($selectedOrder->status === 'diterima')
+                                    <button wire:click="reject({{ $selectedOrder->id }})" class="bg-red-50 text-[#C0392B] border border-red-200 text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-red-100 transition">
+                                        Reject Order
+                                    </button>
+                                    <button wire:click="process({{ $selectedOrder->id }})" class="bg-[#9E460B] hover:bg-[#803708] text-white text-xs font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                                        <span class="material-symbols-outlined text-sm font-bold">check</span>
+                                        <span>Accept Order</span>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
 
-                        {{-- Items --}}
-                        <div class="px-6 py-4 flex-1 space-y-2">
-                            @foreach($order->items as $item)
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start gap-3">
-                                        <span class="mt-0.5 w-6 h-6 bg-[#E8813A]/10 text-[#E8813A] text-xs font-bold rounded-lg flex items-center justify-center flex-shrink-0">
-                                            {{ $item->quantity }}
-                                        </span>
-                                        <div>
-                                            <p class="text-sm font-semibold text-gray-800">{{ $item->menu_name_snapshot ?? ($item->menu->name ?? 'Item') }}</p>
-                                            @if($item->notes)
-                                                <p class="text-xs text-gray-400 mt-0.5">📝 {{ $item->notes }}</p>
-                                            @endif
+                        <!-- Details Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <!-- Left columns -->
+                            <div class="lg:col-span-2 space-y-6">
+                                <!-- Order Items -->
+                                <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-6">
+                                    <h3 class="text-base font-extrabold text-[#331C0E] font-display">Order Items ({{ count($selectedOrder->items) }})</h3>
+                                    
+                                    <div class="divide-y divide-[#F4E1D2]">
+                                        @foreach($selectedOrder->items as $item)
+                                            <div class="flex items-start justify-between py-4 first:pt-0 last:pb-0">
+                                                <div class="flex gap-4">
+                                                    <div class="w-14 h-14 bg-[#FFF8F2] rounded-2xl flex items-center justify-center border border-[#F4E1D2] text-[#9E460B] font-bold text-xs shrink-0 overflow-hidden">
+                                                        <span class="material-symbols-outlined text-2xl">lunch_dining</span>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-extrabold text-[#331C0E] text-sm">{{ $item->menu_name_snapshot ?? ($item->menu->name ?? 'Menu Item') }}</h4>
+                                                        <p class="text-xs text-[#8A7160] mt-0.5">Modifications: {{ $item->notes ?: 'None' }}</p>
+                                                        <div class="flex gap-2 mt-2">
+                                                            <span class="bg-[#FFF1E5] text-[#9E460B] px-2 py-0.5 rounded text-[10px] font-bold uppercase">Qty: {{ $item->quantity }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="font-extrabold text-[#331C0E] text-sm">Rp {{ number_format($item->price_snapshot * $item->quantity, 0, ',', '.') }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <!-- Customer Notes -->
+                                <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-3">
+                                    <div class="flex items-center gap-2 text-xs font-bold text-[#8A7160] uppercase">
+                                        <span class="material-symbols-outlined text-base">sticky_note_2</span>
+                                        <span>Customer Notes</span>
+                                    </div>
+                                    <div class="bg-[#FFF8F2] border border-[#F4E1D2] rounded-2xl p-4 text-xs italic text-[#8A7160]">
+                                        "{{ $selectedOrder->note ?: 'No notes left by student.' }}"
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right columns -->
+                            <div class="space-y-6">
+                                <!-- Target Prep Time -->
+                                <div class="bg-gradient-to-br from-[#FFF1E5] to-[#FCD8BD] border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                                    <span class="text-xs font-bold text-[#8A7160] uppercase tracking-wider">Target Prep Time</span>
+                                    <div class="text-center py-4">
+                                        <p class="text-5xl font-extrabold text-[#9E460B] font-display">{{ $selectedOrder->eta_minutes ?: 12 }} <span class="text-base font-bold text-[#8A7160]">min</span></p>
+                                    </div>
+                                    <div class="w-full bg-white/50 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-[#E27226] h-full w-2/3 rounded-full"></div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2 pt-2">
+                                        @if($selectedOrder->status === 'diproses')
+                                            <button wire:click="markReady({{ $selectedOrder->id }})" class="w-full bg-[#E27226] hover:bg-[#c95d12] text-white py-3 rounded-xl text-xs font-bold shadow-sm transition">
+                                                Mark Ready
+                                            </button>
+                                        @elseif($selectedOrder->status === 'siap_diambil')
+                                            <button wire:click="completeOrder({{ $selectedOrder->id }})" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-xs font-bold shadow-sm transition">
+                                                Complete Order
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Student Card -->
+                                <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm flex flex-col items-center text-center space-y-4">
+                                    <img class="w-16 h-16 rounded-full object-cover border border-[#F4E1D2] bg-orange-50" src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $selectedOrder->buyer->name }}" alt="Student">
+                                    <div>
+                                        <h4 class="font-extrabold text-[#331C0E] text-base leading-tight font-display">{{ $selectedOrder->buyer->name }}</h4>
+                                        <p class="text-xs text-[#8A7160] mt-0.5">Student · {{ explode('@', $selectedOrder->buyer->email)[0] }}</p>
+                                    </div>
+                                    
+                                    <div class="w-full text-left space-y-2 text-xs border-t border-[#F4E1D2] pt-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-[#8A7160]">Email:</span>
+                                            <span class="font-bold text-[#331C0E]">{{ $selectedOrder->buyer->email }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-[#8A7160]">Role:</span>
+                                            <span class="font-bold text-[#331C0E] uppercase">{{ $selectedOrder->buyer->role }}</span>
                                         </div>
                                     </div>
-                                    <span class="text-sm font-bold text-gray-700">Rp {{ number_format($item->price_snapshot * $item->quantity, 0, ',', '.') }}</span>
                                 </div>
-                            @endforeach
 
-                            @if($order->note)
-                                <div class="mt-3 p-3 bg-amber-50 rounded-xl border border-amber-100">
-                                    <p class="text-xs text-amber-700 font-medium">💬 Catatan: {{ $order->note }}</p>
+                                <!-- Payment Summary -->
+                                <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                                    <span class="text-xs font-bold text-[#8A7160] uppercase">Payment Summary</span>
+                                    <div class="space-y-2 text-xs border-b border-[#F4E1D2] pb-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-[#8A7160]">Subtotal</span>
+                                            <span class="font-bold">Rp {{ number_format($selectedOrder->total_price, 0, ',', '.') }}</span>
+                                        </div>
+                                        <div class="flex justify-between text-green-600">
+                                            <span>Discount</span>
+                                            <span>-Rp 0</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm font-extrabold">
+                                        <span>Total</span>
+                                        <span class="text-base text-[#9E460B] font-display">Rp {{ number_format($selectedOrder->total_price, 0, ',', '.') }}</span>
+                                    </div>
+                                    <div class="bg-green-50 border border-green-200 text-green-700 p-3 rounded-2xl text-[11px] font-bold flex items-center justify-center gap-1">
+                                        <span class="material-symbols-outlined text-sm font-bold">verified</span>
+                                        <span>Paid via SmartWallet</span>
+                                    </div>
                                 </div>
-                            @endif
-                        </div>
-
-                        {{-- Footer: total + actions --}}
-                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-                            <div>
-                                <p class="text-xs text-gray-400">Total Pembayaran</p>
-                                <p class="text-lg font-extrabold text-gray-900">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
-                            </div>
-
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                @if(in_array($order->status, ['diterima', 'diproses']))
-                                    <button wire:click="reject({{ $order->id }})"
-                                            wire:loading.attr="disabled"
-                                            class="flex-1 sm:flex-none px-4 py-2.5 text-sm font-semibold text-red-600 bg-white border border-red-200 rounded-xl hover:bg-red-50 transition-colors disabled:opacity-50">
-                                        <span wire:loading.remove wire:target="reject({{ $order->id }})">Tolak</span>
-                                        <span wire:loading wire:target="reject({{ $order->id }})">...</span>
-                                    </button>
-                                @endif
-
-                                @if($order->status === 'diterima')
-                                    <button wire:click="process({{ $order->id }})"
-                                            wire:loading.attr="disabled"
-                                            class="flex-1 sm:flex-none px-5 py-2.5 text-sm font-bold text-white bg-[#E8813A] hover:bg-[#d4712d] rounded-xl shadow-sm transition-colors disabled:opacity-50">
-                                        <span wire:loading.remove wire:target="process({{ $order->id }})">✓ Proses Pesanan</span>
-                                        <span wire:loading wire:target="process({{ $order->id }})">Memproses...</span>
-                                    </button>
-                                @elseif($order->status === 'diproses')
-                                    <button wire:click="markReady({{ $order->id }})"
-                                            wire:loading.attr="disabled"
-                                            class="flex-1 sm:flex-none px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-colors disabled:opacity-50">
-                                        <span wire:loading.remove wire:target="markReady({{ $order->id }})">🔔 Siap Diambil</span>
-                                        <span wire:loading wire:target="markReady({{ $order->id }})">Memproses...</span>
-                                    </button>
-                                @elseif($order->status === 'siap_diambil')
-                                    <button disabled class="flex-1 sm:flex-none px-5 py-2.5 text-sm font-semibold text-gray-400 bg-gray-200 rounded-xl cursor-not-allowed">
-                                        Menunggu Diambil
-                                    </button>
-                                @endif
                             </div>
                         </div>
                     </div>
-                @empty
-                    <div class="xl:col-span-2">
-                        <div class="flex flex-col items-center justify-center py-24 bg-white rounded-2xl border border-dashed border-gray-200">
-                            <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-5">
-                                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                </svg>
+                @endif
+            @endif
+
+            <!-- 2. MENU & STOCK TAB (Mockup Image 3) -->
+            @if($activeTab === 'menu_stock')
+                <div class="space-y-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Inventory</h2>
+                            <p class="text-xs text-[#8A7160] mt-1">Manage your menu offerings and real-time stock levels.</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <!-- Search -->
+                            <div class="relative max-w-xs">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#8A7160] text-lg">search</span>
+                                <input type="text" wire:model.live.debounce.300ms="searchQuery" placeholder="Search items..." 
+                                       class="w-full pl-9 pr-4 py-2.5 bg-white border border-[#F4E1D2] rounded-full text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
                             </div>
-                            <h3 class="text-lg font-bold text-gray-700 mb-1">Belum Ada Pesanan Aktif</h3>
-                            <p class="text-sm text-gray-400 text-center max-w-xs">
-                                Pesanan baru dari mahasiswa akan otomatis muncul di sini tanpa perlu refresh halaman.
-                            </p>
-                            <div class="mt-6 flex items-center gap-2 text-xs text-gray-400">
-                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                Menunggu pesanan masuk...
+                            
+                            <!-- Add Item -->
+                            <button wire:click="openMenuModal" class="bg-[#E27226] hover:bg-[#c95d12] text-white text-xs font-bold px-4 py-2.5 rounded-full transition flex items-center gap-1 shadow-sm">
+                                <span class="material-symbols-outlined text-sm font-bold">add</span>
+                                <span>Add Item</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category Chips -->
+                    <div class="flex gap-2 overflow-x-auto pb-1">
+                        <button wire:click="$set('selectedCategory', 'all')" class="px-4 py-2 rounded-full text-xs font-bold border transition shrink-0 {{ $selectedCategory === 'all' ? 'bg-[#9E460B] border-[#9E460B] text-white shadow-sm' : 'border-[#F4E1D2] text-[#8A7160] hover:bg-white' }}">
+                            All Items
+                        </button>
+                        <button wire:click="$set('selectedCategory', 'makanan_berat')" class="px-4 py-2 rounded-full text-xs font-bold border transition shrink-0 {{ $selectedCategory === 'makanan_berat' ? 'bg-[#9E460B] border-[#9E460B] text-white shadow-sm' : 'border-[#F4E1D2] text-[#8A7160] hover:bg-white' }}">
+                            Hot Meals
+                        </button>
+                        <button wire:click="$set('selectedCategory', 'makanan_ringan')" class="px-4 py-2 rounded-full text-xs font-bold border transition shrink-0 {{ $selectedCategory === 'makanan_ringan' ? 'bg-[#9E460B] border-[#9E460B] text-white shadow-sm' : 'border-[#F4E1D2] text-[#8A7160] hover:bg-white' }}">
+                            Grab & Go
+                        </button>
+                        <button wire:click="$set('selectedCategory', 'minuman')" class="px-4 py-2 rounded-full text-xs font-bold border transition shrink-0 {{ $selectedCategory === 'minuman' ? 'bg-[#9E460B] border-[#9E460B] text-white shadow-sm' : 'border-[#F4E1D2] text-[#8A7160] hover:bg-white' }}">
+                            Beverages
+                        </button>
+                    </div>
+
+                    <!-- Menu Inventory Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @forelse($menus as $menu)
+                            <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition duration-200">
+                                <div>
+                                    <!-- Photo/Badge -->
+                                    <div class="relative w-full h-36 bg-[#FFF8F2] border border-[#F4E1D2] rounded-2xl flex items-center justify-center overflow-hidden mb-4 text-[#9E460B]">
+                                        <span class="material-symbols-outlined text-4xl">local_pizza</span>
+                                        <!-- Category Tag Badge -->
+                                        <span class="absolute top-3 left-3 bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                            {{ str_replace('_', ' ', $menu->category) }}
+                                        </span>
+                                        @if($menu->stock <= 0)
+                                            <span class="absolute inset-0 bg-black/40 flex items-center justify-center text-white font-extrabold text-xs uppercase tracking-wider">Sold Out</span>
+                                        @elseif($menu->stock <= 5)
+                                            <span class="absolute top-3 right-3 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Low Stock</span>
+                                        @endif
+                                    </div>
+
+                                    <!-- Details -->
+                                    <div class="space-y-1">
+                                        <div class="flex items-start justify-between gap-2">
+                                            <h4 class="font-extrabold text-sm text-[#331C0E] truncate leading-tight font-display">{{ $menu->name }}</h4>
+                                            <span class="font-extrabold text-sm text-[#9E460B] shrink-0 font-display">Rp {{ number_format($menu->price, 0, ',', '.') }}</span>
+                                        </div>
+                                        <p class="text-[11px] text-[#8A7160] line-clamp-2">{{ $menu->description ?: 'No description provided.' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3 pt-2">
+                                    <!-- Stock bar -->
+                                    <div class="space-y-1.5">
+                                        <div class="flex justify-between text-xs font-bold">
+                                            <span class="text-[#8A7160]">Current Stock:</span>
+                                            <span class="{{ $menu->stock <= 5 ? 'text-red-650' : 'text-[#331C0E]' }}">{{ $menu->stock }} Portions</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full {{ $menu->stock <= 5 ? 'bg-red-500' : 'bg-[#E27226]' }}" style="width: {{ min(100, $menu->stock * 5) }}%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Controls -->
+                                    <div class="flex items-center justify-between gap-3 pt-1">
+                                        <!-- Quick update -->
+                                        <div class="flex items-center border border-[#F4E1D2] rounded-xl bg-[#FFFBF7]">
+                                            <button wire:click="adjustStock({{ $menu->id }}, -1)" class="w-8 py-2 text-[#8A7160] hover:text-[#9E460B] transition flex items-center justify-center">
+                                                <span class="material-symbols-outlined text-sm font-bold">remove</span>
+                                            </button>
+                                            <span class="w-10 text-center text-xs font-bold text-[#331C0E]">{{ $menu->stock }}</span>
+                                            <button wire:click="adjustStock({{ $menu->id }}, 1)" class="w-8 py-2 text-[#8A7160] hover:text-[#9E460B] transition flex items-center justify-center">
+                                                <span class="material-symbols-outlined text-sm font-bold">add</span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Edit/Restock button -->
+                                        @if($menu->stock <= 0)
+                                            <button wire:click="restock({{ $menu->id }})" class="bg-[#FFF1E5] border border-[#F4E1D2] text-[#9E460B] hover:bg-[#FFF8F2] text-[11px] font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 shadow-sm shrink-0">
+                                                <span class="material-symbols-outlined text-sm font-bold">inventory</span>
+                                                <span>Restock Batch</span>
+                                            </button>
+                                        @else
+                                            <button wire:click="openMenuModal({{ $menu->id }})" class="border border-[#F4E1D2] text-[#8A7160] hover:bg-[#FFF8F2] text-[11px] font-bold px-3.5 py-2 rounded-xl transition">
+                                                Edit Item
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full text-center py-24 bg-white border border-dashed border-[#F4E1D2] rounded-[32px] text-[#8A7160]">
+                                <span class="material-symbols-outlined text-5xl text-gray-300">search_off</span>
+                                <p class="text-sm font-bold mt-2">No menu items found matching details.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            @endif
+
+            <!-- 3. REPORTS TAB (Mockup Image 4) -->
+            @if($activeTab === 'reports')
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Transaction Reports</h2>
+                        <p class="text-xs text-[#8A7160] mt-1">Overview of your canteen's performance.</p>
+                    </div>
+
+                    <!-- Analytics Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                            <span class="text-xs font-bold text-[#8A7160] uppercase">Today's Revenue</span>
+                            <div class="flex items-baseline gap-2">
+                                <p class="text-3xl font-extrabold text-[#331C0E] font-display">Rp {{ number_format($stats['today_revenue'], 0, ',', '.') }}</p>
+                            </div>
+                            <span class="text-green-600 text-xs font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">arrow_upward</span> +12% vs yesterday
+                            </span>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                            <span class="text-xs font-bold text-[#8A7160] uppercase">Weekly Revenue</span>
+                            <div class="flex items-baseline gap-2">
+                                <p class="text-3xl font-extrabold text-[#331C0E] font-display">Rp {{ number_format($stats['weekly_revenue'], 0, ',', '.') }}</p>
+                            </div>
+                            <span class="text-green-600 text-xs font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">arrow_upward</span> +5% vs last week
+                            </span>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                            <span class="text-xs font-bold text-[#8A7160] uppercase">Total Orders Today</span>
+                            <div class="flex items-baseline gap-2">
+                                <p class="text-3xl font-extrabold text-[#331C0E] font-display">{{ $stats['total_orders_today'] }}</p>
+                            </div>
+                            <span class="text-red-500 text-xs font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">arrow_downward</span> -2% vs yesterday
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Volume Chart Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-extrabold text-[#331C0E] font-display">Order Volume</span>
+                                <div class="flex gap-1.5">
+                                    <button class="px-3 py-1 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-bold text-gray-500">Daily</button>
+                                    <button class="px-3 py-1 bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2] rounded-lg text-xs font-bold">Weekly</button>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Pure CSS Bar Chart -->
+                            <div class="h-64 pt-6 flex items-end justify-between gap-3 text-center border-b border-gray-100 pb-2 relative">
+                                <div class="absolute inset-0 flex flex-col justify-between pointer-events-none text-[10px] text-gray-300">
+                                    <div class="border-b border-dashed border-gray-100 pb-1">300</div>
+                                    <div class="border-b border-dashed border-gray-100 pb-1">200</div>
+                                    <div class="border-b border-dashed border-gray-100 pb-1">100</div>
+                                    <div>0</div>
+                                </div>
+
+                                <div class="flex-grow flex items-end justify-around h-full z-10">
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 40%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Mon</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 60%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Tue</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 35%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Wed</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#9E460B] w-full rounded-t-lg shadow-sm" style="height: 80%"></div>
+                                        <span class="text-[10px] text-[#9E460B] font-bold">Thu</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 55%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Fri</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 70%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Sat</span>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
+                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 75%"></div>
+                                        <span class="text-[10px] text-[#8A7160] font-bold">Sun</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Items -->
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-extrabold text-[#331C0E] font-display">Top Items</span>
+                                <button class="text-xs font-bold text-[#9E460B] hover:underline">View All</button>
+                            </div>
+
+                            <div class="divide-y divide-[#F4E1D2] space-y-3">
+                                @forelse($topItems as $item)
+                                    <div class="flex items-center justify-between py-2 first:pt-0 last:pb-0">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-xl bg-[#FFF8F2] border border-[#F4E1D2] flex items-center justify-center text-[#9E460B] shrink-0">
+                                                <span class="material-symbols-outlined text-xl">restaurant</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-extrabold text-xs text-[#331C0E] truncate max-w-[120px]">{{ $item->menu_name_snapshot }}</h4>
+                                                <span class="text-[10px] text-[#8A7160]">{{ $item->total_qty }} orders</span>
+                                            </div>
+                                        </div>
+                                        <span class="font-extrabold text-xs text-[#331C0E]">Rp {{ number_format($item->total_subtotal, 0, ',', '.') }}</span>
+                                    </div>
+                                @empty
+                                    <p class="text-xs text-[#8A7160] py-4 text-center">No orders completed yet.</p>
+                                @endforelse
                             </div>
                         </div>
                     </div>
-                @endforelse
+                </div>
+            @endif
+
+            <!-- 4. PROFILE TAB (Mockup Image 5) -->
+            @if($activeTab === 'profile')
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Seller Profile</h2>
+                        <p class="text-xs text-[#8A7160] mt-1">Manage your public canteen details and contact information.</p>
+                    </div>
+
+                    <!-- Profile Form Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Basic details card -->
+                            <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-8 shadow-sm space-y-6">
+                                <!-- Banner avatar -->
+                                <div class="flex items-center gap-6 pb-2">
+                                    <div class="w-20 h-20 rounded-full bg-[#FFF8F2] border border-[#F4E1D2] flex items-center justify-center text-[#9E460B] relative">
+                                        <span class="material-symbols-outlined text-4xl">storefront</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-extrabold text-[#331C0E] leading-tight font-display">{{ $storeName }}</h3>
+                                        <span class="bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase mt-1 inline-block">Verified Seller</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <!-- Canteen Name -->
+                                    <div class="space-y-2 col-span-full">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Canteen Name</label>
+                                        <input type="text" wire:model="storeName" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                                    </div>
+                                    <!-- Short Description -->
+                                    <div class="space-y-2 col-span-full">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Short Description</label>
+                                        <textarea wire:model="sellerDescription" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] h-28 resize-none focus:ring-2 focus:ring-[#E27226]/50 transition"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Action button -->
+                                <div class="pt-2 flex justify-end">
+                                    <button wire:click="updateProfile" class="bg-[#9E460B] hover:bg-[#803708] text-white py-3.5 px-6 rounded-2xl font-bold transition text-xs shadow-sm active:scale-95 duration-150">
+                                        Save Identity Changes
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Contact Details -->
+                            <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-8 shadow-sm space-y-6">
+                                <h3 class="text-base font-extrabold text-[#331C0E] font-display">Contact Details</h3>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="space-y-2 col-span-full">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Email Address (Public)</label>
+                                        <input type="email" value="{{ auth()->user()->email }}" disabled class="w-full p-4 bg-gray-50 border border-[#F4E1D2] rounded-2xl text-xs text-gray-500 cursor-not-allowed">
+                                    </div>
+                                    <div class="space-y-2 col-span-full">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Phone Number</label>
+                                        <input type="text" wire:model="sellerPhone" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                                    </div>
+                                    <div class="space-y-2 col-span-full">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Campus Location</label>
+                                        <input type="text" wire:model="sellerLocation" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel -->
+                        <div class="space-y-6">
+                            <!-- Manager Info -->
+                            <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-8 shadow-sm space-y-6">
+                                <h3 class="text-base font-extrabold text-[#331C0E] font-display">Manager Info</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Full Name</label>
+                                        <input type="text" wire:model="sellerName" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-[#8A7160] uppercase">Role Title</label>
+                                        <input type="text" wire:model="sellerRole" class="w-full p-4 bg-[#FFFBF7] border border-[#F4E1D2] rounded-2xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferences -->
+                            <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-8 shadow-sm space-y-6">
+                                <h3 class="text-base font-extrabold text-[#331C0E] font-display">Preferences</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h4 class="text-xs font-bold text-[#331C0E]">New Order Alerts</h4>
+                                            <p class="text-[10px] text-[#8A7160]">Receive push notifications for incoming orders.</p>
+                                        </div>
+                                        <button wire:click="$toggle('alertNewOrder')" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out {{ $alertNewOrder ? 'bg-[#E27226]' : 'bg-gray-200' }}">
+                                            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $alertNewOrder ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between border-t border-[#F4E1D2] pt-4">
+                                        <div>
+                                            <h4 class="text-xs font-bold text-[#331C0E]">Low Stock Warnings</h4>
+                                            <p class="text-[10px] text-[#8A7160]">Daily email summary of low inventory items.</p>
+                                        </div>
+                                        <button wire:click="$toggle('alertLowStock')" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out {{ $alertLowStock ? 'bg-[#E27226]' : 'bg-gray-200' }}">
+                                            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $alertLowStock ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+        </main>
+    </div>
+
+    <!-- Menu Modal (Create & Edit dialog) -->
+    <div x-show="openMenuModal" 
+         class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+         x-cloak>
+        <div class="bg-white rounded-[32px] p-8 max-w-md w-full border border-[#F4E1D2] shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-200"
+             @click.away="openMenuModal = false">
+            <div class="text-center space-y-1">
+                <h3 class="text-xl font-extrabold text-[#331C0E] font-display">{{ $editingMenuId ? 'Edit Menu Item' : 'Add New Menu Item' }}</h3>
+                <p class="text-xs text-[#8A7160]">Specify details for your canteen menu listing.</p>
             </div>
+
+            <form wire:submit.prevent="saveMenu" class="space-y-4 text-xs">
+                <!-- Name -->
+                <div class="space-y-1.5">
+                    <label class="font-bold text-[#8A7160] uppercase">Item Name</label>
+                    <input type="text" wire:model="menuName" placeholder="e.g. Avocado Toast" 
+                           class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                    @error('menuName') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-1.5">
+                    <label class="font-bold text-[#8A7160] uppercase">Description</label>
+                    <textarea wire:model="menuDescription" placeholder="Write description, ingredients, tags..." 
+                              class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] h-20 resize-none focus:ring-2 focus:ring-[#E27226]/50 transition"></textarea>
+                    @error('menuDescription') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Category -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-[#8A7160] uppercase">Category</label>
+                        <select wire:model="menuCategory" 
+                                class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                            <option value="makanan_berat">Hot Meals</option>
+                            <option value="makanan_ringan">Grab & Go</option>
+                            <option value="minuman">Beverages</option>
+                        </select>
+                        @error('menuCategory') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Cooking Time -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-[#8A7160] uppercase">Prep Time (min)</label>
+                        <input type="number" wire:model="menuCookingTime" 
+                               class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                        @error('menuCookingTime') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Price -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-[#8A7160] uppercase">Price (Rp)</label>
+                        <input type="number" wire:model="menuPrice" 
+                               class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                        @error('menuPrice') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Stock -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-[#8A7160] uppercase">Initial Stock</label>
+                        <input type="number" wire:model="menuStock" 
+                               class="w-full p-3.5 bg-[#FFFBF7] border border-[#F4E1D2] rounded-xl text-xs text-[#331C0E] focus:ring-2 focus:ring-[#E27226]/50 transition">
+                        @error('menuStock') <span class="text-red-500 font-bold text-[10px]">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="space-y-2.5 pt-4">
+                    <button type="submit" 
+                            class="w-full bg-[#E27226] hover:bg-[#c95d12] text-white py-4 rounded-2xl font-bold transition duration-150 shadow-md">
+                        {{ $editingMenuId ? 'Save Menu Item' : 'Create Menu Item' }}
+                    </button>
+                    @if($editingMenuId)
+                        <button type="button" wire:click="deleteMenu({{ $editingMenuId }})" 
+                                class="w-full border border-red-200 text-red-500 hover:bg-red-50 py-4 rounded-2xl font-bold transition duration-150">
+                            Delete Menu Item
+                        </button>
+                    @endif
+                    <button type="button" @click="openMenuModal = false" 
+                            class="w-full border border-gray-200 text-gray-500 hover:bg-gray-50 py-4 rounded-2xl font-bold transition duration-150">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+
 </div>

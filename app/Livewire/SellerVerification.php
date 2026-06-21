@@ -14,6 +14,7 @@ class SellerVerification extends Component
 
     public string $search = '';
     public ?int $selectedSellerId = null;
+    public string $rejectionReason = '';
 
     public function mount(): void
     {
@@ -53,7 +54,10 @@ class SellerVerification extends Component
     public function approve(int $userId): void
     {
         $seller = User::where('role', 'penjual')->findOrFail($userId);
-        $seller->update(['is_verified' => true]);
+        $seller->update([
+            'is_verified' => true, 
+            'rejection_reason' => null
+        ]);
         
         AuditLogger::log('seller.verified', "Penjual #{$seller->id} ({$seller->name}) disetujui admin");
         
@@ -65,15 +69,18 @@ class SellerVerification extends Component
         }
     }
 
-    public function reject(int $userId): void
+    public function reject(int $userId, string $reason): void
     {
         $seller = User::where('role', 'penjual')->findOrFail($userId);
         
-        AuditLogger::log('seller.rejected', "Penjual #{$seller->id} ({$seller->name}) ditolak admin");
+        $seller->update([
+            'rejection_reason' => $reason,
+            'is_active' => false
+        ]);
         
-        $seller->delete();
+        AuditLogger::log('seller.rejected', "Penjual #{$seller->id} ({$seller->name}) ditolak admin. Alasan: {$reason}");
         
-        session()->flash('message', 'Seller request rejected and deleted.');
+        session()->flash('message', 'Seller request rejected.');
         
         // Auto-select another seller
         if ($this->selectedSellerId === $userId) {

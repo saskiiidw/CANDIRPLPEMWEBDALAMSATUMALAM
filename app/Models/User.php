@@ -16,7 +16,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
         'role', 'store_name', 'is_verified', 'is_active',
-        'phone', 'photo_path',
+        'phone', 'photo_path', 'rejection_reason',
     ];
 
     protected $hidden = [
