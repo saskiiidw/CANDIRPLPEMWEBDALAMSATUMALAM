@@ -2,10 +2,10 @@
     <!-- Header Greeting -->
     <div>
         <h1 class="text-5xl font-extrabold text-[#231914] tracking-tight font-display-lg leading-none">
-            Hello, {{ auth()->user()->name }}!
+            Halo, {{ auth()->user()->name }}!
         </h1>
         <p class="text-base text-[#897266] mt-3 font-body-lg">
-            What are you craving today?
+            Mau makan apa hari ini?
         </p>
     </div>
 
@@ -20,14 +20,14 @@
         <input 
             type="text" 
             wire:model.live.debounce.300ms="search"
-            placeholder="Search for food, canteens, or categories..." 
+            placeholder="Cari makanan, kantin, atau kategori..." 
             class="block w-full pl-14 pr-6 py-4 bg-[#FDF6F0] border border-[#f2dfd5]/80 focus:border-[#fca366] focus:ring-[#fca366] rounded-full text-sm text-[#231914] placeholder-[#897266]/70 transition-all shadow-sm"
         />
     </div>
 
     <!-- Filter Category Pills -->
     <div class="flex flex-wrap gap-2.5">
-        @foreach(['All', 'Breakfast', 'Lunch', 'Snacks', 'Drinks'] as $category)
+        @foreach(['Semua', 'Sarapan', 'Makan Siang', 'Camilan', 'Minuman'] as $category)
             <button 
                 wire:click="selectCategory('{{ $category }}')"
                 class="px-6 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all shadow-sm active:scale-95 border {{ $selectedCategory === $category ? 'bg-[#fca366] text-[#4d1f00] border-[#fca366] font-extrabold' : 'bg-white text-[#897266] border-[#f2dfd5]/80 hover:bg-[#fca366]/10 hover:text-[#9b4500]' }}"
@@ -40,8 +40,8 @@
     <!-- Featured Canteens Section -->
     <div class="space-y-6">
         <div class="flex justify-between items-center border-b border-[#feeae0]/60 pb-3">
-            <h2 class="text-2xl font-bold text-[#231914] font-headline-md">Featured Canteens</h2>
-            <button class="text-xs font-extrabold text-[#9b4500] hover:underline transition-all">View All</button>
+            <h2 class="text-2xl font-bold text-[#231914] font-headline-md">Kantin Pilihan</h2>
+            <button class="text-xs font-extrabold text-[#9b4500] hover:underline transition-all">Lihat Semua</button>
         </div>
 
         <!-- Canteens Grid -->
@@ -71,11 +71,11 @@
                             @if($canteen->is_open)
                                 <span class="flex items-center gap-1.5 px-3 py-1 bg-[#fca366] text-[#4d1f00] text-[10px] font-bold rounded-full shadow-sm">
                                     <span class="w-1.5 h-1.5 bg-[#4d1f00] rounded-full animate-pulse"></span>
-                                    Open Now
+                                    Buka Sekarang
                                 </span>
                             @else
                                 <span class="px-3 py-1 bg-red-600/90 text-white text-[10px] font-bold rounded-full shadow-sm">
-                                    Closed
+                                    Tutup
                                 </span>
                             @endif
                         </div>
@@ -117,8 +117,8 @@
                     <svg class="w-16 h-16 text-[#897266]/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
-                    <h3 class="text-xl font-bold text-[#231914]">No Canteens Found</h3>
-                    <p class="text-[#897266] text-sm mt-1">Try refining your search terms or selecting another category.</p>
+                    <h3 class="text-xl font-bold text-[#231914]">Kantin Tidak Ditemukan</h3>
+                    <p class="text-[#897266] text-sm mt-1">Coba ubah kata kunci pencarian atau pilih kategori lain.</p>
                 </div>
             @endforelse
         </div>

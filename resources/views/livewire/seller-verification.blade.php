@@ -9,7 +9,7 @@
             </span>
             <input type="text" 
                    wire:model.live="search"
-                   placeholder="Search sellers..." 
+                   placeholder="Cari penjual..." 
                    class="w-full pl-10 pr-4 py-2 bg-white border border-[#f2dfd5] rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#9b4500] focus:border-transparent text-[#231914] placeholder-[#897266] transition">
         </div>
     @endpush
@@ -17,8 +17,8 @@
     <!-- Left Panel: Table of Sellers -->
     <div class="flex-1">
         <div class="mb-6">
-            <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">Pending Verification</h1>
-            <p class="text-sm text-[#897266] font-body-md">Review and approve new canteen vendor applications.</p>
+            <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">Menunggu Verifikasi</h1>
+            <p class="text-sm text-[#897266] font-body-md">Tinjau dan setujui pendaftaran penjual kantin baru.</p>
         </div>
 
         @if (session()->has('message'))
@@ -35,9 +35,9 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-[#fff1eb] border-b border-[#f2dfd5]">
-                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Seller Name</th>
-                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Canteen Name</th>
-                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Date Submitted</th>
+                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Nama Penjual</th>
+                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Nama Kantin</th>
+                        <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Tanggal Mendaftar</th>
                         <th class="p-5 text-xs font-semibold uppercase tracking-wider text-[#897266] font-sans">Status</th>
                     </tr>
                 </thead>
@@ -52,19 +52,19 @@
                                 @if($seller->is_verified)
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>
-                                        Verified
+                                        Terverifikasi
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#fff1eb] text-[#8e4e14] border border-[#f2dfd5]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#f49b65] mr-1.5"></span>
-                                        Pending
+                                        Menunggu
                                     </span>
                                 @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="p-10 text-center text-[#897266]">No sellers found matching criteria.</td>
+                            <td colspan="4" class="p-10 text-center text-[#897266]">Tidak ada penjual yang sesuai kriteria.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -85,11 +85,11 @@
                     <div class="flex justify-between items-start mb-6">
                         @if($selectedSeller->is_verified)
                             <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200">
-                                Verified
+                                Terverifikasi
                             </span>
                         @else
                             <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#fff1eb] text-[#8e4e14] border border-[#f2dfd5]">
-                                Pending Review
+                                Menunggu Tinjauan
                             </span>
                         @endif
 
@@ -114,7 +114,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
-                            <span>Contact Details</span>
+                            <span>Detail Kontak</span>
                         </div>
                         <div class="space-y-2 text-sm text-[#231914]">
                             <div class="flex items-center space-x-3">
@@ -138,7 +138,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
                             </svg>
-                            <span>Supporting Documents</span>
+                            <span>Dokumen Pendukung</span>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <!-- Document 1 Card -->
@@ -171,25 +171,25 @@
                     <div class="flex space-x-3 pt-6 border-t border-[#f2dfd5] mt-auto">
                         <button wire:click="reject({{ $selectedSeller->id }})" 
                                 class="flex-1 py-3 px-4 rounded-xl border border-red-200 text-red-500 font-semibold hover:bg-red-50 transition text-sm">
-                            Reject
+                            Tolak
                         </button>
                         <button wire:click="approve({{ $selectedSeller->id }})" 
                                 class="flex-1 py-3 px-4 rounded-xl bg-[#8e4e14] text-white font-semibold hover:bg-[#9b4500] transition text-sm flex items-center justify-center space-x-1.5 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span>Approve</span>
+                            <span>Setujui</span>
                         </button>
                     </div>
                 @else
                     <div class="text-center text-xs font-semibold text-green-700 bg-green-50 py-3 rounded-xl border border-green-150">
-                        This seller has already been approved and verified.
+                        Penjual ini sudah disetujui dan diverifikasi.
                     </div>
                 @endif
             </div>
         @else
             <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm text-center py-20 text-[#897266]">
-                Select a seller to review their details.
+                Pilih penjual untuk melihat detail mereka.
             </div>
         @endif
     </div>

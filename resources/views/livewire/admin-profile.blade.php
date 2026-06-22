@@ -27,12 +27,12 @@
                 <div class="flex justify-between items-center">
                     <span class="text-[#897266] font-semibold text-xs uppercase tracking-wider">Status</span>
                     <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200">
-                        Active
+                        Aktif
                     </span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-[#897266] font-semibold text-xs uppercase tracking-wider">Last Login</span>
-                    <span class="text-xs font-semibold text-[#231914]">Today, 08:42 AM</span>
+                    <span class="text-[#897266] font-semibold text-xs uppercase tracking-wider">Terakhir Login</span>
+                    <span class="text-xs font-semibold text-[#231914]">Hari Ini, 08:42 AM</span>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <svg class="w-5 h-5 text-[#8e4e14]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
-                <span>Personal Information</span>
+                <span>Informasi Pribadi</span>
             </div>
 
             @if (session()->has('message'))
@@ -62,7 +62,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- First Name -->
                     <div class="space-y-1.5">
-                        <label for="firstName" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">First Name</label>
+                        <label for="firstName" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">Nama Depan</label>
                         <input type="text" id="firstName" wire:model="firstName" 
                                class="w-full bg-[#fff8f6] border border-[#f2dfd5] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#9b4500] focus:border-transparent text-[#231914] transition">
                         @error('firstName') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
@@ -70,7 +70,7 @@
 
                     <!-- Last Name -->
                     <div class="space-y-1.5">
-                        <label for="lastName" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">Last Name</label>
+                        <label for="lastName" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">Nama Belakang</label>
                         <input type="text" id="lastName" wire:model="lastName" 
                                class="w-full bg-[#fff8f6] border border-[#f2dfd5] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#9b4500] focus:border-transparent text-[#231914] transition">
                         @error('lastName') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
@@ -79,7 +79,7 @@
 
                 <!-- Email Address -->
                 <div class="space-y-1.5">
-                    <label for="email" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">Email Address</label>
+                    <label for="email" class="text-xs font-semibold text-[#897266] uppercase tracking-wider">Alamat Email</label>
                     <input type="email" id="email" wire:model="email" 
                            class="w-full bg-[#fff8f6] border border-[#f2dfd5] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#9b4500] focus:border-transparent text-[#231914] transition">
                     @error('email') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
@@ -89,7 +89,7 @@
                 <div class="flex justify-end">
                     <button type="submit" 
                             class="px-6 py-3 rounded-xl bg-[#8e4e14] text-white font-semibold hover:bg-[#9b4500] transition text-sm shadow-sm flex items-center space-x-1.5">
-                        <span>Save Changes</span>
+                        <span>Simpan Perubahan</span>
                     </button>
                 </div>
             </form>
@@ -101,7 +101,7 @@
                 <svg class="w-5 h-5 text-[#8e4e14]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
                 </svg>
-                <span>System Preferences</span>
+                <span>Preferensi Sistem</span>
             </div>
 
             @if (session()->has('pref_message'))
@@ -114,8 +114,8 @@
                 <!-- Preference item 1: Email Notifications toggle (Image 5 style) -->
                 <div class="flex items-center justify-between pt-0">
                     <div>
-                        <h4 class="text-sm font-bold text-[#331200]">Email Notifications</h4>
-                        <p class="text-xs text-[#897266] mt-0.5">Receive daily summary reports.</p>
+                        <h4 class="text-sm font-bold text-[#331200]">Notifikasi Email</h4>
+                        <p class="text-xs text-[#897266] mt-0.5">Terima laporan ringkasan harian.</p>
                     </div>
                     <!-- Toggle slider element -->
                     <button wire:click="toggleEmailNotifications" 
@@ -127,13 +127,13 @@
                 <!-- Preference item 2: Two-Factor Authentication -->
                 <div class="flex items-center justify-between pt-6">
                     <div>
-                        <h4 class="text-sm font-bold text-[#331200]">Two-Factor Authentication</h4>
-                        <p class="text-xs text-[#897266] mt-0.5">Enhance account security.</p>
+                        <h4 class="text-sm font-bold text-[#331200]">Autentikasi Dua Faktor</h4>
+                        <p class="text-xs text-[#897266] mt-0.5">Tingkatkan keamanan akun.</p>
                     </div>
                     <button wire:click="enableTwoFactor" 
                             class="text-xs font-bold text-[#8e4e14] hover:underline"
                             {{ $twoFactor ? 'disabled' : '' }}>
-                        {{ $twoFactor ? 'Enabled' : 'Enable' }}
+                        {{ $twoFactor ? 'Aktif' : 'Aktifkan' }}
                     </button>
                 </div>
             </div>
@@ -145,14 +145,14 @@
                 <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                 </svg>
-                <span>Danger Zone</span>
+                <span>Zona Bahaya</span>
             </div>
-            <p class="text-xs text-[#897266] mb-6">Actions here cannot be undone. Proceed with caution.</p>
+            <p class="text-xs text-[#897266] mb-6">Tindakan di sini tidak dapat dibatalkan. Lanjutkan dengan hati-hati.</p>
 
             <div class="flex items-center justify-between">
                 <div>
-                    <h4 class="text-sm font-bold text-[#331200]">Sign Out of All Sessions</h4>
-                    <p class="text-xs text-[#897266] mt-0.5">Force log out from all devices.</p>
+                    <h4 class="text-sm font-bold text-[#331200]">Keluar dari Semua Sesi</h4>
+                    <p class="text-xs text-[#897266] mt-0.5">Paksa keluar dari semua perangkat.</p>
                 </div>
                 <!-- Logout Button matching Image 5 (capsule layout) -->
                 <button wire:click="logout"
@@ -160,7 +160,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                     </svg>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </div>
         </div>

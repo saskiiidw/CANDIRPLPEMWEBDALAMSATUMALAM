@@ -87,7 +87,7 @@ class SellerDashboard extends Component
         broadcast(new OrderStatusUpdated($order))->toOthers();
         \App\Services\AuditLogger::log('order.status.changed', "Order #{$order->id} -> diproses");
         
-        session()->flash('message', "Order #{$order->id} has been accepted.");
+        session()->flash('message', "Pesanan #{$order->id} telah diterima.");
     }
 
     public function markReady(int $orderId): void
@@ -99,7 +99,7 @@ class SellerDashboard extends Component
         broadcast(new OrderStatusUpdated($order))->toOthers();
         \App\Services\AuditLogger::log('order.status.changed', "Order #{$order->id} -> siap_diambil");
         
-        session()->flash('message', "Order #{$order->id} is ready for pick up.");
+        session()->flash('message', "Pesanan #{$order->id} siap untuk diambil.");
     }
 
     public function completeOrder(int $orderId): void
@@ -111,7 +111,7 @@ class SellerDashboard extends Component
         broadcast(new OrderStatusUpdated($order))->toOthers();
         \App\Services\AuditLogger::log('order.status.changed', "Order #{$order->id} -> selesai");
         
-        session()->flash('message', "Order #{$order->id} marked as completed.");
+        session()->flash('message', "Pesanan #{$order->id} ditandai sebagai selesai.");
         $this->selectedOrderId = null;
     }
 
@@ -130,7 +130,7 @@ class SellerDashboard extends Component
         broadcast(new OrderStatusUpdated($order))->toOthers();
         \App\Services\AuditLogger::log('order.status.changed', "Order #{$order->id} -> ditolak");
         
-        session()->flash('message', "Order #{$order->id} has been rejected.");
+        session()->flash('message', "Pesanan #{$order->id} telah ditolak.");
         $this->selectedOrderId = null;
     }
 
@@ -191,10 +191,10 @@ class SellerDashboard extends Component
         if ($this->editingMenuId) {
             $menu = Menu::where('seller_id', Auth::id())->findOrFail($this->editingMenuId);
             $menu->update($data);
-            session()->flash('message', 'Menu item updated successfully.');
+            session()->flash('message', 'Item menu berhasil diperbarui.');
         } else {
             Menu::create($data);
-            session()->flash('message', 'Menu item created successfully.');
+            session()->flash('message', 'Item menu berhasil dibuat.');
         }
 
         $this->showMenuModal = false;
@@ -205,7 +205,7 @@ class SellerDashboard extends Component
     {
         $menu = Menu::where('seller_id', Auth::id())->findOrFail($menuId);
         $menu->delete();
-        session()->flash('message', 'Menu item deleted successfully.');
+        session()->flash('message', 'Item menu berhasil dihapus.');
     }
 
     // Profile updates
@@ -225,7 +225,7 @@ class SellerDashboard extends Component
             'phone' => $this->sellerPhone,
         ]);
 
-        session()->flash('message', 'Profile updated successfully.');
+        session()->flash('message', 'Profil berhasil diperbarui.');
     }
 
     public function render()

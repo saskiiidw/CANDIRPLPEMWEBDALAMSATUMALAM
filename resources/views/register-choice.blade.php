@@ -53,7 +53,7 @@
             <div class="text-center mb-10 w-full">
                 <span class="material-symbols-outlined text-primary text-5xl mb-4" style="font-variation-settings: 'FILL' 1;">restaurant</span>
                 <h1 class="font-display-lg text-display-lg text-on-surface mb-2 tracking-tight">Pilih Peran Anda</h1>
-                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto">Silakan pilih peran untuk melanjutkan pendaftaran di CampusCrave.</p>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto">Silakan pilih peran untuk melanjutkan pendaftaran di SmartCanteen.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-10">

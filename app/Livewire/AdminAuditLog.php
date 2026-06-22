@@ -43,7 +43,7 @@ class AdminAuditLog extends Component
             'description' => 'Manual database backup retry triggered by administrator.',
         ]);
 
-        session()->flash('message', 'Database backup routine has been re-queued.');
+        session()->flash('message', 'Rutinitas pencadangan database telah dimasukkan ke dalam antrean.');
     }
 
     public function render()

@@ -3,8 +3,8 @@
         <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-fixed rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
         <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary-fixed rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
 
-        <h1 class="font-display-lg text-display-lg text-primary relative z-10 mb-unit">CampusCrave</h1>
-        <p class="font-body-md text-body-md text-on-surface-variant relative z-10">Sign in to your smart canteen.</p>
+        <h1 class="font-display-lg text-display-lg text-primary relative z-10 mb-unit">SmartCanteen</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant relative z-10">Masuk ke kantin pintar Anda.</p>
     </div>
 
     <div class="p-card-padding">
@@ -16,7 +16,7 @@
 
         <form wire:submit="login" class="space-y-gutter">
             <div class="space-y-unit">
-                <label class="block font-label-lg text-label-lg text-on-surface" for="email">Email Address</label>
+                <label class="block font-label-lg text-label-lg text-on-surface" for="email">Alamat Email</label>
                 <div class="relative">
                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">mail</span>
                     <input wire:model="email" id="email" type="email" required autofocus autocomplete="username" class="w-full pl-12 pr-4 py-3 bg-surface rounded-[16px] border-2 border-surface-variant focus:border-primary focus:ring-0 transition-colors font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50" placeholder="student@campus.edu" />
@@ -26,9 +26,9 @@
 
             <div class="space-y-unit" x-data="{ showPassword: false }">
                 <div class="flex justify-between items-center">
-                    <label class="block font-label-lg text-label-lg text-on-surface" for="password">Password</label>
+                    <label class="block font-label-lg text-label-lg text-on-surface" for="password">Kata Sandi</label>
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" wire:navigate class="font-label-md text-label-md text-primary hover:text-secondary transition-colors">Forgot?</a>
+                        <a href="{{ route('password.request') }}" wire:navigate class="font-label-md text-label-md text-primary hover:text-secondary transition-colors">Lupa?</a>
                     @endif
                 </div>
                 <div class="relative">
@@ -44,13 +44,13 @@
 
             <div class="pt-unit space-y-unit">
                 <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-full font-label-lg text-label-lg hover:shadow-[0_8px_16px_-4px_rgba(155,69,0,0.3)] hover:-translate-y-0.5 transition-all duration-200">
-                    Login
+                    Masuk
                 </button>
 
                 @if (Route::has('register.choice'))
                     <p class="text-center font-body-md text-body-md text-on-surface-variant mt-gutter">
-                        Don't have an account? 
-                        <a href="{{ route('register.choice') }}" wire:navigate class="...">Register here</a>
+                        Belum punya akun? 
+                        <a href="{{ route('register.choice') }}" wire:navigate class="...">Daftar di sini</a>
                     </p>
                 @endif
             </div>
