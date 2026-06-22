@@ -64,13 +64,13 @@
             @foreach($order->items as $item)
                 <li class="flex justify-between items-baseline text-sm text-[#231914] font-medium">
                     <span class="text-[#897266]">{{ $item->quantity }}x <span class="text-[#231914] font-bold">{{ $item->menu_name_snapshot }}</span></span>
-                    <span>${{ number_format($item->subtotal / 1000, 2) }}</span>
+                    <span>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span>
                 </li>
             @endforeach
         </ul>
         <div class="pt-3 border-t border-[#feeae0] flex justify-between items-baseline font-bold">
             <span class="text-sm text-[#231914]">Total Price</span>
-            <span class="text-xl text-[#9b4500]">${{ number_format($order->total_price / 1000, 2) }}</span>
+            <span class="text-xl text-[#9b4500]">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
         </div>
     </div>
 

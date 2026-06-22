@@ -2,7 +2,7 @@
     <!-- Header Greeting -->
     <div>
         <h1 class="text-5xl font-extrabold text-[#231914] tracking-tight font-display-lg leading-none">
-            Hello, Student!
+            Hello, {{ auth()->user()->name }}!
         </h1>
         <p class="text-base text-[#897266] mt-3 font-body-lg">
             What are you craving today?

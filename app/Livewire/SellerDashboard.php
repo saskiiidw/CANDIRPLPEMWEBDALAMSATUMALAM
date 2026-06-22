@@ -51,6 +51,12 @@ class SellerDashboard extends Component
         $this->sellerDescription = $user->description ?? 'Serving fresh, locally sourced meals.';
         $this->sellerName = $user->name ?? '';
         $this->sellerPhone = $user->phone ?? '';
+
+        // Check for tab query parameter
+        $tab = request()->query('tab');
+        if (in_array($tab, ['dashboard', 'menu_stock', 'reports', 'profile'])) {
+            $this->activeTab = $tab;
+        }
     }
 
     public function getListeners(): array

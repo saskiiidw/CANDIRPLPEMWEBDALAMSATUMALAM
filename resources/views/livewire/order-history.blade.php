@@ -96,7 +96,7 @@
                 <div class="flex md:flex-col items-end justify-between w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-[#feeae0] gap-4">
                     <!-- Price with optional line-through if cancelled -->
                     <span class="text-xl font-extrabold {{ $isCancelled ? 'line-through text-gray-400' : 'text-[#8c3b03]' }}">
-                        ${{ number_format($order->total_price / 1000, 2) }}
+                        Rp {{ number_format($order->total_price, 0, ',', '.') }}
                     </span>
                     
                     <div class="flex items-center gap-2">

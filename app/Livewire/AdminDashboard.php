@@ -22,113 +22,64 @@ class AdminDashboard extends Component
 
     public function render()
     {
-        // 1. Calculate stats with mockup fallbacks
-        $ordersToday = Order::whereDate('created_at', Carbon::today())->count();
-        if ($ordersToday === 0) {
-            $ordersToday = 1432;
-        }
+        // 1. Real-time stats — no fallbacks
+        $ordersToday         = Order::whereDate('created_at', Carbon::today())->count();
+        $totalStudents       = User::where('role', 'mahasiswa')->count();
+        $completedToday      = Order::whereDate('created_at', Carbon::today())->where('status', 'selesai')->count();
+        $totalSellers        = User::where('role', 'penjual')->count();
+        $activeSellers       = User::where('role', 'penjual')->where('is_verified', true)->where('is_active', true)->count();
+        $rejectedToday       = Order::whereDate('created_at', Carbon::today())->whereIn('status', ['ditolak', 'dibatalkan'])->count();
+        $totalRevenue        = Order::whereDate('created_at', Carbon::today())->where('status', 'selesai')->sum('total_price');
+        $pendingVerification = User::where('role', 'penjual')->where('is_verified', false)->count();
 
-        $totalStudents = User::where('role', 'mahasiswa')->count();
-        if ($totalStudents === 0) {
-            $totalStudents = 8450;
-        }
+        // 2. Completion rate (avoid division by zero)
+        $completionRate = $ordersToday > 0 ? round(($completedToday / $ordersToday) * 100) : 0;
 
-        $completedToday = Order::whereDate('created_at', Carbon::today())->where('status', 'selesai')->count();
-        if ($completedToday === 0) {
-            $completedToday = 1210;
-        }
+        // 3. Yesterday comparison for trend indicator
+        $ordersYesterday = Order::whereDate('created_at', Carbon::yesterday())->count();
+        $ordersTrend     = $ordersYesterday > 0
+            ? round((($ordersToday - $ordersYesterday) / $ordersYesterday) * 100, 1)
+            : 0;
 
-        $totalSellers = User::where('role', 'penjual')->count();
-        if ($totalSellers === 0) {
-            $totalSellers = 42;
-        }
-
-        $activeSellers = User::where('role', 'penjual')->where('is_verified', true)->where('is_active', true)->count();
-        if ($activeSellers === 0) {
-            $activeSellers = 38;
-        }
-
-        $rejectedToday = Order::whereDate('created_at', Carbon::today())->whereIn('status', ['ditolak', 'batal'])->count();
-        if ($rejectedToday === 0) {
-            $rejectedToday = 14;
-        }
-
-        // 2. Load recent activities
+        // 4. Recent activity from real audit logs only
         $activities = AuditLog::with('user')
             ->orderBy('created_at', 'desc')
-            ->take(5)
+            ->take(8)
             ->get()
             ->map(function ($log) {
-                // Map database logs to readable dashboard timeline items
-                $timeLabel = $log->created_at->diffForHumans();
-                
-                // Customize title and text
-                $title = 'Activity Logged';
+                $title    = 'Activity Logged';
                 $dotColor = 'bg-gray-400';
-                
-                if (str_contains($log->action, 'login')) {
-                    $title = 'Successful Login';
-                    $dotColor = 'bg-green-500';
-                } elseif (str_contains($log->action, 'verified')) {
-                    $title = 'Seller Verified';
-                    $dotColor = 'bg-orange-500';
-                } elseif (str_contains($log->action, 'rejected')) {
-                    $title = 'Seller Rejected';
-                    $dotColor = 'bg-red-500';
-                } elseif (str_contains($log->action, 'status')) {
-                    $title = 'User Status Updated';
-                    $dotColor = 'bg-blue-500';
-                } elseif (str_contains($log->action, 'order')) {
-                    $title = 'Order Event';
-                    $dotColor = 'bg-amber-500';
-                }
+
+                if (str_contains($log->action, 'login'))          { $title = 'User Login';       $dotColor = 'bg-green-500'; }
+                elseif (str_contains($log->action, 'verified'))   { $title = 'Seller Verified';  $dotColor = 'bg-[#E27226]'; }
+                elseif (str_contains($log->action, 'rejected'))   { $title = 'Seller Rejected';  $dotColor = 'bg-red-500'; }
+                elseif (str_contains($log->action, 'status'))     { $title = 'Status Updated';   $dotColor = 'bg-blue-500'; }
+                elseif (str_contains($log->action, 'order'))      { $title = 'Order Event';      $dotColor = 'bg-amber-500'; }
+                elseif (str_contains($log->action, 'registered')) { $title = 'New Registration'; $dotColor = 'bg-indigo-500'; }
+                elseif (str_contains($log->action, 'profile'))    { $title = 'Profile Updated';  $dotColor = 'bg-teal-500'; }
 
                 return [
-                    'title' => $title,
+                    'title'       => $title,
                     'description' => $log->description,
-                    'time' => $timeLabel,
-                    'dotColor' => $dotColor,
+                    'time'        => $log->created_at->diffForHumans(),
+                    'dotColor'    => $dotColor,
+                    'user'        => $log->user?->name ?? 'System',
                 ];
-            })->toArray();
-
-        // If activity list is small, append the mockup items to match design exactly
-        if (count($activities) < 4) {
-            $activities = array_merge($activities, [
-                [
-                    'title' => 'New Seller Verification Request',
-                    'description' => '"Green Bowl Salads" submitted business documents for review.',
-                    'time' => '10 mins ago',
-                    'dotColor' => 'bg-[#f0854d]',
-                ],
-                [
-                    'title' => 'Menu Item Flagged',
-                    'description' => 'Spicy Chicken Wrap reported for incorrect allergen information by 2 students.',
-                    'time' => '45 mins ago',
-                    'dotColor' => 'bg-gray-300',
-                ],
-                [
-                    'title' => 'Batch Student Registration',
-                    'description' => 'System imported 120 new student profiles via API sync.',
-                    'time' => '2 hours ago',
-                    'dotColor' => 'bg-gray-300',
-                ],
-                [
-                    'title' => 'System Maintenance Completed',
-                    'description' => 'Database optimization routine finished successfully.',
-                    'time' => 'Yesterday, 11:00 PM',
-                    'dotColor' => 'bg-gray-300',
-                ]
-            ]);
-        }
+            })
+            ->toArray();
 
         return view('livewire.admin-dashboard', [
-            'ordersToday' => $ordersToday,
-            'totalStudents' => $totalStudents,
-            'completedToday' => $completedToday,
-            'totalSellers' => $totalSellers,
-            'activeSellers' => $activeSellers,
-            'rejectedToday' => $rejectedToday,
-            'activities' => $activities,
+            'ordersToday'         => $ordersToday,
+            'totalStudents'       => $totalStudents,
+            'completedToday'      => $completedToday,
+            'totalSellers'        => $totalSellers,
+            'activeSellers'       => $activeSellers,
+            'rejectedToday'       => $rejectedToday,
+            'totalRevenue'        => $totalRevenue,
+            'completionRate'      => $completionRate,
+            'ordersTrend'         => $ordersTrend,
+            'pendingVerification' => $pendingVerification,
+            'activities'          => $activities,
         ])->layout('layouts.admin');
     }
 }

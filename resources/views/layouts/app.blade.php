@@ -16,177 +16,242 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-[#fff8f6] text-[#231914]">
+    <body class="font-sans antialiased bg-[#FAF6F2] text-[#231914]">
         <div class="min-h-screen">
             @auth
                 @if(auth()->user()->role === 'mahasiswa')
-                    <!-- Student Layout Wrapper -->
-                    <div class="flex min-h-screen bg-[#FCF8F5]">
-                        <!-- Sidebar Navigation -->
-                        <aside class="hidden md:flex flex-col w-64 bg-[#FAF3EB] border-r border-[#f2dfd5] p-6 justify-between flex-shrink-0">
-                            <div class="space-y-8">
-                                <!-- Logo -->
-                                <div>
-                                    <a href="{{ route('home.student') }}" class="text-3xl font-extrabold text-[#7c3300] tracking-tight font-headline-lg hover:opacity-90 transition-opacity">
-                                        CampusBites
-                                    </a>
-                                </div>
+                    <!-- ── Student Layout ──────────────────────────────── -->
+                    <div class="flex min-h-screen bg-[#FAF6F2]">
 
-                                <!-- User Profile Card -->
+                        <!-- Sidebar -->
+                        <aside class="hidden md:flex flex-col w-64 bg-[#FAF3EB] border-r border-[#f2dfd5] p-6 justify-between flex-shrink-0 sticky top-0 h-screen">
+                            <div class="space-y-6">
+                                <!-- Logo -->
+                                <a href="{{ route('home.student') }}" class="text-2xl font-extrabold text-[#7c3300] tracking-tight hover:opacity-90 transition-opacity block">
+                                    CampusBites
+                                </a>
+
+                                <!-- User Card -->
                                 <div class="flex items-center gap-3">
-                                    <img src="{{ auth()->user()->photo_path ? asset('storage/' . auth()->user()->photo_path) : 'https://api.dicebear.com/7.x/adventurer/svg?seed=' . auth()->user()->name }}" 
-                                         alt="Profile photo" 
-                                         class="w-12 h-12 rounded-full border-2 border-emerald-500/30 object-cover bg-orange-100 shadow-sm" />
-                                    <div>
-                                        <h4 class="font-extrabold text-sm text-[#231914] leading-tight">Welcome, Student</h4>
-                                        <p class="text-[11px] text-[#897266] mt-0.5">Ready for a meal?</p>
+                                    <img src="{{ auth()->user()->photo_path ? asset('storage/'.auth()->user()->photo_path) : 'https://api.dicebear.com/7.x/adventurer/svg?seed='.auth()->user()->name }}"
+                                         alt="Profile photo"
+                                         class="w-11 h-11 rounded-full border-2 border-[#ffab69]/40 object-cover bg-orange-100 shadow-sm">
+                                    <div class="min-w-0">
+                                        <h4 class="font-extrabold text-xs text-[#231914] leading-tight truncate">{{ auth()->user()->name }}</h4>
+                                        <p class="text-[10px] text-[#897266] mt-0.5">Ready for a meal? 🍽</p>
                                     </div>
                                 </div>
 
                                 @php
-                                    // Find first canteen for Quick Order/My Orders link fallback if needed
-                                    $firstCanteen = \App\Models\User::where('role', 'penjual')->where('is_active', true)->first();
-                                    $myOrdersUrl = $firstCanteen ? route('canteen.order', ['seller' => $firstCanteen->id]) : '#';
+                                    $firstCanteen = \App\Models\User::where('role', 'penjual')->where('is_verified', true)->where('is_active', true)->first();
+                                    $myOrdersUrl  = $firstCanteen ? route('canteen.order', ['seller' => $firstCanteen->id]) : '#';
                                 @endphp
 
-                                <!-- Sidebar Quick Order Button (Slide 2 Style) -->
-                                <div>
-                                    <a href="{{ $myOrdersUrl }}" class="flex items-center justify-center w-full py-3 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-bold rounded-full transition-all shadow-md active:scale-95">
-                                        Quick Order
-                                    </a>
-                                </div>
+                                <!-- Quick Order CTA -->
+                                <a href="{{ $myOrdersUrl }}" class="flex items-center justify-center gap-2 w-full py-3 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-bold rounded-2xl transition-all shadow-md active:scale-95">
+                                    <span class="material-symbols-outlined text-base">bolt</span>
+                                    Quick Order
+                                </a>
 
                                 <!-- Nav List -->
-                                <nav class="space-y-1.5">
-                                    <a href="{{ route('home.student') }}" 
-                                       class="flex items-center gap-3 px-4 py-3 rounded-full text-xs font-bold transition-all {{ request()->routeIs('home.student') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm font-extrabold' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500] font-semibold' }}">
-                                        <!-- Home Outline Icon -->
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
+                                <nav class="space-y-1">
+                                    <a href="{{ route('home.student') }}"
+                                       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('home.student') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
+                                        <span class="material-symbols-outlined text-lg">home</span>
                                         Home
                                     </a>
-
-                                    <a href="{{ $myOrdersUrl }}" 
-                                       class="flex items-center gap-3 px-4 py-3 rounded-full text-xs font-bold transition-all {{ request()->routeIs('canteen.order') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm font-extrabold' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500] font-semibold' }}">
-                                        <!-- My Orders Icon (Shopping Bag) -->
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                        </svg>
+                                    <a href="{{ $myOrdersUrl }}"
+                                       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('canteen.order') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
+                                        <span class="material-symbols-outlined text-lg">shopping_bag</span>
                                         My Orders
                                     </a>
-                                    
-                                    <a href="{{ route('orders.history') }}" 
-                                       class="flex items-center gap-3 px-4 py-3 rounded-full text-xs font-bold transition-all {{ request()->routeIs('orders.history') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm font-extrabold' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500] font-semibold' }}">
-                                        <!-- History Icon (Clock) -->
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
+                                    <a href="{{ route('orders.history') }}"
+                                       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('orders.history') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
+                                        <span class="material-symbols-outlined text-lg">history</span>
                                         History
                                     </a>
-                                    
-                                    <a href="{{ route('profile') }}" 
-                                       class="flex items-center gap-3 px-4 py-3 rounded-full text-xs font-bold transition-all {{ request()->routeIs('profile') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm font-extrabold' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500] font-semibold' }}">
-                                        <!-- Profile Icon (User) -->
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                    <a href="{{ route('profile') }}"
+                                       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs(['profile', 'profile.edit']) ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
+                                        <span class="material-symbols-outlined text-lg">person</span>
                                         Profile
                                     </a>
                                 </nav>
                             </div>
 
-                            <!-- Bottom padding spacer for aesthetic symmetry -->
-                            <div class="text-[10px] text-[#897266]/40 text-center font-medium">
-                                © CampusBites v1.0
+                            <!-- Sidebar footer -->
+                            <div class="space-y-1">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold text-[#897266] hover:bg-red-50 hover:text-red-600 transition-all">
+                                        <span class="material-symbols-outlined text-lg">logout</span>
+                                        Logout
+                                    </button>
+                                </form>
+                                <div class="text-[10px] text-[#897266]/40 text-center font-medium pt-2">© CampusBites v1.0</div>
                             </div>
                         </aside>
 
                         <!-- Main Content Pane -->
-                        <div class="flex-1 flex flex-col min-w-0 min-h-screen bg-[#FAF6F2]">
-                            
-                            <!-- Top Navigation / Header -->
-                            @if(request()->routeIs(['home.student', 'orders.history', 'profile']))
-                                <header class="h-20 bg-[#FAF6F2] px-8 flex items-center justify-between border-b border-[#feeae0]/60 flex-shrink-0">
-                                    <!-- Horizontal Navigation Links -->
-                                    <div class="flex items-center gap-8">
-                                        <a href="{{ route('home.student') }}" 
-                                           class="relative py-2 text-xs font-extrabold transition-colors font-label-lg {{ request()->routeIs('home.student') ? 'text-[#9b4500]' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                                            Home
-                                            @if(request()->routeIs('home.student'))
-                                                <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9b4500] rounded-full"></span>
-                                            @endif
-                                        </a>
-                                        <a href="{{ $myOrdersUrl }}" 
-                                           class="relative py-2 text-xs font-extrabold transition-colors font-label-lg {{ request()->routeIs('canteen.order') ? 'text-[#9b4500]' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                                            My Orders
-                                        </a>
-                                        <a href="{{ route('orders.history') }}" 
-                                           class="relative py-2 text-xs font-extrabold transition-colors font-label-lg {{ request()->routeIs('orders.history') ? 'text-[#9b4500]' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                                            History
-                                            @if(request()->routeIs('orders.history'))
-                                                <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9b4500] rounded-full"></span>
-                                            @endif
-                                        </a>
-                                        <a href="{{ route('profile') }}" 
-                                           class="relative py-2 text-xs font-extrabold transition-colors font-label-lg {{ request()->routeIs('profile') ? 'text-[#9b4500]' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                                            Profile
-                                            @if(request()->routeIs('profile'))
-                                                <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9b4500] rounded-full"></span>
-                                            @endif
-                                        </a>
-                                    </div>
+                        <div class="flex-1 flex flex-col min-w-0 min-h-screen">
 
-                                    <!-- Right side Actions (Cart, Notifications, Account) -->
-                                    <div class="flex items-center gap-5">
-                                        <!-- Shopping Cart Icon -->
-                                        @php
-                                            $cartItems = session('cart', []);
-                                            $cartCount = array_sum($cartItems);
-                                        @endphp
-                                        <a href="{{ $myOrdersUrl }}" class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
-                                            <svg class="w-5 h-5 text-[#897266]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                                            @if($cartCount > 0)
-                                                <span class="absolute top-1 right-1 w-4 h-4 bg-[#9b4500] text-white text-[9px] font-extrabold flex items-center justify-center rounded-full border border-[#fff8f6]">
-                                                    {{ $cartCount }}
-                                                </span>
-                                            @endif
-                                        </a>
+                            <!-- ── Top Navigation (always visible for students) ── -->
+                            <header class="h-16 bg-[#FAF3EB] border-b border-[#f2dfd5] px-6 flex items-center justify-between sticky top-0 z-20 flex-shrink-0"
+                                    x-data="{ notifOpen: false }" @click.away="notifOpen = false">
 
-                                        <!-- Notification Icon -->
-                                        <button class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
-                                            <svg class="w-5 h-5 text-[#897266]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                                            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#9b4500] rounded-full border border-[#fff8f6]"></span>
+                                <style>
+                                    @media (min-width: 768px) {
+                                        .desktop-hide {
+                                            display: none !important;
+                                        }
+                                        .desktop-dropdown {
+                                            position: absolute !important;
+                                            right: 0 !important;
+                                            left: auto !important;
+                                        }
+                                    }
+                                </style>
+
+                                <!-- Mobile: hamburger placeholder + branding -->
+                                <div class="flex items-center gap-4 desktop-hide">
+                                    <span class="text-lg font-extrabold text-[#7c3300]">CampusBites</span>
+                                </div>
+
+                                <!-- Desktop: Breadcrumb / Page Title -->
+                                <div class="hidden md:flex items-center gap-2 text-xs text-[#897266]">
+                                    <span class="material-symbols-outlined text-base">restaurant</span>
+                                    <span class="font-bold text-[#231914]">
+                                        @if(request()->routeIs('home.student'))    Home
+                                        @elseif(request()->routeIs('canteen.order'))  Order
+                                        @elseif(request()->routeIs('orders.history')) History
+                                        @elseif(request()->routeIs('orders.track'))   Track Order
+                                        @elseif(request()->routeIs(['profile','profile.edit'])) Profile
+                                        @else CampusBites
+                                        @endif
+                                    </span>
+                                </div>
+
+                                <!-- Right actions -->
+                                <div class="flex items-center gap-3">
+                                    <!-- Cart -->
+                                    @php $cartItems = session('cart', []); $cartCount = array_sum($cartItems); @endphp
+                                    <a href="{{ $myOrdersUrl }}" class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
+                                        <span class="material-symbols-outlined text-xl">shopping_cart</span>
+                                        @if($cartCount > 0)
+                                            <span class="absolute top-1 right-1 w-4 h-4 bg-[#9b4500] text-white text-[9px] font-extrabold flex items-center justify-center rounded-full">{{ $cartCount }}</span>
+                                        @endif
+                                    </a>
+
+                                    <!-- Notifications -->
+                                    <div class="relative" style="position: relative;">
+                                        <button @click="notifOpen = !notifOpen"
+                                                class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
+                                            <span class="material-symbols-outlined text-xl">notifications</span>
+                                            @php
+                                                $activeOrders = \App\Models\Order::where('buyer_id', auth()->id())
+                                                    ->whereIn('status', ['diterima','diproses','siap_diambil'])
+                                                    ->count();
+                                            @endphp
+                                            @if($activeOrders > 0)
+                                                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#9b4500] rounded-full border border-[#FAF3EB]"></span>
+                                            @endif
                                         </button>
 
-                                        <!-- Profile Dropdown Button -->
-                                        <form method="POST" action="{{ route('logout') }}" class="flex items-center">
-                                            @csrf
-                                            <button type="submit" title="Log Out" class="p-0.5 rounded-full border border-[#ffab69]/40 hover:opacity-80 transition-all">
-                                                <img src="{{ auth()->user()->photo_path ? asset('storage/' . auth()->user()->photo_path) : 'https://api.dicebear.com/7.x/adventurer/svg?seed=' . auth()->user()->name }}" 
-                                                     alt="Avatar" 
-                                                     class="w-7 h-7 rounded-full object-cover bg-orange-100" />
-                                            </button>
-                                        </form>
+                                        <!-- Notification Dropdown -->
+                                        <div x-show="notifOpen"
+                                             x-transition:enter="transition ease-out duration-100"
+                                             x-transition:enter-start="opacity-0 scale-95"
+                                             x-transition:enter-end="opacity-100 scale-100"
+                                             x-transition:leave="transition ease-in duration-75"
+                                             x-transition:leave-start="opacity-100 scale-100"
+                                             x-transition:leave-end="opacity-0 scale-95"
+                                             class="absolute right-0 top-full mt-2 w-80 bg-white border border-[#feeae0] rounded-2xl shadow-xl py-2 z-30 desktop-dropdown"
+                                             x-cloak>
+                                            <div class="px-4 py-3 border-b border-[#feeae0]">
+                                                <p class="text-xs font-extrabold text-[#231914]">Notifications</p>
+                                            </div>
+                                            <div class="max-h-64 overflow-y-auto">
+                                                @php
+                                                    $myOrders = \App\Models\Order::with('seller')
+                                                        ->where('buyer_id', auth()->id())
+                                                        ->whereIn('status', ['diterima','diproses','siap_diambil'])
+                                                        ->latest()->take(5)->get();
+                                                @endphp
+                                                @forelse($myOrders as $ord)
+                                                    <a href="{{ route('orders.track', $ord->id) }}"
+                                                       class="flex items-start gap-3 px-4 py-3 hover:bg-[#FFF8F2] transition">
+                                                        <span class="material-symbols-outlined text-lg shrink-0 mt-0.5 {{ $ord->status === 'siap_diambil' ? 'text-green-500' : ($ord->status === 'diproses' ? 'text-blue-500' : 'text-[#E27226]') }}">
+                                                            {{ $ord->status === 'siap_diambil' ? 'check_circle' : ($ord->status === 'diproses' ? 'soup_kitchen' : 'receipt_long') }}
+                                                        </span>
+                                                        <div>
+                                                            <p class="text-xs font-bold text-[#231914]">Order #{{ $ord->id }} — {{ ucfirst(str_replace('_',' ',$ord->status)) }}</p>
+                                                            <p class="text-[10px] text-[#897266]">{{ $ord->seller->store_name ?? 'Canteen' }} · {{ $ord->created_at->diffForHumans() }}</p>
+                                                        </div>
+                                                    </a>
+                                                @empty
+                                                    <div class="px-4 py-6 text-center text-[#897266]">
+                                                        <span class="material-symbols-outlined text-3xl text-gray-300">notifications_none</span>
+                                                        <p class="text-xs font-bold mt-1">No active orders</p>
+                                                    </div>
+                                                @endforelse
+                                            </div>
+                                            <div class="border-t border-[#feeae0] px-4 py-2">
+                                                <a href="{{ route('orders.history') }}" class="text-xs font-bold text-[#9b4500] hover:underline">View all orders →</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </header>
-                            @endif
+
+                                    <!-- Avatar + Dropdown -->
+                                    <div class="relative" style="position: relative;" x-data="{ open: false }" @click.away="open = false">
+                                        <button @click="open = !open" class="p-0.5 rounded-full border border-[#ffab69]/40 hover:opacity-80 transition-all">
+                                            <img src="{{ auth()->user()->photo_path ? asset('storage/'.auth()->user()->photo_path) : 'https://api.dicebear.com/7.x/adventurer/svg?seed='.auth()->user()->name }}"
+                                                 alt="Avatar" class="w-8 h-8 rounded-full object-cover bg-orange-100">
+                                        </button>
+                                        <div x-show="open"
+                                             x-transition:enter="transition ease-out duration-100"
+                                             x-transition:enter-start="opacity-0 scale-95"
+                                             x-transition:enter-end="opacity-100 scale-100"
+                                             x-transition:leave="transition ease-in duration-75"
+                                             x-transition:leave-start="opacity-100 scale-100"
+                                             x-transition:leave-end="opacity-0 scale-95"
+                                             class="absolute right-0 top-full mt-2 w-48 bg-white border border-[#feeae0] rounded-2xl shadow-xl py-2 z-30 desktop-dropdown"
+                                             x-cloak>
+                                            <div class="px-4 py-2 border-b border-[#feeae0] mb-1">
+                                                <p class="text-xs font-extrabold text-[#231914] truncate">{{ auth()->user()->name }}</p>
+                                                <p class="text-[10px] text-[#897266]">Student</p>
+                                            </div>
+                                            <a href="{{ route('profile') }}"
+                                               class="flex items-center gap-2 px-4 py-2.5 text-xs text-[#897266] hover:bg-[#FFF8F2] hover:text-[#9b4500] font-bold transition">
+                                                <span class="material-symbols-outlined text-sm">person</span> Profile
+                                            </a>
+                                            <div class="border-t border-[#feeae0] my-1"></div>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold transition">
+                                                    <span class="material-symbols-outlined text-sm">logout</span> Logout
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </header>
 
                             <!-- Content Slot -->
-                            <main class="flex-1 overflow-y-auto p-8">
+                            <main class="flex-1 overflow-y-auto p-6 md:p-8">
                                 {{ $slot }}
                             </main>
                         </div>
                     </div>
+
                 @else
-                    <!-- Penjual / Admin: slot saja, sidebar diatur masing-masing view -->
-                    <div class="min-h-screen bg-gray-50">
+                    <!-- Penjual / Admin: sidebar managed inside their own view -->
+                    <div class="min-h-screen bg-[#FFFBF7]">
                         {{ $slot }}
                     </div>
                 @endif
+
             @else
                 <!-- Guest Layout -->
-                <div class="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
+                <div class="min-h-screen bg-[#FFFBF7] flex flex-col justify-center items-center">
                     {{ $slot }}
                 </div>
             @endauth
