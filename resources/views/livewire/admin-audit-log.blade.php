@@ -41,14 +41,6 @@
                         </svg>
                     </span>
                 </div>
-
-                <!-- Export Button -->
-                <button class="flex items-center space-x-1.5 bg-[#fff1eb] border border-[#f2dfd5] hover:bg-[#feeae0] text-xs font-semibold text-[#8e4e14] px-4 py-2.5 rounded-full transition shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                    </svg>
-                    <span>Ekspor</span>
-                </button>
             </div>
         </div>
 
