@@ -683,49 +683,40 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-extrabold text-[#331C0E] font-display">Volume Pesanan</span>
                                 <div class="flex gap-1.5">
-                                    <button class="px-3 py-1 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-bold text-gray-500">Harian</button>
-                                    <button class="px-3 py-1 bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2] rounded-lg text-xs font-bold">Mingguan</button>
+                                    <button wire:click="$set('orderVolumePeriod', 'daily')" 
+                                            class="px-3 py-1 rounded-lg text-xs font-bold transition {{ $orderVolumePeriod === 'daily' ? 'bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2]' : 'bg-gray-50 hover:bg-gray-100 text-gray-500' }}">
+                                        Harian
+                                    </button>
+                                    <button wire:click="$set('orderVolumePeriod', 'weekly')" 
+                                            class="px-3 py-1 rounded-lg text-xs font-bold transition {{ $orderVolumePeriod === 'weekly' ? 'bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2]' : 'bg-gray-50 hover:bg-gray-100 text-gray-500' }}">
+                                        Mingguan
+                                    </button>
                                 </div>
                             </div>
 
                             <!-- Interactive Pure CSS Bar Chart -->
                             <div class="h-64 pt-6 flex items-end justify-between gap-3 text-center border-b border-gray-100 pb-2 relative">
                                 <div class="absolute inset-0 flex flex-col justify-between pointer-events-none text-[10px] text-gray-300">
-                                    <div class="border-b border-dashed border-gray-100 pb-1">300</div>
-                                    <div class="border-b border-dashed border-gray-100 pb-1">200</div>
-                                    <div class="border-b border-dashed border-gray-100 pb-1">100</div>
+                                    <div class="border-b border-dashed border-gray-100 pb-1">{{ $maxVal }}</div>
+                                    <div class="border-b border-dashed border-gray-100 pb-1">{{ round($maxVal * 0.66) }}</div>
+                                    <div class="border-b border-dashed border-gray-100 pb-1">{{ round($maxVal * 0.33) }}</div>
                                     <div>0</div>
                                 </div>
 
                                 <div class="flex-grow flex items-end justify-around h-full z-10">
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 40%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Sen</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 60%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Sel</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 35%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Rab</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#9E460B] w-full rounded-t-lg shadow-sm" style="height: 80%"></div>
-                                        <span class="text-[10px] text-[#9E460B] font-bold">Kam</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 55%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Jum</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 70%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Sab</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-end gap-2 w-10 h-full">
-                                        <div class="bg-[#FCD8BD] w-full rounded-t-lg transition hover:bg-[#E27226]" style="height: 75%"></div>
-                                        <span class="text-[10px] text-[#8A7160] font-bold">Min</span>
-                                    </div>
+                                    @foreach($chartData as $label => $val)
+                                        @php
+                                            $heightPct = ($maxVal > 0) ? ($val / $maxVal) * 80 : 0; // max 80% to keep label visible
+                                        @endphp
+                                        <div class="flex flex-col items-center justify-end gap-2 w-10 h-full group relative">
+                                            <!-- Tooltip showing count -->
+                                            <div class="absolute bottom-full mb-1 hidden group-hover:block bg-gray-800 text-white text-[9px] px-1.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">
+                                                {{ $val }} pesanan
+                                            </div>
+                                            <div class="w-full rounded-t-lg transition-all duration-300 {{ $val > 0 ? 'bg-[#9E460B]' : 'bg-[#FCD8BD] hover:bg-[#E27226]' }}" style="height: {{ max(5, $heightPct) }}%"></div>
+                                            <span class="text-[10px] {{ $val > 0 ? 'text-[#9E460B] font-bold' : 'text-[#8A7160]' }}">{{ $label }}</span>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -734,7 +725,9 @@
                         <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-extrabold text-[#331C0E] font-display">Item Teratas</span>
-                                <button class="text-xs font-bold text-[#9E460B] hover:underline">Lihat Semua</button>
+                                <button wire:click="$toggle('showAllTopItems')" class="text-xs font-bold text-[#9E460B] hover:underline">
+                                    {{ $showAllTopItems ? 'Tutup' : 'Lihat Semua' }}
+                                </button>
                             </div>
 
                             <div class="divide-y divide-[#F4E1D2] space-y-3">
