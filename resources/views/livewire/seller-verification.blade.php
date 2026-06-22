@@ -132,38 +132,6 @@
                         </div>
                     </div>
 
-                    <!-- Supporting Documents Box -->
-                    <div class="mb-6">
-                        <div class="flex items-center space-x-2 text-xs font-semibold text-[#8e4e14] mb-3 uppercase tracking-wider">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                            </svg>
-                            <span>Dokumen Pendukung</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <!-- Document 1 Card -->
-                            <div class="bg-[#fff8f6] rounded-2xl border border-[#f2dfd5] p-3 text-center transition hover:border-[#f49b65]">
-                                <div class="w-full h-20 rounded-xl bg-orange-50/50 flex items-center justify-center mb-2 overflow-hidden border border-[#f2dfd5]">
-                                    <!-- ID icon or thumbnail mockup -->
-                                    <svg class="w-8 h-8 text-[#9b4500]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-semibold text-[#331200]">Gov_ID.pdf</span>
-                            </div>
-
-                            <!-- Document 2 Card -->
-                            <div class="bg-[#fff8f6] rounded-2xl border border-[#f2dfd5] p-3 text-center transition hover:border-[#f49b65]">
-                                <div class="w-full h-20 rounded-xl bg-orange-50/50 flex items-center justify-center mb-2 overflow-hidden border border-[#f2dfd5]">
-                                    <!-- Permit Fork/Knife Icon -->
-                                    <svg class="w-8 h-8 text-[#9b4500]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-semibold text-[#331200]">Food_Permit.jpg</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Detail Panel Action Buttons (Reject & Approve) -->
