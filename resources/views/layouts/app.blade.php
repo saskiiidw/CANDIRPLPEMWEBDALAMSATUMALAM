@@ -42,8 +42,23 @@
                                 </div>
 
                                 @php
+                                    $cart = session('cart', []);
+                                    $cartCount = array_sum($cart);
+                                    $cartSellerId = null;
+                                    if (!empty($cart)) {
+                                        $firstMenuId = array_key_first($cart);
+                                        $menu = \App\Models\Menu::find($firstMenuId);
+                                        if ($menu) {
+                                            $cartSellerId = $menu->seller_id;
+                                        }
+                                    }
                                     $firstCanteen = \App\Models\User::where('role', 'penjual')->where('is_verified', true)->where('is_active', true)->first();
-                                    $myOrdersUrl  = $firstCanteen ? route('canteen.order', ['seller' => $firstCanteen->id]) : '#';
+                                    $sellerIdForCart = $cartSellerId ?? ($firstCanteen ? $firstCanteen->id : null);
+                                    
+                                    $myOrdersUrl = $sellerIdForCart ? route('canteen.order', ['seller' => $sellerIdForCart]) : '#';
+                                    $cartUrl = $sellerIdForCart 
+                                        ? route('canteen.order', ['seller' => $sellerIdForCart]) . ($cartCount > 0 ? '?checkout=1' : '') 
+                                        : '#';
                                 @endphp
 
                                 <!-- Quick Order CTA -->
@@ -133,7 +148,7 @@
                                 <div class="flex items-center gap-3">
                                     <!-- Cart -->
                                     @php $cartItems = session('cart', []); $cartCount = array_sum($cartItems); @endphp
-                                    <a href="{{ $myOrdersUrl }}" class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
+                                    <a href="{{ $cartUrl }}" class="relative p-2 text-[#897266] hover:text-[#9b4500] hover:bg-[#ffab69]/10 rounded-xl transition-all">
                                         <span class="material-symbols-outlined text-xl">shopping_cart</span>
                                         @if($cartCount > 0)
                                             <span class="absolute top-1 right-1 w-4 h-4 bg-[#9b4500] text-white text-[9px] font-extrabold flex items-center justify-center rounded-full">{{ $cartCount }}</span>
