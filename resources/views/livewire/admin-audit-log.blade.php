@@ -4,8 +4,8 @@
         <!-- Header & Top Dropdown Controls -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">System Audit Log</h1>
-                <p class="text-sm text-[#897266] font-body-md">Comprehensive timeline of system events, authentication, and order activities.</p>
+                <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">Log Audit Sistem</h1>
+                <p class="text-sm text-[#897266] font-body-md">Timeline komprehensif dari event sistem, autentikasi, dan aktivitas pesanan.</p>
             </div>
 
             <!-- Top Filter Action Bar (Image 4 style) -->
@@ -14,10 +14,10 @@
                 <div class="relative">
                     <select wire:model.live="eventType"
                             class="appearance-none bg-[#fff1eb] border border-[#f2dfd5] text-xs font-semibold text-[#8e4e14] pl-4 pr-10 py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#9b4500] cursor-pointer">
-                        <option value="all">All Events</option>
-                        <option value="auth">Auth Events</option>
-                        <option value="order">Order Events</option>
-                        <option value="system">System Events</option>
+                        <option value="all">Semua Event</option>
+                        <option value="auth">Event Auth</option>
+                        <option value="order">Event Pesanan</option>
+                        <option value="system">Event Sistem</option>
                     </select>
                     <!-- Custom Arrow Icon -->
                     <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8e4e14]">
@@ -31,9 +31,9 @@
                 <div class="relative">
                     <select wire:model.live="timeRange"
                             class="appearance-none bg-[#fff1eb] border border-[#f2dfd5] text-xs font-semibold text-[#8e4e14] pl-4 pr-10 py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#9b4500] cursor-pointer">
-                        <option value="24h">Last 24 Hours</option>
-                        <option value="7d">Last 7 Days</option>
-                        <option value="all">All Time</option>
+                        <option value="24h">24 Jam Terakhir</option>
+                        <option value="7d">7 Hari Terakhir</option>
+                        <option value="all">Sepanjang Waktu</option>
                     </select>
                     <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8e4e14]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                     </svg>
-                    <span>Export</span>
+                    <span>Ekspor</span>
                 </button>
             </div>
         </div>
@@ -63,7 +63,7 @@
 
         <!-- Activity Timeline Container -->
         <div class="bg-white rounded-3xl border border-[#f2dfd5] p-8 shadow-sm">
-            <h3 class="text-xl font-bold text-[#331200] font-headline-md mb-8">Activity Timeline</h3>
+            <h3 class="text-xl font-bold text-[#331200] font-headline-md mb-8">Timeline Aktivitas</h3>
 
             <div class="relative">
                 <!-- Vertical Line -->
@@ -82,11 +82,11 @@
                                 $badgeColor = 'bg-orange-500/10 text-orange-700 border-orange-200';
                                 $dotColor = 'bg-orange-500';
                             } elseif (str_contains($log->action, 'order')) {
-                                $category = 'Order';
+                                $category = 'Pesanan';
                                 $badgeColor = 'bg-amber-500/10 text-amber-700 border-amber-200';
                                 $dotColor = 'bg-amber-500';
                             } elseif (str_contains($log->action, 'system') || str_contains($log->action, 'database')) {
-                                $category = 'System';
+                                $category = 'Sistem';
                                 $badgeColor = 'bg-red-500/10 text-red-600 border-red-200';
                                 $dotColor = 'bg-red-500';
                             }
@@ -106,13 +106,13 @@
                                         </span>
                                         <span class="text-sm font-bold text-[#331200]">
                                             @if($log->action === 'auth.login')
-                                                Successful Login
+                                                Login Berhasil
                                             @elseif($log->action === 'order.refunded')
-                                                Order Refunded
+                                                Pesanan Dikembalikan
                                             @elseif($log->action === 'system.database_backup_failed')
-                                                Database Backup Failed
+                                                Backup Database Gagal
                                             @elseif($log->action === 'auth.failed')
-                                                Failed Login Attempt
+                                                Percobaan Login Gagal
                                             @else
                                                 {{ ucwords(str_replace('.', ' ', $log->action)) }}
                                             @endif
@@ -126,7 +126,7 @@
                                     @if($log->action === 'system.database_backup_failed')
                                         <button wire:click="retryBackup" 
                                                 class="mt-2 text-xs font-semibold px-4 py-1.5 rounded-lg border border-red-200 bg-white text-red-500 hover:bg-red-50 transition">
-                                            Retry Backup
+                                            Coba Ulang Backup
                                         </button>
                                     @endif
                                 </div>
@@ -137,16 +137,15 @@
                             </div>
                         </div>
                     @empty
-                        <div class="py-10 text-center text-[#897266]">No log items found matching selection.</div>
+                        <div class="py-10 text-center text-[#897266]">Tidak ada item log yang sesuai dengan pilihan.</div>
                     @endforelse
                 </div>
             </div>
 
-            <!-- Load More Button -->
             <div class="mt-8 flex justify-center">
                 <button wire:click="loadMore"
                         class="w-full bg-[#fff1eb] border border-[#f2dfd5] text-[#8e4e14] font-semibold py-3 px-6 rounded-2xl hover:bg-[#feeae0] transition text-sm">
-                    Load More Events
+                    Muat Lebih Banyak Event
                 </button>
             </div>
         </div>
@@ -156,30 +155,30 @@
     <div class="w-80 shrink-0 space-y-6">
         <!-- Card 1: Event Summary (Image 4) -->
         <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm">
-            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-6">Event Summary</h3>
+            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-6">Ringkasan Event</h3>
             <div class="grid grid-cols-2 gap-4">
                 <!-- Circle Stats 1 -->
                 <div class="text-center">
                     <div class="w-20 h-20 rounded-full bg-[#fff1eb] border border-[#f2dfd5] mx-auto flex flex-col items-center justify-center mb-2">
                         <span class="text-2xl font-extrabold text-[#9b4500]">{{ $totalLogsToday }}</span>
                     </div>
-                    <span class="text-xs font-semibold text-[#897266] block leading-tight">Total Logs Today</span>
+                    <span class="text-xs font-semibold text-[#897266] block leading-tight">Total Log Hari Ini</span>
                 </div>
                 <!-- Circle Stats 2 -->
                 <div class="text-center">
                     <div class="w-20 h-20 rounded-full bg-red-50 border border-red-100 mx-auto flex flex-col items-center justify-center mb-2">
                         <span class="text-2xl font-extrabold text-red-500">{{ $criticalErrors }}</span>
                     </div>
-                    <span class="text-xs font-semibold text-[#897266] block leading-tight">Critical Errors</span>
+                    <span class="text-xs font-semibold text-[#897266] block leading-tight">Error Kritis</span>
                 </div>
             </div>
         </div>
 
         <!-- Card 2: Filter by Role (Image 4) -->
         <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm">
-            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-4">Filter by Role</h3>
+            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-4">Filter Berdasarkan Peran</h3>
             <div class="flex flex-wrap gap-2">
-                @foreach(['all' => 'All Roles', 'admin' => 'Admin', 'vendor' => 'Vendor', 'student' => 'Student', 'system' => 'System'] as $key => $label)
+                @foreach(['all' => 'Semua Peran', 'admin' => 'Admin', 'vendor' => 'Penjual', 'student' => 'Mahasiswa', 'system' => 'Sistem'] as $key => $label)
                     <button wire:click="setRoleFilter('{{ $key }}')"
                             class="px-4 py-2 rounded-full text-xs font-semibold transition border {{ $roleFilter === $key ? 'bg-[#8e4e14] text-white border-transparent' : 'bg-white text-[#897266] border-[#f2dfd5] hover:bg-[#fff1eb] hover:text-[#9b4500]' }}">
                         {{ $label }}
@@ -190,7 +189,7 @@
 
         <!-- Card 3: Active Admin Sessions (Image 4) -->
         <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm">
-            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-4">Active Admin Sessions</h3>
+            <h3 class="text-lg font-bold text-[#331200] font-headline-md mb-4">Sesi Admin Aktif</h3>
             <div class="space-y-4">
                 @foreach($activeAdmins as $admin)
                     <div class="flex items-center justify-between">

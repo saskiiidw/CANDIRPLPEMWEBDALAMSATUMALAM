@@ -61,7 +61,7 @@ class SellerVerification extends Component
         
         AuditLogger::log('seller.verified', "Penjual #{$seller->id} ({$seller->name}) disetujui admin");
         
-        session()->flash('message', 'Seller successfully approved!');
+        session()->flash('message', 'Penjual berhasil disetujui!');
         
         // Auto-select another seller
         if ($this->selectedSellerId === $userId) {
@@ -80,7 +80,7 @@ class SellerVerification extends Component
         
         AuditLogger::log('seller.rejected', "Penjual #{$seller->id} ({$seller->name}) ditolak admin. Alasan: {$reason}");
         
-        session()->flash('message', 'Seller request rejected.');
+        session()->flash('message', 'Permintaan penjual ditolak.');
         
         // Auto-select another seller
         if ($this->selectedSellerId === $userId) {

@@ -49,7 +49,7 @@ class AdminProfile extends Component
 
         AuditLogger::log('user.profile.updated', "Admin profile updated for #{$user->id} ({$fullName})");
 
-        session()->flash('message', 'Profile successfully updated!');
+        session()->flash('message', 'Profil berhasil diperbarui!');
     }
 
     public function logout(): void
@@ -69,13 +69,13 @@ class AdminProfile extends Component
     public function toggleEmailNotifications(): void
     {
         $this->emailNotifications = !$this->emailNotifications;
-        session()->flash('pref_message', 'System preferences updated.');
+        session()->flash('pref_message', 'Preferensi sistem diperbarui.');
     }
 
     public function enableTwoFactor(): void
     {
         $this->twoFactor = true;
-        session()->flash('pref_message', 'Two-Factor Authentication configuration initiated.');
+        session()->flash('pref_message', 'Konfigurasi Autentikasi Dua Faktor dimulai.');
     }
 
     public function render()

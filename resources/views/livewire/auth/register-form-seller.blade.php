@@ -3,7 +3,7 @@
          style="background: radial-gradient(circle, rgba(255,171,105,0.15) 0%, rgba(255,248,246,0) 70%);"></div>
 
     <header class="w-full flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
-        <span class="font-display-lg text-headline-md text-primary">CampusCrave</span>
+        <span class="font-display-lg text-headline-md text-primary">SmartCanteen</span>
         <a href="{{ route('login') }}" wire:navigate class="font-label-lg text-label-lg text-primary hover:text-primary-container transition-colors">Masuk</a>
     </header>
 
@@ -11,7 +11,7 @@
         <div class="max-w-2xl mx-auto">
             <div class="text-center mb-12">
                 <h1 class="font-display-lg text-display-lg text-primary mb-4">Bergabung jadi Penjual</h1>
-                <p class="font-body-lg text-body-lg text-on-surface-variant">Daftarkan kantin Anda dan mulai jualan di CampusCrave.</p>
+                <p class="font-body-lg text-body-lg text-on-surface-variant">Daftarkan kantin Anda dan mulai jualan di SmartCanteen.</p>
             </div>
 
             <div class="mb-8 rounded-lg p-6 flex items-center gap-4 border-l-4 border-l-secondary-container glass-card">
@@ -48,14 +48,14 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label for="password" class="font-label-lg text-label-lg text-on-surface block">Password</label>
+                    <label for="password" class="font-label-lg text-label-lg text-on-surface block">Kata Sandi</label>
                     <input wire:model.blur="password" id="password" type="password" placeholder="••••••••"
                            class="w-full bg-surface-container-low border-2 border-outline-variant rounded-DEFAULT px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-0 transition-colors @error('password') border-error @enderror">
                     @error('password') <p class="text-error text-label-md">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="space-y-2">
-                    <label for="password_confirmation" class="font-label-lg text-label-lg text-on-surface block">Konfirmasi Password</label>
+                    <label for="password_confirmation" class="font-label-lg text-label-lg text-on-surface block">Konfirmasi Kata Sandi</label>
                     <input wire:model.blur="password_confirmation" id="password_confirmation" type="password" placeholder="••••••••"
                            class="w-full bg-surface-container-low border-2 border-outline-variant rounded-DEFAULT px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-0 transition-colors">
                 </div>

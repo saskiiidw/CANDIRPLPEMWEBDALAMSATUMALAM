@@ -1,8 +1,8 @@
 <div class="space-y-8 max-w-4xl mx-auto">
     <!-- Header -->
     <div>
-        <h1 class="text-4xl font-extrabold text-[#231914] tracking-tight leading-none font-display-lg">Order History</h1>
-        <p class="text-xs md:text-sm text-[#897266] mt-2 font-body-md">Review your past meals and reorder your favorites.</p>
+        <h1 class="text-4xl font-extrabold text-[#231914] tracking-tight leading-none font-display-lg">Riwayat Pesanan</h1>
+        <p class="text-xs md:text-sm text-[#897266] mt-2 font-body-md">Tinjau makanan Anda sebelumnya dan pesan ulang favorit Anda.</p>
     </div>
 
     <!-- Filters Row -->
@@ -17,14 +17,14 @@
             <input 
                 type="text" 
                 wire:model.live.debounce.300ms="search"
-                placeholder="Search orders..." 
+                placeholder="Cari pesanan..." 
                 class="block w-full pl-10 pr-4 py-2.5 bg-[#FDF6F0] border border-[#f2dfd5] focus:border-[#fca366] focus:ring-[#fca366] rounded-2xl text-xs text-[#231914] placeholder-[#897266]/70 shadow-sm"
             />
         </div>
 
         <!-- Date Filters -->
         <div class="flex items-center gap-3 w-full md:w-auto">
-            <span class="text-[10px] font-extrabold text-[#897266] uppercase tracking-wider hidden sm:inline">Date Range</span>
+            <span class="text-[10px] font-extrabold text-[#897266] uppercase tracking-wider hidden sm:inline">Rentang Tanggal</span>
             <div class="flex items-center gap-2 bg-[#FDF6F0] border border-[#f2dfd5] rounded-2xl p-1 flex-1 md:flex-none">
                 <input 
                 type="date" 
@@ -63,15 +63,15 @@
                             <!-- Status Badges -->
                             @if($order->status === 'selesai')
                                 <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
-                                    Completed
+                                    Selesai
                                 </span>
                             @elseif($isCancelled)
                                 <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
-                                    Cancelled
+                                    Dibatalkan
                                 </span>
                             @elseif($order->status === 'siap_diambil')
                                 <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider animate-pulse">
-                                    Ready to Pick Up
+                                    Siap Diambil
                                 </span>
                             @else
                                 <span class="px-3 py-1 bg-orange-50 text-orange-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
@@ -105,13 +105,13 @@
                                 wire:click="reorder({{ $order->id }})"
                                 class="px-4 py-2 text-xs font-extrabold text-white bg-[#8c3b03] hover:bg-[#a64605] rounded-full transition-all shadow-sm active:scale-95"
                             >
-                                Reorder
+                                Pesan Ulang
                             </button>
                         @else
                             <a href="{{ route('orders.track', ['order' => $order->id]) }}" 
                                class="px-4 py-2 text-xs font-extrabold text-white bg-[#8c3b03] hover:bg-[#a64605] rounded-full transition-all shadow-sm active:scale-95"
                             >
-                                Track Order
+                                Lacak Pesanan
                             </a>
                         @endif
                     </div>
@@ -122,8 +122,8 @@
                 <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 text-2xl">
                     🗒
                 </div>
-                <h3 class="text-lg font-bold text-[#231914] mb-1">No Orders Found</h3>
-                <p class="text-xs text-[#897266] text-center max-w-xs">You haven't placed any orders matching the selected filters yet.</p>
+                <h3 class="text-lg font-bold text-[#231914] mb-1">Pesanan Tidak Ditemukan</h3>
+                <p class="text-xs text-[#897266] text-center max-w-xs">Anda belum membuat pesanan yang sesuai dengan filter yang dipilih.</p>
             </div>
         @endforelse
     </div>

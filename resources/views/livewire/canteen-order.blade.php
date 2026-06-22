@@ -23,7 +23,7 @@
                 <div class="flex flex-wrap items-center gap-3">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 text-[10px] font-extrabold rounded-full">
                         <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-                        Open Now
+                        Buka Sekarang
                     </span>
                     <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 border border-amber-100 text-[#9b4500] text-[10px] font-extrabold rounded-full">
                         ★ {{ $canteenRating }}
@@ -45,7 +45,7 @@
                     <input 
                         type="text" 
                         wire:model.live.debounce.300ms="search"
-                        placeholder="Search menu items..." 
+                        placeholder="Cari item menu..." 
                         class="block w-full pl-10 pr-4 py-2.5 text-xs bg-[#FDF6F0] border border-[#f2dfd5] focus:border-[#fca366] focus:ring-[#fca366] rounded-full text-[#231914] placeholder-[#897266]/70 shadow-sm"
                     />
                 </div>
@@ -62,13 +62,13 @@
         <div class="flex flex-col md:flex-row gap-8 items-start">
             <!-- Sidebar: Menu Categories (Image 2) -->
             <aside class="w-full md:w-60 bg-transparent p-0 space-y-4 flex-shrink-0">
-                <h3 class="text-base font-extrabold text-[#231914] tracking-tight pl-2">Menu Categories</h3>
+                <h3 class="text-base font-extrabold text-[#231914] tracking-tight pl-2">Kategori Menu</h3>
                 <nav class="flex md:flex-col flex-wrap gap-2">
                     @foreach([
-                        ['label' => 'All Items', 'value' => ''],
-                        ['label' => 'Mains', 'value' => 'makanan_berat'],
-                        ['label' => 'Sides', 'value' => 'makanan_ringan'],
-                        ['label' => 'Beverages', 'value' => 'minuman']
+                        ['label' => 'Semua Menu', 'value' => ''],
+                        ['label' => 'Makanan Berat', 'value' => 'makanan_berat'],
+                        ['label' => 'Makanan Ringan', 'value' => 'makanan_ringan'],
+                        ['label' => 'Minuman', 'value' => 'minuman']
                     ] as $cat)
                         <button 
                             wire:click="$set('category', '{{ $cat['value'] }}')"
@@ -110,15 +110,15 @@
                             <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
                                 @if($menu->stock == 0)
                                     <span class="px-3 py-1 bg-gray-500/90 text-white text-[9px] font-extrabold rounded-full uppercase tracking-wider">
-                                        Sold Out
+                                        Habis
                                     </span>
                                 @else
                                     <span class="px-3 py-1 bg-white/95 text-gray-800 text-[9px] font-extrabold rounded-full shadow-sm">
-                                        {{ $menu->stock }} left
+                                        Tersisa {{ $menu->stock }}
                                     </span>
                                     @if($menu->stock <= 10)
                                         <span class="px-3 py-1 bg-orange-100 text-orange-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
-                                            Hot
+                                            Laris
                                         </span>
                                     @endif
                                 @endif
@@ -177,7 +177,7 @@
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <span class="text-xs tracking-wider">View Cart (Rp {{ number_format($this->totalPrice, 0, ',', '.') }})</span>
+                    <span class="text-xs tracking-wider">Lihat Keranjang (Rp {{ number_format($this->totalPrice, 0, ',', '.') }})</span>
                 </button>
             </div>
         @endif
@@ -196,7 +196,7 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Back to Menu
+                    Kembali ke Menu
                 </button>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
@@ -219,8 +219,8 @@
                             class="w-full h-full object-cover"
                         />
                         <div class="absolute top-4 left-4 flex gap-2">
-                            <span class="px-3 py-1 bg-amber-500 text-white text-[10px] font-extrabold rounded-full">Popular</span>
-                            <span class="px-3 py-1 bg-emerald-600 text-white text-[10px] font-extrabold rounded-full">High Protein</span>
+                            <span class="px-3 py-1 bg-amber-500 text-white text-[10px] font-extrabold rounded-full">Populer</span>
+                            <span class="px-3 py-1 bg-emerald-600 text-white text-[10px] font-extrabold rounded-full">Tinggi Protein</span>
                         </div>
                     </div>
 
@@ -239,7 +239,7 @@
                             <!-- Meta Info -->
                             <div class="flex gap-4 text-xs font-bold text-gray-500 pt-2">
                                 <span class="inline-flex items-center gap-1.5">
-                                    ⏱ {{ $menu->cooking_time_minutes }} mins
+                                    ⏱ {{ $menu->cooking_time_minutes }} mnt
                                 </span>
                                 <span class="inline-flex items-center gap-1.5">
                                     🔥 {{ 250 + (crc32($menu->name) % 30) * 10 }} kcal
@@ -248,10 +248,10 @@
 
                             <!-- Special notes -->
                             <div class="space-y-2 pt-4">
-                                <label class="block text-xs font-extrabold text-[#231914] uppercase tracking-wider">Special Notes</label>
+                                <label class="block text-xs font-extrabold text-[#231914] uppercase tracking-wider">Catatan Khusus</label>
                                 <textarea 
                                     wire:model="customizeNote"
-                                    placeholder="E.g., No onions, extra pickles, gluten-free bread..."
+                                    placeholder="Cth., Tanpa bawang, pedas..."
                                     rows="3" 
                                     class="block w-full border border-[#f2dfd5] focus:border-[#fca366] focus:ring-[#fca366] bg-[#FDF6F0] rounded-2xl text-xs placeholder-gray-400 p-4"
                                 ></textarea>
@@ -282,7 +282,7 @@
                                 wire:click="addCustomizeToCart"
                                 class="flex-1 py-4 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-bold rounded-full transition-all shadow-md active:scale-95"
                             >
-                                Add to Cart (Rp {{ number_format($menu->price * $customizeQuantity, 0, ',', '.') }})
+                                Tambah ke Keranjang (Rp {{ number_format($menu->price * $customizeQuantity, 0, ',', '.') }})
                             </button>
                         </div>
                     </div>
@@ -300,13 +300,13 @@
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Back to Menu
+                Kembali ke Menu
             </button>
 
             <!-- Page Title -->
             <div>
-                <h1 class="text-3xl font-extrabold text-[#231914] tracking-tight leading-none font-headline-lg">Checkout</h1>
-                <p class="text-xs text-[#897266] mt-1.5">Review your items and complete your order.</p>
+                <h1 class="text-3xl font-extrabold text-[#231914] tracking-tight leading-none font-headline-lg">Pembayaran</h1>
+                <p class="text-xs text-[#897266] mt-1.5">Tinjau pesanan Anda dan selesaikan pembayaran.</p>
             </div>
 
             @if($stockError)
@@ -320,7 +320,7 @@
                 <!-- Left: Your Order Panel -->
                 <div class="lg:col-span-2 space-y-6">
                     <div class="bg-white border border-[#feeae0] rounded-[2rem] p-6 space-y-6 shadow-sm">
-                        <h3 class="text-lg font-bold text-[#231914] pb-3 border-b border-[#feeae0]">Your Order</h3>
+                        <h3 class="text-lg font-bold text-[#231914] pb-3 border-b border-[#feeae0]">Pesanan Anda</h3>
 
                         <div class="space-y-4">
                             @foreach($cart as $menuId => $qty)
@@ -382,7 +382,7 @@
                                                     wire:click="removeFromCart({{ $menu->id }})"
                                                     class="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1 transition-colors"
                                                 >
-                                                    🗑 Remove
+                                                    🗑 Hapus
                                                 </button>
                                             </div>
                                         </div>
@@ -393,10 +393,10 @@
 
                         <!-- Notes text -->
                         <div class="space-y-2 pt-4 border-t border-[#feeae0]">
-                            <label class="block text-xs font-extrabold text-[#231914] uppercase tracking-wider">Add Order Notes</label>
+                            <label class="block text-xs font-extrabold text-[#231914] uppercase tracking-wider">Tambah Catatan Pesanan</label>
                             <textarea 
                                 wire:model="note"
-                                placeholder="Any special requests? (E.g., cutlery needed, allergies)..."
+                                placeholder="Ada permintaan khusus? (Cth., butuh sendok, dipisah)..."
                                 rows="3" 
                                 class="block w-full border border-[#f2dfd5] focus:border-[#fca366] focus:ring-[#fca366] bg-[#FDF6F0] rounded-2xl text-xs placeholder-gray-400 p-4"
                             ></textarea>
@@ -417,8 +417,8 @@
                                 ⏱
                             </div>
                             <div>
-                                <span class="block text-[10px] font-extrabold text-gray-500 uppercase tracking-wide">Estimated Wait</span>
-                                <span class="text-lg font-extrabold text-gray-800 leading-none">{{ $approxWait - 2 }} - {{ $approxWait + 2 }} min</span>
+                                <span class="block text-[10px] font-extrabold text-gray-500 uppercase tracking-wide">Estimasi Waktu</span>
+                                <span class="text-lg font-extrabold text-gray-800 leading-none">{{ $approxWait - 2 }} - {{ $approxWait + 2 }} mnt</span>
                             </div>
                         </div>
                         
@@ -434,7 +434,7 @@
                         $grandTotal = $subTotal + $tax + $campusFee;
                     @endphp
                     <div class="bg-white border border-[#feeae0] rounded-3xl p-6 space-y-4 shadow-sm flex flex-col">
-                        <h3 class="text-lg font-bold text-[#231914] pb-2 border-b border-[#feeae0]">Summary</h3>
+                        <h3 class="text-lg font-bold text-[#231914] pb-2 border-b border-[#feeae0]">Ringkasan</h3>
 
                         <div class="space-y-2 text-xs font-bold text-gray-500">
                             <div class="flex justify-between">
@@ -442,11 +442,11 @@
                                 <span class="text-[#231914] font-extrabold">Rp {{ number_format($subTotal, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Tax (8%)</span>
+                                <span>Pajak (8%)</span>
                                 <span class="text-[#231914] font-extrabold">Rp {{ number_format($tax, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Campus Fee</span>
+                                <span>Biaya Layanan</span>
                                 <span class="text-[#231914] font-extrabold">Rp {{ number_format($campusFee, 0, ',', '.') }}</span>
                             </div>
                         </div>
@@ -460,9 +460,9 @@
                             wire:click="checkout"
                             class="w-full py-4 mt-4 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-extrabold rounded-full transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
                         >
-                            🔒 Place Order
+                            🔒 Buat Pesanan
                         </button>
-                        <span class="block text-center text-[9px] text-gray-400 mt-2">Payments are secure and encrypted.</span>
+                        <span class="block text-center text-[9px] text-gray-400 mt-2">Pembayaran aman dan terenkripsi.</span>
                     </div>
                 </div>
             </div>
@@ -477,18 +477,18 @@
                     <div class="w-14 h-14 bg-green-50 text-green-700 mx-auto rounded-full flex items-center justify-center text-2xl shadow-inner">
                         💸
                     </div>
-                    <h3 class="text-xl font-extrabold text-[#231914]">Simulate Payment</h3>
-                    <p class="text-xs text-gray-500">This is a sandbox environment. Simply click 'Pay Sandbox' to simulate order approval.</p>
+                    <h3 class="text-xl font-extrabold text-[#231914]">Simulasi Pembayaran</h3>
+                    <p class="text-xs text-gray-500">Ini adalah lingkungan sandbox. Klik 'Bayar Sandbox' untuk menyimulasikan persetujuan pesanan.</p>
                 </div>
 
                 <div class="p-4 bg-[#FAF3EB] rounded-2xl border border-[#f2dfd5] space-y-2 text-xs font-semibold text-gray-600">
                     <div class="flex justify-between">
-                        <span>Grand Total</span>
+                        <span>Total Tagihan</span>
                         <span class="text-[#9b4500] font-bold">Rp {{ number_format($this->totalPrice + (int) round($this->totalPrice * 0.08) + 500, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Payment Method</span>
-                        <span class="text-gray-800 font-bold">Dummy Wallet</span>
+                        <span>Metode Pembayaran</span>
+                        <span class="text-gray-800 font-bold">Dompet Dummy</span>
                     </div>
                 </div>
 
@@ -497,13 +497,13 @@
                         wire:click="cancelPaymentModal"
                         class="flex-1 py-3 bg-[#FAF3EB] border border-[#f2dfd5] text-xs font-bold text-gray-600 rounded-full transition-all"
                     >
-                        Cancel
+                        Batal
                     </button>
                     <button 
                         wire:click="simulatePayment"
                         class="flex-1 py-3 bg-[#2e7d32] hover:bg-[#1b5e20] text-xs font-extrabold text-white rounded-full transition-all shadow-md active:scale-95"
                     >
-                        Pay Sandbox
+                        Bayar Sandbox
                     </button>
                 </div>
             </div>

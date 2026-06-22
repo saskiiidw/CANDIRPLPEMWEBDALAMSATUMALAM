@@ -1,9 +1,9 @@
 <div class="max-w-xl mx-auto bg-white border border-[#feeae0] rounded-3xl p-8 shadow-md space-y-8">
     <!-- Header -->
     <div class="text-center space-y-2">
-        <span class="text-xs font-bold text-[#897266] uppercase tracking-widest">Order Status</span>
-        <h1 class="text-3xl font-extrabold text-[#231914] font-display-lg">Track Your Order</h1>
-        <p class="text-sm font-bold text-[#9b4500]">Order #{{ $order->id }}</p>
+        <span class="text-xs font-bold text-[#897266] uppercase tracking-widest">Status Pesanan</span>
+        <h1 class="text-3xl font-extrabold text-[#231914] font-display-lg">Lacak Pesanan Anda</h1>
+        <p class="text-sm font-bold text-[#9b4500]">Pesanan #{{ $order->id }}</p>
     </div>
 
     <!-- Notification Alert -->
@@ -18,10 +18,10 @@
     @php
         $status = $order->status;
         $steps = [
-            'diterima' => ['label' => 'Received', 'desc' => 'Waiting for canteen confirmation', 'completed' => in_array($status, ['diterima', 'diproses', 'siap_diambil', 'selesai'])],
-            'diproses' => ['label' => 'Preparing', 'desc' => 'Your food is cooking', 'completed' => in_array($status, ['diproses', 'siap_diambil', 'selesai'])],
-            'siap_diambil' => ['label' => 'Ready', 'desc' => 'Ready for pick up at canteen', 'completed' => in_array($status, ['siap_diambil', 'selesai'])],
-            'selesai' => ['label' => 'Completed', 'desc' => 'Picked up successfully', 'completed' => $status === 'selesai']
+            'diterima' => ['label' => 'Diterima', 'desc' => 'Menunggu konfirmasi kantin', 'completed' => in_array($status, ['diterima', 'diproses', 'siap_diambil', 'selesai'])],
+            'diproses' => ['label' => 'Diproses', 'desc' => 'Makanan Anda sedang dimasak', 'completed' => in_array($status, ['diproses', 'siap_diambil', 'selesai'])],
+            'siap_diambil' => ['label' => 'Siap', 'desc' => 'Siap diambil di kantin', 'completed' => in_array($status, ['siap_diambil', 'selesai'])],
+            'selesai' => ['label' => 'Selesai', 'desc' => 'Telah diambil', 'completed' => $status === 'selesai']
         ];
     @endphp
 
@@ -31,12 +31,12 @@
             <div class="w-12 h-12 bg-red-100 text-red-600 mx-auto rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </div>
-            <h3 class="text-lg font-bold text-red-800">Order {{ ucfirst($status) }}</h3>
+            <h3 class="text-lg font-bold text-red-800">Pesanan {{ ucfirst($status) }}</h3>
             <p class="text-xs text-red-700">
                 @if($status === 'ditolak')
-                    Canteen has rejected your order. Refund is initiated to your wallet.
+                    Kantin menolak pesanan Anda. Saldo telah dikembalikan.
                 @else
-                    You have cancelled this order.
+                    Anda telah membatalkan pesanan ini.
                 @endif
             </p>
         </div>
@@ -59,7 +59,7 @@
 
     <!-- Order Items Summary Card -->
     <div class="border border-[#feeae0] bg-[#fff8f6] rounded-2xl p-5 space-y-4">
-        <h3 class="font-bold text-sm text-[#231914] uppercase tracking-wide">Summary Detail</h3>
+        <h3 class="font-bold text-sm text-[#231914] uppercase tracking-wide">Detail Ringkasan</h3>
         <ul class="space-y-2.5">
             @foreach($order->items as $item)
                 <li class="flex justify-between items-baseline text-sm text-[#231914] font-medium">
@@ -69,7 +69,7 @@
             @endforeach
         </ul>
         <div class="pt-3 border-t border-[#feeae0] flex justify-between items-baseline font-bold">
-            <span class="text-sm text-[#231914]">Total Price</span>
+            <span class="text-sm text-[#231914]">Total Harga</span>
             <span class="text-xl text-[#9b4500]">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
         </div>
     </div>
@@ -82,9 +82,9 @@
                 class="w-full py-4 bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-extrabold rounded-full transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                Confirm Order Received
+                Konfirmasi Pesanan Diterima
             </button>
-            <span class="block text-[10px] text-[#897266] mt-2">Only click this after physically receiving your meal.</span>
+            <span class="block text-[10px] text-[#897266] mt-2">Klik hanya setelah Anda menerima makanan Anda.</span>
         </div>
     @endif
 </div>

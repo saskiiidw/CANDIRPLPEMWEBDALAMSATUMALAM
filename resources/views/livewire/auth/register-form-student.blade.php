@@ -14,7 +14,7 @@
 
         <div class="w-full max-w-md relative z-10">
             <div class="mb-12">
-                <h1 class="font-display-lg text-display-lg text-primary tracking-tight">CampusCrave</h1>
+                <h1 class="font-display-lg text-display-lg text-primary tracking-tight">SmartCanteen</h1>
                 <p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Daftar sebagai mahasiswa untuk mulai memesan.</p>
             </div>
 
@@ -43,7 +43,7 @@
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block font-label-md text-label-md text-on-surface-variant mb-2 ml-1">Password</label>
+                    <label for="password" class="block font-label-md text-label-md text-on-surface-variant mb-2 ml-1">Kata Sandi</label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
                         <input wire:model.blur="password" id="password" type="password" placeholder="••••••••"
@@ -54,7 +54,7 @@
 
                 <!-- Confirm Password -->
                 <div>
-                    <label for="password_confirmation" class="block font-label-md text-label-md text-on-surface-variant mb-2 ml-1">Konfirmasi Password</label>
+                    <label for="password_confirmation" class="block font-label-md text-label-md text-on-surface-variant mb-2 ml-1">Konfirmasi Kata Sandi</label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock_reset</span>
                         <input wire:model.blur="password_confirmation" id="password_confirmation" type="password" placeholder="••••••••"

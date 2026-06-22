@@ -28,8 +28,8 @@
                     <span class="material-symbols-outlined text-[#E27226] text-xl">description</span>
                 </div>
                 <div>
-                    <h2 class="text-base font-extrabold text-[#7c3300] leading-tight">Admin Panel</h2>
-                    <p class="text-[10px] text-[#8A7160]">Management Suite</p>
+                    <h2 class="text-base font-extrabold text-[#7c3300] leading-tight">Panel Admin</h2>
+                    <p class="text-[10px] text-[#8A7160]">Manajemen Sistem</p>
                 </div>
             </div>
 
@@ -38,12 +38,12 @@
                 <a href="{{ route('admin.dashboard') }}"
                    class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
                     <span class="material-symbols-outlined text-lg">dashboard</span>
-                    <span>Dashboard</span>
+                    <span>Dasbor</span>
                 </a>
                 <a href="{{ route('admin.seller-verification') }}"
                    class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('admin.seller-verification') ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
                     <span class="material-symbols-outlined text-lg">verified_user</span>
-                    <span>Seller Verification</span>
+                    <span>Verifikasi Penjual</span>
                     @php $pendingCount = \App\Models\User::where('role','penjual')->where('is_verified',false)->count(); @endphp
                     @if($pendingCount > 0)
                         <span class="ml-auto bg-[#E27226] text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">{{ $pendingCount }}</span>
@@ -52,17 +52,17 @@
                 <a href="{{ route('admin.user-management') }}"
                    class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('admin.user-management') ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
                     <span class="material-symbols-outlined text-lg">manage_accounts</span>
-                    <span>User Management</span>
+                    <span>Manajemen Pengguna</span>
                 </a>
                 <a href="{{ route('admin.audit-log') }}"
                    class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('admin.audit-log') ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
                     <span class="material-symbols-outlined text-lg">history</span>
-                    <span>Audit Log</span>
+                    <span>Log Audit</span>
                 </a>
                 <a href="{{ route('admin.profile') }}"
                    class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('admin.profile') ? 'bg-[#E27226] text-white shadow-sm' : 'text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B]' }}">
                     <span class="material-symbols-outlined text-lg">person</span>
-                    <span>Profile</span>
+                    <span>Profil</span>
                 </a>
             </nav>
         </div>
@@ -82,7 +82,7 @@
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold text-[#8A7160] hover:bg-red-50 hover:text-red-600 transition-all">
                     <span class="material-symbols-outlined text-lg">logout</span>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
@@ -121,7 +121,7 @@
                          class="absolute right-0 mt-2 w-80 bg-white border border-[#F4E1D2] rounded-2xl shadow-xl py-2 z-30"
                          x-cloak>
                         <div class="px-4 py-3 border-b border-[#F4E1D2]">
-                            <p class="text-xs font-extrabold text-[#331C0E]">Notifications</p>
+                            <p class="text-xs font-extrabold text-[#331C0E]">Notifikasi</p>
                         </div>
                         @php
                             $pendingSellers = \App\Models\User::where('role','penjual')->where('is_verified',false)->latest()->take(5)->get();
@@ -133,28 +133,28 @@
                                    class="flex items-start gap-3 px-4 py-3 hover:bg-[#FFF8F2] transition">
                                     <span class="material-symbols-outlined text-[#E27226] text-lg shrink-0 mt-0.5">pending_actions</span>
                                     <div>
-                                        <p class="text-xs font-bold text-[#331C0E]">Seller pending: {{ $s->store_name ?? $s->name }}</p>
-                                        <p class="text-[10px] text-[#8A7160]">Awaiting verification · {{ $s->created_at->diffForHumans() }}</p>
+                                        <p class="text-xs font-bold text-[#331C0E]">Penjual tertunda: {{ $s->store_name ?? $s->name }}</p>
+                                        <p class="text-[10px] text-[#8A7160]">Menunggu verifikasi · {{ $s->created_at->diffForHumans() }}</p>
                                     </div>
                                 </a>
                             @empty
                                 <div class="px-4 py-4 text-center text-[#8A7160]">
                                     <span class="material-symbols-outlined text-3xl text-gray-300">notifications_none</span>
-                                    <p class="text-xs font-bold mt-1">No new notifications</p>
+                                    <p class="text-xs font-bold mt-1">Tidak ada notifikasi baru</p>
                                 </div>
                             @endforelse
                             @foreach($recentOrders as $ro)
                                 <div class="flex items-start gap-3 px-4 py-3 hover:bg-[#FFF8F2] transition">
                                     <span class="material-symbols-outlined text-red-500 text-lg shrink-0 mt-0.5">cancel</span>
                                     <div>
-                                        <p class="text-xs font-bold text-[#331C0E]">Order #{{ $ro->id }} {{ $ro->status }}</p>
+                                        <p class="text-xs font-bold text-[#331C0E]">Pesanan #{{ $ro->id }} {{ $ro->status }}</p>
                                         <p class="text-[10px] text-[#8A7160]">{{ $ro->created_at->diffForHumans() }}</p>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                         <div class="border-t border-[#F4E1D2] px-4 py-2">
-                            <a href="{{ route('admin.audit-log') }}" class="text-xs font-bold text-[#9E460B] hover:underline">View all activity →</a>
+                            <a href="{{ route('admin.audit-log') }}" class="text-xs font-bold text-[#9E460B] hover:underline">Lihat semua aktivitas →</a>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                         <a href="{{ route('admin.profile') }}"
                            class="flex items-center gap-2 px-4 py-2.5 text-xs text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B] font-bold transition">
                             <span class="material-symbols-outlined text-sm">person</span>
-                            <span>Profile</span>
+                            <span>Profil</span>
                         </a>
                         <div class="border-t border-[#F4E1D2] my-1"></div>
                         <form method="POST" action="{{ route('logout') }}">
@@ -195,7 +195,7 @@
                             <button type="submit"
                                     class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold transition">
                                 <span class="material-symbols-outlined text-sm">logout</span>
-                                <span>Logout</span>
+                                <span>Keluar</span>
                             </button>
                         </form>
                     </div>

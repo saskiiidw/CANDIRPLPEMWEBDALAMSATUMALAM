@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'CampusBites') }}</title>
+        <title>{{ config('app.name', 'SmartCanteen') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,8 +27,7 @@
                         <aside class="hidden md:flex flex-col w-64 bg-[#FAF3EB] border-r border-[#f2dfd5] p-6 justify-between flex-shrink-0 sticky top-0 h-screen">
                             <div class="space-y-6">
                                 <!-- Logo -->
-                                <a href="{{ route('home.student') }}" class="text-2xl font-extrabold text-[#7c3300] tracking-tight hover:opacity-90 transition-opacity block">
-                                    CampusBites
+                                    SmartCanteen
                                 </a>
 
                                 <!-- User Card -->
@@ -38,7 +37,7 @@
                                          class="w-11 h-11 rounded-full border-2 border-[#ffab69]/40 object-cover bg-orange-100 shadow-sm">
                                     <div class="min-w-0">
                                         <h4 class="font-extrabold text-xs text-[#231914] leading-tight truncate">{{ auth()->user()->name }}</h4>
-                                        <p class="text-[10px] text-[#897266] mt-0.5">Ready for a meal? 🍽</p>
+                                        <p class="text-[10px] text-[#897266] mt-0.5">Siap untuk makan? 🍽</p>
                                     </div>
                                 </div>
 
@@ -50,7 +49,7 @@
                                 <!-- Quick Order CTA -->
                                 <a href="{{ $myOrdersUrl }}" class="flex items-center justify-center gap-2 w-full py-3 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-bold rounded-2xl transition-all shadow-md active:scale-95">
                                     <span class="material-symbols-outlined text-base">bolt</span>
-                                    Quick Order
+                                    Pesan Cepat
                                 </a>
 
                                 <!-- Nav List -->
@@ -58,22 +57,22 @@
                                     <a href="{{ route('home.student') }}"
                                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('home.student') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
                                         <span class="material-symbols-outlined text-lg">home</span>
-                                        Home
+                                        Beranda
                                     </a>
                                     <a href="{{ $myOrdersUrl }}"
                                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('canteen.order') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
                                         <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                        My Orders
+                                        Pesanan Saya
                                     </a>
                                     <a href="{{ route('orders.history') }}"
                                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('orders.history') ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
                                         <span class="material-symbols-outlined text-lg">history</span>
-                                        History
+                                        Riwayat
                                     </a>
                                     <a href="{{ route('profile') }}"
                                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs(['profile', 'profile.edit']) ? 'bg-[#fca366] text-[#4d1f00] shadow-sm' : 'text-[#897266] hover:bg-[#ffab69]/10 hover:text-[#9b4500]' }}">
                                         <span class="material-symbols-outlined text-lg">person</span>
-                                        Profile
+                                        Profil
                                     </a>
                                 </nav>
                             </div>
@@ -84,10 +83,10 @@
                                     @csrf
                                     <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold text-[#897266] hover:bg-red-50 hover:text-red-600 transition-all">
                                         <span class="material-symbols-outlined text-lg">logout</span>
-                                        Logout
+                                        Keluar
                                     </button>
                                 </form>
-                                <div class="text-[10px] text-[#897266]/40 text-center font-medium pt-2">© CampusBites v1.0</div>
+                                <div class="text-[10px] text-[#897266]/40 text-center font-medium pt-2">© SmartCanteen v1.0</div>
                             </div>
                         </aside>
 
@@ -113,19 +112,19 @@
 
                                 <!-- Mobile: hamburger placeholder + branding -->
                                 <div class="flex items-center gap-4 desktop-hide">
-                                    <span class="text-lg font-extrabold text-[#7c3300]">CampusBites</span>
+                                    <span class="text-lg font-extrabold text-[#7c3300]">SmartCanteen</span>
                                 </div>
 
                                 <!-- Desktop: Breadcrumb / Page Title -->
                                 <div class="hidden md:flex items-center gap-2 text-xs text-[#897266]">
                                     <span class="material-symbols-outlined text-base">restaurant</span>
                                     <span class="font-bold text-[#231914]">
-                                        @if(request()->routeIs('home.student'))    Home
-                                        @elseif(request()->routeIs('canteen.order'))  Order
-                                        @elseif(request()->routeIs('orders.history')) History
-                                        @elseif(request()->routeIs('orders.track'))   Track Order
-                                        @elseif(request()->routeIs(['profile','profile.edit'])) Profile
-                                        @else CampusBites
+                                        @if(request()->routeIs('home.student'))    Beranda
+                                        @elseif(request()->routeIs('canteen.order'))  Pesan
+                                        @elseif(request()->routeIs('orders.history')) Riwayat
+                                        @elseif(request()->routeIs('orders.track'))   Lacak Pesanan
+                                        @elseif(request()->routeIs(['profile','profile.edit'])) Profil
+                                        @else SmartCanteen
                                         @endif
                                     </span>
                                 </div>
@@ -167,7 +166,7 @@
                                              class="absolute right-0 top-full mt-2 w-80 bg-white border border-[#feeae0] rounded-2xl shadow-xl py-2 z-30 desktop-dropdown"
                                              x-cloak>
                                             <div class="px-4 py-3 border-b border-[#feeae0]">
-                                                <p class="text-xs font-extrabold text-[#231914]">Notifications</p>
+                                                <p class="text-xs font-extrabold text-[#231914]">Notifikasi</p>
                                             </div>
                                             <div class="max-h-64 overflow-y-auto">
                                                 @php
@@ -183,19 +182,19 @@
                                                             {{ $ord->status === 'siap_diambil' ? 'check_circle' : ($ord->status === 'diproses' ? 'soup_kitchen' : 'receipt_long') }}
                                                         </span>
                                                         <div>
-                                                            <p class="text-xs font-bold text-[#231914]">Order #{{ $ord->id }} — {{ ucfirst(str_replace('_',' ',$ord->status)) }}</p>
-                                                            <p class="text-[10px] text-[#897266]">{{ $ord->seller->store_name ?? 'Canteen' }} · {{ $ord->created_at->diffForHumans() }}</p>
+                                                            <p class="text-xs font-bold text-[#231914]">Pesanan #{{ $ord->id }} — {{ ucfirst(str_replace('_',' ',$ord->status)) }}</p>
+                                                            <p class="text-[10px] text-[#897266]">{{ $ord->seller->store_name ?? 'Kantin' }} · {{ $ord->created_at->diffForHumans() }}</p>
                                                         </div>
                                                     </a>
                                                 @empty
                                                     <div class="px-4 py-6 text-center text-[#897266]">
                                                         <span class="material-symbols-outlined text-3xl text-gray-300">notifications_none</span>
-                                                        <p class="text-xs font-bold mt-1">No active orders</p>
+                                                        <p class="text-xs font-bold mt-1">Tidak ada pesanan aktif</p>
                                                     </div>
                                                 @endforelse
                                             </div>
                                             <div class="border-t border-[#feeae0] px-4 py-2">
-                                                <a href="{{ route('orders.history') }}" class="text-xs font-bold text-[#9b4500] hover:underline">View all orders →</a>
+                                                <a href="{{ route('orders.history') }}" class="text-xs font-bold text-[#9b4500] hover:underline">Lihat semua pesanan →</a>
                                             </div>
                                         </div>
                                     </div>
@@ -217,17 +216,17 @@
                                              x-cloak>
                                             <div class="px-4 py-2 border-b border-[#feeae0] mb-1">
                                                 <p class="text-xs font-extrabold text-[#231914] truncate">{{ auth()->user()->name }}</p>
-                                                <p class="text-[10px] text-[#897266]">Student</p>
+                                                <p class="text-[10px] text-[#897266]">Mahasiswa</p>
                                             </div>
                                             <a href="{{ route('profile') }}"
                                                class="flex items-center gap-2 px-4 py-2.5 text-xs text-[#897266] hover:bg-[#FFF8F2] hover:text-[#9b4500] font-bold transition">
-                                                <span class="material-symbols-outlined text-sm">person</span> Profile
+                                                <span class="material-symbols-outlined text-sm">person</span> Profil
                                             </a>
                                             <div class="border-t border-[#feeae0] my-1"></div>
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
                                                 <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold transition">
-                                                    <span class="material-symbols-outlined text-sm">logout</span> Logout
+                                                    <span class="material-symbols-outlined text-sm">logout</span> Keluar
                                                 </button>
                                             </form>
                                         </div>

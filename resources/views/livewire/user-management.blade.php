@@ -9,7 +9,7 @@
             </span>
             <input type="text" 
                    wire:model.live="search"
-                   placeholder="Search users..." 
+                   placeholder="Cari pengguna..." 
                    class="w-full pl-10 pr-4 py-2 bg-white border border-[#f2dfd5] rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#9b4500] focus:border-transparent text-[#231914] placeholder-[#897266] transition">
         </div>
     @endpush
@@ -17,8 +17,8 @@
     <!-- Left Panel: User Listing Grid -->
     <div class="flex-1">
         <div class="mb-6">
-            <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">User Management</h1>
-            <p class="text-sm text-[#897266] font-body-md">Manage students and canteen sellers accounts.</p>
+            <h1 class="text-3xl font-extrabold text-[#331200] font-headline-md mb-1">Manajemen Pengguna</h1>
+            <p class="text-sm text-[#897266] font-body-md">Kelola akun mahasiswa dan penjual kantin.</p>
         </div>
 
         @if (session()->has('message'))
@@ -36,12 +36,12 @@
                 <!-- Student Button -->
                 <button wire:click="setTab('student')" 
                         class="px-6 py-2 rounded-full text-sm font-semibold transition duration-150 {{ $tab === 'student' ? 'bg-[#f49b65] text-[#331200] shadow-sm' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                    Student
+                    Mahasiswa
                 </button>
                 <!-- Seller Button -->
                 <button wire:click="setTab('seller')" 
                         class="px-6 py-2 rounded-full text-sm font-semibold transition duration-150 {{ $tab === 'seller' ? 'bg-[#f49b65] text-[#331200] shadow-sm' : 'text-[#897266] hover:text-[#9b4500]' }}">
-                    Seller
+                    Penjual
                 </button>
             </div>
 
@@ -74,17 +74,17 @@
                             @if(!$user->is_active)
                                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-500 border border-red-100 flex items-center">
                                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>
-                                    Inactive
+                                    Tidak Aktif
                                 </span>
                             @elseif($user->role === 'mahasiswa' && is_null($user->email_verified_at))
                                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#fff1eb] text-[#8e4e14] border border-[#f2dfd5] flex items-center">
                                     <span class="w-1.5 h-1.5 rounded-full bg-[#f49b65] mr-1.5"></span>
-                                    Pending
+                                    Menunggu
                                 </span>
                             @else
                                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200 flex items-center">
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>
-                                    Active
+                                    Aktif
                                 </span>
                             @endif
                         </div>
@@ -94,7 +94,7 @@
                         
                         <p class="text-xs text-[#897266] mb-3">
                             @if($user->role === 'mahasiswa')
-                                {{ $user->student_id ?? 'S1029384' }} • {{ $user->faculty ?? 'Engineering' }}
+                                {{ $user->student_id ?? 'S1029384' }} • {{ $user->faculty ?? 'Teknik' }}
                             @else
                                 {{ $user->store_name }}
                             @endif
@@ -111,7 +111,7 @@
                 </div>
             @empty
                 <div class="col-span-2 py-10 bg-white rounded-3xl border border-[#f2dfd5] text-center text-[#897266]">
-                    No users found matching query.
+                    Tidak ada pengguna yang ditemukan.
                 </div>
             @endforelse
         </div>
@@ -140,7 +140,7 @@
                     <!-- User Name & Role Header -->
                     <h3 class="text-2xl font-bold text-[#331200] mb-1 font-headline-md">{{ $selectedUser->name }}</h3>
                     <p class="text-sm font-semibold text-[#8e4e14] mb-8 font-sans">
-                        {{ $selectedUser->role === 'mahasiswa' ? 'Student Account' : 'Seller Account' }}
+                        {{ $selectedUser->role === 'mahasiswa' ? 'Akun Mahasiswa' : 'Akun Penjual' }}
                     </p>
 
                     <!-- User Specific Metadata Fields list (Image 3 style) -->
@@ -148,7 +148,7 @@
                         <!-- student ID / Store Name -->
                         <div>
                             <span class="text-xs uppercase tracking-wider font-semibold text-[#897266]">
-                                {{ $selectedUser->role === 'mahasiswa' ? 'Student ID' : 'Store Name' }}
+                                {{ $selectedUser->role === 'mahasiswa' ? 'NIM' : 'Nama Toko' }}
                             </span>
                             <p class="text-sm font-semibold text-[#231914] mt-0.5">
                                 {{ $selectedUser->role === 'mahasiswa' ? ($selectedUser->student_id ?? 'S1029384') : $selectedUser->store_name }}
@@ -166,16 +166,16 @@
                         <!-- Faculty / Store Phone -->
                         <div>
                             <span class="text-xs uppercase tracking-wider font-semibold text-[#897266]">
-                                {{ $selectedUser->role === 'mahasiswa' ? 'Faculty' : 'Phone' }}
+                                {{ $selectedUser->role === 'mahasiswa' ? 'Fakultas' : 'Telepon' }}
                             </span>
                             <p class="text-sm font-semibold text-[#231914] mt-0.5">
-                                {{ $selectedUser->role === 'mahasiswa' ? ($selectedUser->faculty ?? 'Engineering') : ($selectedUser->phone ?? '-') }}
+                                {{ $selectedUser->role === 'mahasiswa' ? ($selectedUser->faculty ?? 'Teknik') : ($selectedUser->phone ?? '-') }}
                             </p>
                         </div>
 
                         <!-- Joined Date -->
                         <div>
-                            <span class="text-xs uppercase tracking-wider font-semibold text-[#897266]">Joined Date</span>
+                            <span class="text-xs uppercase tracking-wider font-semibold text-[#897266]">Tanggal Bergabung</span>
                             <p class="text-sm font-semibold text-[#231914] mt-0.5">
                                 {{ $selectedUser->created_at->format('M d, Y') }}
                             </p>
@@ -191,7 +191,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                         </svg>
-                        <span>View User Detail</span>
+                        <span>Lihat Detail Pengguna</span>
                     </a>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -199,20 +199,20 @@
                         <button wire:click="activate({{ $selectedUser->id }})" 
                                 class="py-3 px-4 rounded-xl bg-[#fff1eb] text-[#8e4e14] border border-[#f2dfd5] font-semibold hover:bg-[#feeae0] transition text-sm {{ $selectedUser->is_active ? 'opacity-50 cursor-not-allowed' : '' }}"
                                 {{ $selectedUser->is_active ? 'disabled' : '' }}>
-                            Activate
+                            Aktifkan
                         </button>
                         <!-- Deactivate Button -->
                         <button wire:click="deactivate({{ $selectedUser->id }})" 
                                 class="py-3 px-4 rounded-xl bg-red-50 text-red-500 font-semibold hover:bg-red-100/50 transition text-sm {{ !$selectedUser->is_active ? 'opacity-50 cursor-not-allowed' : '' }}"
                                 {{ !$selectedUser->is_active ? 'disabled' : '' }}>
-                            Deactivate
+                            Nonaktifkan
                         </button>
                     </div>
                 </div>
             </div>
         @else
             <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm text-center py-20 text-[#897266]">
-                Select a user to review their details.
+                Pilih pengguna untuk melihat detail mereka.
             </div>
         @endif
     </div>

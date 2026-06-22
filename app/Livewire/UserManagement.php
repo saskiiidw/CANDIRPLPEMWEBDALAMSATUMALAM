@@ -71,7 +71,7 @@ class UserManagement extends Component
         
         AuditLogger::log('user.status.toggled', "User #{$user->id} ({$user->name}) status diaktifkan");
         
-        session()->flash('message', "User account {$user->name} has been activated.");
+        session()->flash('message', "Akun pengguna {$user->name} berhasil diaktifkan.");
     }
 
     public function deactivate(int $userId): void
@@ -83,7 +83,7 @@ class UserManagement extends Component
         
         AuditLogger::log('user.status.toggled', "User #{$user->id} ({$user->name}) status dinonaktifkan");
         
-        session()->flash('message', "User account {$user->name} has been deactivated.");
+        session()->flash('message', "Akun pengguna {$user->name} berhasil dinonaktifkan.");
     }
 
     public function render()
