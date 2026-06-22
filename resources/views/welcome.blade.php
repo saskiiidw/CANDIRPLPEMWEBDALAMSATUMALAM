@@ -80,7 +80,7 @@
                 <section class="max-w-7xl mx-auto px-6 py-12 lg:py-20 grid lg:grid-cols-12 gap-12 items-center">
                     
                     <!-- Left Hero: Headlines & CTAs -->
-                    <div class="lg:col-span-7 space-y-6">
+                    <div class="lg:col-span-7 space-y-6 animate-slide-in-left">
                         <!-- Floating Badge -->
                         <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#fdeee7] text-primary text-xs font-semibold rounded-full border border-[#fbdcd0] w-fit">
                             <!-- Utensils / Smart Icon -->
@@ -121,9 +121,9 @@
                     </div>
 
                     <!-- Right Hero: Graphic Assets -->
-                    <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="lg:col-span-5 relative flex justify-center animate-slide-in-right">
                         <!-- Custom Curved Hero Container -->
-                        <div class="relative w-full max-w-[420px] aspect-square rounded-tl-[32px] rounded-tr-[96px] rounded-bl-[96px] rounded-br-[32px] overflow-hidden shadow-2xl border-4 border-white/50">
+                        <div class="relative w-full max-w-[420px] aspect-square rounded-tl-[32px] rounded-tr-[96px] rounded-bl-[96px] rounded-br-[32px] overflow-hidden shadow-2xl border-4 border-white/50 animate-float">
                             <img 
                                 src="{{ asset('images/hero-salad.png') }}" 
                                 alt="Delicious Campus Canteen Meal Bowl" 
@@ -132,7 +132,7 @@
                         </div>
 
                         <!-- Overlapping Floating Slot Card -->
-                        <div class="absolute -bottom-4 -left-4 sm:-left-10 bg-white/95 backdrop-blur-sm shadow-xl border border-gray-100/50 rounded-2xl p-4 flex items-center gap-3 z-10 max-w-[210px] transform hover:-translate-y-1 transition duration-300">
+                        <div class="absolute -bottom-4 -left-4 sm:-left-10 bg-white/95 backdrop-blur-sm shadow-xl border border-gray-100/50 rounded-2xl p-4 flex items-center gap-3 z-10 max-w-[210px] transform hover:-translate-y-1 transition duration-300 animate-fade-in-up delay-500">
                             <!-- Clock Icon -->
                             <div class="w-10 h-10 rounded-full bg-[#fdeee7] flex items-center justify-center text-primary flex-shrink-0">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">

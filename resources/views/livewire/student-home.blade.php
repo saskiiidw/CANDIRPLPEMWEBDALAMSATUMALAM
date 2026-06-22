@@ -1,4 +1,4 @@
-<div class="space-y-8 max-w-5xl mx-auto">
+<div class="space-y-8 max-w-5xl mx-auto page-transition">
     <!-- Header Greeting -->
     <div>
         <h1 class="text-5xl font-extrabold text-[#231914] tracking-tight font-display-lg leading-none">
@@ -48,7 +48,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             @forelse($canteens as $canteen)
                 <a href="{{ route('canteen.order', ['seller' => $canteen->id]) }}" 
-                   class="group flex flex-col bg-white border border-[#feeae0] hover:border-[#ffab69] rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                   class="group flex flex-col bg-white border border-[#feeae0] hover:border-[#ffab69] rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-hover animate-fade-in-up">
                     <!-- Image Area -->
                     <div class="relative h-52 bg-[#f2dfd5] overflow-hidden">
                         @php
