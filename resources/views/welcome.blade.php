@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>CampusCrave - Skip the Line. Savor the Flavor.</title>
+        <title>SmartCanteen - Pesan Tanpa Antre. Nikmati Hidangan.</title>
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
             <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
                 <!-- Logo -->
                 <a href="{{ url('/') }}" class="font-display-lg text-2xl font-extrabold text-primary tracking-tight hover:opacity-90 transition">
-                    CampusCrave
+                    SmartCanteen
                 </a>
 
                 <!-- Navigation Links -->
@@ -31,19 +31,19 @@
                             Menu
                         </a>
                         <a href="{{ route('orders.history') }}" class="text-sm font-medium text-[#564338] hover:text-primary transition">
-                            Orders
+                            Pesanan
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm font-medium text-[#564338] hover:text-primary transition">
                             Menu
                         </a>
                         <a href="{{ route('login') }}" class="text-sm font-medium text-[#564338] hover:text-primary transition">
-                            Orders
+                            Pesanan
                         </a>
                     @endauth
                     <!-- Scroll link to features as "About" -->
                     <a href="#features" class="text-sm font-medium text-primary border-b-2 border-primary pb-0.5 transition">
-                        About
+                        Tentang
                     </a>
                 </nav>
 
@@ -51,23 +51,23 @@
                 <div class="flex items-center gap-4">
                     @auth
                         <div class="flex items-center gap-3">
-                            <span class="text-xs font-semibold text-[#564338]/80 hidden sm:inline">Hi, {{ auth()->user()->name }}</span>
+                            <span class="text-xs font-semibold text-[#564338]/80 hidden sm:inline">Hai, {{ auth()->user()->name }}</span>
                             <a href="{{ url('/dashboard') }}" class="bg-[#9b4500] hover:bg-[#803800] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full transition shadow-sm">
-                                Dashboard
+                                Dasbor
                             </a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit" class="text-xs sm:text-sm font-medium text-[#564338] hover:text-primary transition ml-2">
-                                    Sign Out
+                                    Keluar
                                 </button>
                             </form>
                         </div>
                     @else
                         <a href="{{ route('login') }}" class="text-sm font-semibold text-[#564338] hover:text-primary transition">
-                            Sign In
+                            Masuk
                         </a>
                         <a href="{{ route('register', ['role' => 'penjual']) }}" class="bg-[#9b4500] hover:bg-[#803800] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full transition shadow-sm">
-                            Join as Seller
+                            Daftar Penjual
                         </a>
                     @endauth
                 </div>
@@ -92,29 +92,29 @@
 
                         <!-- Headlines -->
                         <h1 class="font-display-lg text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#231914] leading-[1.1] tracking-tight">
-                            Skip the Line.<br>Savor the <span class="text-primary">Flavor</span>.
+                            Pesan Tanpa Antre.<br>Nikmati <span class="text-primary">Hidangan</span>.
                         </h1>
 
                         <!-- Description -->
                         <p class="font-body-lg text-[#564338]/90 text-base sm:text-lg leading-relaxed max-w-xl">
-                            Experience nourishing, hassle-free campus dining. Pre-order your favorite meals, track preparation in real-time, and pick up exactly when it's hot and ready.
+                            Nikmati hidangan kampus yang sehat tanpa repot. Pesan menu favorit Anda, pantau persiapan secara real-time, dan ambil tepat setelah siap disajikan.
                         </p>
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-4 pt-2">
                             @auth
                                 <a href="{{ route('home.student') }}" class="bg-[#9b4500] hover:bg-[#803800] text-white font-semibold text-base px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition">
-                                    Start Ordering
+                                    Mulai Memesan
                                 </a>
                                 <a href="{{ route('home.student') }}" class="bg-[#feeae0] hover:bg-[#fbdcd0] text-[#9b4500] font-semibold text-base px-8 py-3.5 rounded-full border border-[#fbdcd0] transition">
-                                    View Menu
+                                    Lihat Menu
                                 </a>
                             @else
                                 <a href="{{ route('register.choice') }}" class="bg-[#9b4500] hover:bg-[#803800] text-white font-semibold text-base px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition">
-                                    Start Ordering
+                                    Mulai Memesan
                                 </a>
                                 <a href="{{ route('login') }}" class="bg-[#feeae0] hover:bg-[#fbdcd0] text-[#9b4500] font-semibold text-base px-8 py-3.5 rounded-full border border-[#fbdcd0] transition">
-                                    View Menu
+                                    Lihat Menu
                                 </a>
                             @endauth
                         </div>
@@ -140,8 +140,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Next pickup slot</span>
-                                <span class="text-sm font-extrabold text-[#9b4500]">In 15 mins</span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Jadwal Pengambilan</span>
+                                <span class="text-sm font-extrabold text-[#9b4500]">Dalam 15 menit</span>
                             </div>
                         </div>
                     </div>
@@ -153,10 +153,10 @@
                     <!-- Heading -->
                     <div class="text-center space-y-4 max-w-xl mx-auto">
                         <h2 class="font-display-lg text-3xl sm:text-4xl font-extrabold text-[#231914] tracking-tight">
-                            Designed for Campus Life
+                            Didesain untuk Kehidupan Kampus
                         </h2>
                         <p class="font-body-md text-[#564338]/85 text-base sm:text-lg leading-relaxed">
-                            Everything you need to manage your daily meals efficiently, wrapped in a simple, satisfying interface.
+                            Semua yang Anda butuhkan untuk mengelola makanan harian secara efisien dalam satu antarmuka yang ramah pengguna.
                         </p>
                     </div>
 
@@ -174,9 +174,9 @@
                                     </svg>
                                 </div>
                                 <!-- Text content -->
-                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Effortless Pre-ordering</h3>
+                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Pemesanan yang Mudah</h3>
                                 <p class="font-body-md text-[#564338]/90 text-sm leading-relaxed max-w-md mb-8">
-                                    Browse menus from all campus vendors, customize your meal, and securely pay ahead of time to completely bypass the lines.
+                                    Jelajahi menu dari seluruh gerai kampus, sesuaikan hidangan Anda, dan bayar di awal untuk melewati antrean sepenuhnya.
                                 </p>
                             </div>
                             <!-- Card Decorative Graphic -->
@@ -186,7 +186,7 @@
                                     <div class="w-10 h-10 rounded-full bg-white/70 flex items-center justify-center text-[#564338]/70 font-bold">2</div>
                                     <div class="w-10 h-10 rounded-full bg-white/40 flex items-center justify-center text-[#564338]/40 font-bold">3</div>
                                 </div>
-                                <span class="text-xs font-bold text-primary tracking-wider uppercase bg-white/80 px-3 py-1 rounded-full shadow-sm">Fast Checkout</span>
+                                <span class="text-xs font-bold text-primary tracking-wider uppercase bg-white/80 px-3 py-1 rounded-full shadow-sm">Pembayaran Cepat</span>
                             </div>
                         </div>
 
@@ -200,9 +200,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
-                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Smart ETA</h3>
+                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Estimasi Waktu Pintar</h3>
                                 <p class="font-body-md text-[#564338]/90 text-sm leading-relaxed mb-8">
-                                    Know exactly when your food will be ready based on current kitchen load.
+                                    Ketahui secara pasti kapan makanan Anda siap berdasarkan antrean dapur saat ini.
                                 </p>
                             </div>
                             <!-- Graphic: Prep Badge -->
@@ -214,8 +214,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Estimated Prep</span>
-                                    <span class="text-lg font-extrabold text-[#9b4500]">8–12 min</span>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Estimasi Persiapan</span>
+                                    <span class="text-lg font-extrabold text-[#9b4500]">8–12 menit</span>
                                 </div>
                             </div>
                         </div>
@@ -231,9 +231,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m10 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
                                     </svg>
                                 </div>
-                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Live Status</h3>
+                                <h3 class="font-headline-md text-xl text-[#231914] mb-3">Status Langsung</h3>
                                 <p class="font-body-md text-[#564338]/90 text-sm leading-relaxed mb-8">
-                                    Watch your order move from "Received" to "Preparing" to "Ready for Pickup".
+                                    Pantau proses pesanan Anda dari "Diterima", "Sedang Disiapkan", hingga "Siap Diambil".
                                 </p>
                             </div>
                             <!-- Tracker Visual mockup -->
@@ -246,7 +246,7 @@
                                 <div class="h-1.5 w-full bg-[#feeae0] rounded-full relative flex items-center justify-between">
                                     <div class="absolute -top-1 left-0 w-3.5 h-3.5 rounded-full bg-[#9b4500] border-2 border-white shadow-sm"></div>
                                     <div class="absolute right-0 bg-[#fdeee7] border border-[#fbdcd0] text-[#9b4500] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                                        Preparing
+                                        Disiapkan
                                     </div>
                                 </div>
                             </div>
@@ -262,16 +262,16 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                                     </svg>
                                 </div>
-                                <h3 class="font-headline-md text-xl text-white mb-3">Real-Time Inventory</h3>
+                                <h3 class="font-headline-md text-xl text-white mb-3">Stok Real-Time</h3>
                                 <p class="font-body-md text-[#ffede5]/95 text-sm leading-relaxed max-w-md mb-8">
-                                    No more ordering something that's sold out. Our menus sync instantly with canteen kitchens, showing you exactly what's fresh and available right now.
+                                    Tidak ada lagi memesan menu yang sudah habis. Menu kami tersinkronisasi instan dengan dapur kantin, menampilkan menu segar yang tersedia saat ini.
                                 </p>
                             </div>
                             <!-- Floating Mockup Menu Item Card -->
                             <div class="bg-white rounded-2xl p-4 text-[#231914] shadow-xl max-w-[270px] self-end mt-4 transform translate-x-2 translate-y-2 border border-gray-100/50 flex-shrink-0 group-hover:-translate-y-1 transition duration-300">
                                 <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
-                                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Daily Specials</span>
-                                    <span class="text-[9px] font-extrabold text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full">3 left</span>
+                                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Spesial Hari Ini</span>
+                                    <span class="text-[9px] font-extrabold text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full">Sisa 3</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 rounded-full bg-[#fdeee7] flex-shrink-0 overflow-hidden border border-gray-100">
@@ -296,18 +296,18 @@
                     
                     <!-- Left: Branding & Copyright -->
                     <div class="text-center md:text-left space-y-2">
-                        <span class="font-display-lg text-lg font-bold text-primary">CampusCrave</span>
+                        <span class="font-display-lg text-lg font-bold text-primary">SmartCanteen</span>
                         <p class="text-xs text-[#564338]/70">
-                            &copy; {{ date('Y') }} CampusCrave. Nourishing your campus life.
+                            &copy; {{ date('Y') }} SmartCanteen. Menyajikan hidangan terbaik untuk kampus Anda.
                         </p>
                     </div>
 
                     <!-- Right: Legal & Help Links -->
                     <div class="flex flex-wrap justify-center gap-6">
-                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Privacy Policy</a>
-                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Terms of Service</a>
-                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Help Center</a>
-                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Contact Us</a>
+                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Kebijakan Privasi</a>
+                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Ketentuan Layanan</a>
+                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Pusat Bantuan</a>
+                        <a href="#" class="text-xs text-[#564338]/80 hover:text-primary transition">Hubungi Kami</a>
                     </div>
                 </div>
             </footer>
