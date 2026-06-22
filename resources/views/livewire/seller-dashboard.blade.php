@@ -382,13 +382,28 @@
                                     
                                     <div class="divide-y divide-[#F4E1D2]">
                                         @foreach($selectedOrder->items as $item)
+                                            @php
+                                                $menuModel = $item->menu;
+                                                $menuName = $item->menu_name_snapshot ?? ($menuModel->name ?? 'Menu Item');
+                                                $imgUrl = match($menuName) {
+                                                    "Scholar's Grain Bowl" => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=150&q=80',
+                                                    'Classic Grilled Cheese' => 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=150&q=80',
+                                                    'Iced Library Matcha' => 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=150&q=80',
+                                                    'Artisan Chicken Wrap' => 'https://images.unsplash.com/photo-1626700051175-6518c4793f4f?auto=format&fit=crop&w=150&q=80',
+                                                    'Classic Campus Burger' => 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=150&q=80',
+                                                    'Garden Salad Bowl' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=150&q=80',
+                                                    default => 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=150&q=80'
+                                                };
+                                            @endphp
                                             <div class="flex items-start justify-between py-4 first:pt-0 last:pb-0">
                                                 <div class="flex gap-4">
                                                     <div class="w-14 h-14 bg-[#FFF8F2] rounded-2xl flex items-center justify-center border border-[#F4E1D2] text-[#9E460B] font-bold text-xs shrink-0 overflow-hidden">
-                                                        <span class="material-symbols-outlined text-2xl">lunch_dining</span>
+                                                        <img src="{{ ($menuModel && $menuModel->photo_path) ? asset('storage/' . $menuModel->photo_path) : $imgUrl }}" 
+                                                             alt="{{ $menuName }}" 
+                                                             class="w-full h-full object-cover" />
                                                     </div>
                                                     <div>
-                                                        <h4 class="font-extrabold text-[#331C0E] text-sm">{{ $item->menu_name_snapshot ?? ($item->menu->name ?? 'Menu Item') }}</h4>
+                                                        <h4 class="font-extrabold text-[#331C0E] text-sm">{{ $menuName }}</h4>
                                                         <p class="text-xs text-[#8A7160] mt-0.5">Modifikasi: {{ $item->notes ?: 'Tidak ada' }}</p>
                                                         <div class="flex gap-2 mt-2">
                                                             <span class="bg-[#FFF1E5] text-[#9E460B] px-2 py-0.5 rounded text-[10px] font-bold uppercase">Qty: {{ $item->quantity }}</span>
@@ -534,9 +549,24 @@
                                 <div>
                                     <!-- Photo/Badge -->
                                     <div class="relative w-full h-36 bg-[#FFF8F2] border border-[#F4E1D2] rounded-2xl flex items-center justify-center overflow-hidden mb-4 text-[#9E460B]">
-                                        <span class="material-symbols-outlined text-4xl">local_pizza</span>
+                                        @php
+                                            $imgUrl = match($menu->name) {
+                                                "Scholar's Grain Bowl" => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80',
+                                                'Classic Grilled Cheese' => 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=400&q=80',
+                                                'Iced Library Matcha' => 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=400&q=80',
+                                                'Artisan Chicken Wrap' => 'https://images.unsplash.com/photo-1626700051175-6518c4793f4f?auto=format&fit=crop&w=400&q=80',
+                                                'Classic Campus Burger' => 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80',
+                                                'Garden Salad Bowl' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80',
+                                                default => 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80'
+                                            };
+                                        @endphp
+                                        <img 
+                                            src="{{ $menu->photo_path ? asset('storage/' . $menu->photo_path) : $imgUrl }}" 
+                                            alt="{{ $menu->name }}" 
+                                            class="w-full h-full object-cover"
+                                        />
                                         <!-- Category Tag Badge -->
-                                        <span class="absolute top-3 left-3 bg-[#FFF1E5] text-[#9E460B] border border-[#F4E1D2] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                        <span class="absolute top-3 left-3 bg-[#FFF1E5]/90 text-[#9E460B] border border-[#F4E1D2] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                                             {{ str_replace('_', ' ', $menu->category) }}
                                         </span>
                                         @if($menu->stock <= 0)

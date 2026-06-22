@@ -53,6 +53,10 @@ class CanteenOrder extends Component
         $this->loadMenus();
         $this->cart = session('cart', []);
         $this->itemNotes = session('itemNotes', []);
+
+        if (request()->query('checkout') && !empty($this->cart)) {
+            $this->step = 'checkout';
+        }
     }
 
     public function loadMenus(): void
