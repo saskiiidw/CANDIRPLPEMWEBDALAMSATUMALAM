@@ -26,9 +26,18 @@ Route::get('/register', function () {
 
 // ── Auth Umum (Semua role yang login) ────────────────────────────────────────
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', ProfileEditor::class)->name('profile.edit');
-    // Alias agar navigation.blade.php (Breeze) tetap bisa pakai route('profile')
-    Route::get('/profile', ProfileEditor::class)->name('profile');
+    Route::get('/profile', function () {
+        $role = auth()->user()->role;
+        if ($role === 'penjual') {
+            return redirect()->route('seller.dashboard');
+        }
+        if ($role === 'admin') {
+            return redirect()->route('admin.profile');
+        }
+        return redirect()->route('profile.edit');
+    })->name('profile');
+
+    Route::get('/profile/edit', ProfileEditor::class)->name('profile.edit');
     Route::get('/orders/history', OrderHistory::class)->name('orders.history');
     Route::get('/orders/{order}', OrderStatusTracker::class)->name('orders.track');
     Route::get('/canteen/{seller}', CanteenOrder::class)->name('canteen.order');

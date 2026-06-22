@@ -17,6 +17,7 @@ class SalesReport extends Component
     public function mount(): void
     {
         $this->authorizeRole('penjual');
+        $this->redirect(route('seller.dashboard', ['tab' => 'reports']), navigate: true);
     }
 
     public function getSummaryProperty(): array

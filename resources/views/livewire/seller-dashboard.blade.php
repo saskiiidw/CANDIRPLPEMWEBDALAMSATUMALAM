@@ -73,7 +73,7 @@
                 <h1 class="text-lg font-extrabold text-[#331C0E] font-display">Canteen Manager</h1>
             </div>
             
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-6" x-data="{ notifOpen: false }" @click.away="notifOpen = false">
                 <!-- Store Status Toggle -->
                 <div class="flex items-center gap-3 bg-[#FFF8F2] border border-[#F4E1D2] px-4 py-2 rounded-full">
                     <span class="text-xs font-bold text-[#8A7160]">Store Open</span>
@@ -83,11 +83,60 @@
                     </button>
                 </div>
 
-                <!-- Notifications -->
-                <button class="relative p-2 text-[#8A7160] hover:bg-[#FFF8F2] rounded-xl transition">
-                    <span class="material-symbols-outlined text-xl">notifications</span>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E27226] rounded-full"></span>
-                </button>
+                <!-- Notification Bell with Dropdown -->
+                <div class="relative">
+                    <button @click="notifOpen = !notifOpen"
+                            class="relative p-2 text-[#8A7160] hover:bg-[#FFF8F2] rounded-xl transition">
+                        <span class="material-symbols-outlined text-xl">notifications</span>
+                        @if(count($orders) > 0)
+                            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E27226] rounded-full border border-white animate-pulse"></span>
+                        @endif
+                    </button>
+
+                    <!-- Notification Dropdown -->
+                    <div x-show="notifOpen"
+                         x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 top-full mt-2 w-80 bg-white border border-[#F4E1D2] rounded-2xl shadow-xl py-2 z-30"
+                         x-cloak>
+                        <div class="px-4 py-3 border-b border-[#F4E1D2] flex items-center justify-between">
+                            <p class="text-xs font-extrabold text-[#331C0E]">Active Orders</p>
+                            @if(count($orders) > 0)
+                                <span class="bg-[#E27226] text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full">{{ count($orders) }} new</span>
+                            @endif
+                        </div>
+                        <div class="max-h-64 overflow-y-auto">
+                            @forelse($orders as $o)
+                                <button @click="notifOpen = false" wire:click="selectOrder({{ $o->id }})"
+                                        class="w-full flex items-start gap-3 px-4 py-3 hover:bg-[#FFF8F2] transition text-left">
+                                    <span class="material-symbols-outlined text-lg shrink-0 mt-0.5 {{ $o->status === 'diterima' ? 'text-[#E27226]' : ($o->status === 'diproses' ? 'text-blue-500' : 'text-green-500') }}">
+                                        {{ $o->status === 'diterima' ? 'new_releases' : ($o->status === 'diproses' ? 'soup_kitchen' : 'check_circle') }}
+                                    </span>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-[#331C0E]">Order #{{ $o->id }}</p>
+                                        <p class="text-[10px] text-[#8A7160] truncate">{{ $o->buyer->name }} · {{ $o->created_at->diffForHumans() }}</p>
+                                        <span class="text-[10px] font-bold {{ $o->status === 'diterima' ? 'text-[#E27226]' : ($o->status === 'diproses' ? 'text-blue-600' : 'text-green-600') }}">
+                                            {{ ucfirst(str_replace('_',' ',$o->status)) }}
+                                        </span>
+                                    </div>
+                                </button>
+                            @empty
+                                <div class="px-4 py-6 text-center text-[#8A7160]">
+                                    <span class="material-symbols-outlined text-3xl text-gray-300">notifications_none</span>
+                                    <p class="text-xs font-bold mt-1">No active orders</p>
+                                </div>
+                            @endforelse
+                        </div>
+                        <div class="border-t border-[#F4E1D2] px-4 py-2">
+                            <button @click="notifOpen = false" wire:click="$set('activeTab','dashboard')"
+                                    class="text-xs font-bold text-[#9E460B] hover:underline">View all orders →</button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Settings -->
                 <button wire:click="$set('activeTab', 'profile')" class="p-2 text-[#8A7160] hover:bg-[#FFF8F2] rounded-xl transition" title="Settings">
@@ -124,18 +173,12 @@
                             <span>View Profile</span>
                         </button>
 
-                        <button @click="open = false" wire:click="$set('activeTab', 'profile')" 
-                                class="w-full text-left px-4 py-2.5 text-xs text-[#8A7160] hover:bg-[#FFF8F2] hover:text-[#9E460B] font-bold transition flex items-center gap-2">
-                            <span class="material-symbols-outlined text-sm">settings</span>
-                            <span>Settings</span>
-                        </button>
-
                         <div class="border-t border-[#F4E1D2] my-1"></div>
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" 
-                                    class="w-full text-left px-4 py-2.5 text-xs text-red-650 hover:bg-red-50 font-bold transition flex items-center gap-2">
+                                    class="w-full text-left px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold transition flex items-center gap-2">
                                 <span class="material-symbols-outlined text-sm">logout</span>
                                 <span>Logout</span>
                             </button>

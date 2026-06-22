@@ -138,7 +138,7 @@
 
                             <div class="flex items-center justify-between pt-3 border-t border-gray-100/60">
                                 <span class="text-[#8c3b03] font-extrabold text-lg">
-                                    ${{ number_format($menu->price / 1000, 2) }}
+                                    Rp {{ number_format($menu->price, 0, ',', '.') }}
                                 </span>
                                 
                                 @if($menu->stock > 0)
@@ -177,7 +177,7 @@
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <span class="text-xs tracking-wider">View Cart (${{ number_format($this->totalPrice / 1000, 2) }})</span>
+                    <span class="text-xs tracking-wider">View Cart (Rp {{ number_format($this->totalPrice, 0, ',', '.') }})</span>
                 </button>
             </div>
         @endif
@@ -229,7 +229,7 @@
                         <div class="space-y-4">
                             <div class="flex justify-between items-baseline">
                                 <h1 class="text-3xl font-extrabold text-[#231914] tracking-tight leading-tight">{{ $menu->name }}</h1>
-                                <span class="text-2xl font-extrabold text-[#8c3b03]">${{ number_format($menu->price / 1000, 2) }}</span>
+                                <span class="text-2xl font-extrabold text-[#8c3b03]">Rp {{ number_format($menu->price, 0, ',', '.') }}</span>
                             </div>
                             
                             <p class="text-xs md:text-sm text-[#897266] leading-relaxed">
@@ -282,7 +282,7 @@
                                 wire:click="addCustomizeToCart"
                                 class="flex-1 py-4 bg-[#8c3b03] hover:bg-[#a64605] text-white text-xs font-bold rounded-full transition-all shadow-md active:scale-95"
                             >
-                                Add to Cart (${{ number_format(($menu->price * $customizeQuantity) / 1000, 2) }})
+                                Add to Cart (Rp {{ number_format($menu->price * $customizeQuantity, 0, ',', '.') }})
                             </button>
                         </div>
                     </div>
@@ -356,7 +356,7 @@
                                                         </p>
                                                     @endif
                                                 </div>
-                                                <span class="font-extrabold text-[#8c3b03] text-sm md:text-base">${{ number_format(($menu->price * $qty) / 1000, 2) }}</span>
+                                                <span class="font-extrabold text-[#8c3b03] text-sm md:text-base">Rp {{ number_format($menu->price * $qty, 0, ',', '.') }}</span>
                                             </div>
 
                                             <div class="flex justify-between items-center pt-2">
@@ -439,21 +439,21 @@
                         <div class="space-y-2 text-xs font-bold text-gray-500">
                             <div class="flex justify-between">
                                 <span>Subtotal</span>
-                                <span class="text-[#231914] font-extrabold">${{ number_format($subTotal / 1000, 2) }}</span>
+                                <span class="text-[#231914] font-extrabold">Rp {{ number_format($subTotal, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Tax (8%)</span>
-                                <span class="text-[#231914] font-extrabold">${{ number_format($tax / 1000, 2) }}</span>
+                                <span class="text-[#231914] font-extrabold">Rp {{ number_format($tax, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Campus Fee</span>
-                                <span class="text-[#231914] font-extrabold">${{ number_format($campusFee / 1000, 2) }}</span>
+                                <span class="text-[#231914] font-extrabold">Rp {{ number_format($campusFee, 0, ',', '.') }}</span>
                             </div>
                         </div>
 
                         <div class="pt-4 border-t border-[#feeae0] flex justify-between items-baseline">
                             <span class="text-sm font-bold text-gray-700">Total</span>
-                            <span class="text-3xl font-extrabold text-[#8c3b03]">${{ number_format($grandTotal / 1000, 2) }}</span>
+                            <span class="text-3xl font-extrabold text-[#8c3b03]">Rp {{ number_format($grandTotal, 0, ',', '.') }}</span>
                         </div>
 
                         <button 
@@ -484,7 +484,7 @@
                 <div class="p-4 bg-[#FAF3EB] rounded-2xl border border-[#f2dfd5] space-y-2 text-xs font-semibold text-gray-600">
                     <div class="flex justify-between">
                         <span>Grand Total</span>
-                        <span class="text-[#9b4500] font-bold">${{ number_format($this->totalPrice / 1000 * 1.08 + 0.50, 2) }}</span>
+                        <span class="text-[#9b4500] font-bold">Rp {{ number_format($this->totalPrice + (int) round($this->totalPrice * 0.08) + 500, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Payment Method</span>

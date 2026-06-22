@@ -16,7 +16,10 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get('/profile')->assertOk();
+        $response = $this->actingAs($user)->get('/profile');
+        $response->assertRedirect(route('profile.edit'));
+
+        $this->actingAs($user)->get(route('profile.edit'))->assertOk();
     }
 
     public function test_user_can_update_name_and_phone(): void

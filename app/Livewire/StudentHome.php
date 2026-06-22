@@ -18,6 +18,7 @@ class StudentHome extends Component
     public function render()
     {
         $query = User::where('role', 'penjual')
+            ->where('is_verified', true)
             ->where('is_active', true);
 
         // Filter based on search query
