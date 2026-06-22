@@ -1,7 +1,7 @@
-<div class="flex min-h-screen bg-[#FFFBF7] font-sans text-[#331C0E]" x-data="{ openMenuModal: @entangle('showMenuModal') }">
+<div class="flex min-h-screen bg-[#FFFBF7] font-sans text-[#331C0E] page-transition" x-data="{ openMenuModal: @entangle('showMenuModal') }">
     
     <!-- Sidebar Navigation -->
-    <aside class="hidden md:flex flex-col w-64 bg-[#FFF1E5] border-r border-[#F4E1D2] flex-shrink-0 sticky top-0 h-screen justify-between p-6">
+    <aside class="hidden md:flex flex-col w-64 bg-[#FFF1E5] border-r border-[#F4E1D2] flex-shrink-0 sticky top-0 h-screen justify-between p-6 animate-slide-in-left">
         <div class="space-y-6">
             <!-- Store Profile Header -->
             <div class="flex items-center gap-3">
@@ -637,16 +637,25 @@
 
             <!-- 3. REPORTS TAB (Mockup Image 4) -->
             @if($activeTab === 'reports')
-                <div class="space-y-8">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Laporan Transaksi</h2>
-                        <p class="text-xs text-[#8A7160] mt-1">Ringkasan kinerja kantin Anda.</p>
+                <div class="space-y-8 animate-fade-in-up">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-[#331C0E] font-display">Laporan Transaksi</h2>
+                            <p class="text-xs text-[#8A7160] mt-1">Ringkasan kinerja kantin Anda.</p>
+                        </div>
+                        <!-- Export PDF Button -->
+                        <a href="{{ route('seller.report.export-pdf', ['month' => now()->month, 'year' => now()->year]) }}"
+                           target="_blank"
+                           class="flex items-center gap-2 bg-[#9E460B] hover:bg-[#803708] text-white text-xs font-bold px-5 py-3 rounded-2xl transition-all shadow-sm active:scale-95 shrink-0 group">
+                            <span class="material-symbols-outlined text-base transition-transform group-hover:-translate-y-0.5">download</span>
+                            <span>Export PDF Bulan Ini</span>
+                        </a>
                     </div>
 
                     <!-- Analytics Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Card 1 -->
-                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4 card-hover animate-fade-in-up">
                             <span class="text-xs font-bold text-[#8A7160] uppercase">Pendapatan Hari Ini</span>
                             <div class="flex items-baseline gap-2">
                                 <p class="text-3xl font-extrabold text-[#331C0E] font-display">Rp {{ number_format($stats['today_revenue'], 0, ',', '.') }}</p>
@@ -656,7 +665,7 @@
                             </span>
                         </div>
                         <!-- Card 2 -->
-                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4 card-hover animate-fade-in-up delay-100">
                             <span class="text-xs font-bold text-[#8A7160] uppercase">Pendapatan Mingguan</span>
                             <div class="flex items-baseline gap-2">
                                 <p class="text-3xl font-extrabold text-[#331C0E] font-display">Rp {{ number_format($stats['weekly_revenue'], 0, ',', '.') }}</p>
@@ -666,7 +675,7 @@
                             </span>
                         </div>
                         <!-- Card 3 -->
-                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4">
+                        <div class="bg-white border border-[#F4E1D2] rounded-[32px] p-6 shadow-sm space-y-4 card-hover animate-fade-in-up delay-200">
                             <span class="text-xs font-bold text-[#8A7160] uppercase">Total Pesanan Hari Ini</span>
                             <div class="flex items-baseline gap-2">
                                 <p class="text-3xl font-extrabold text-[#331C0E] font-display">{{ $stats['total_orders_today'] }}</p>

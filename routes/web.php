@@ -68,6 +68,7 @@ Route::middleware('auth')->get('/seller/pending', function () {
 Route::middleware(['auth', 'role:penjual'])->group(function () {
     Route::get('/seller/dashboard', SellerDashboard::class)->name('seller.dashboard');
     Route::get('/seller/sales-report', SalesReport::class)->name('seller.sales-report');
+    Route::get('/seller/report/export-pdf', [\App\Http\Controllers\SellerReportController::class, 'exportPdf'])->name('seller.report.export-pdf');
 });
 
 // ── Admin ─────────────────────────────────────────────────────────────────────
