@@ -70,10 +70,16 @@
                 </div>
             </form>
 
-            <p class="text-center mt-6 font-body-md text-body-md text-on-surface-variant">
-                Daftar sebagai mahasiswa?
-                <a href="{{ route('register', ['role' => 'mahasiswa']) }}" wire:navigate class="text-primary font-semibold hover:underline">Klik di sini</a>
-            </p>
+            <div class="mt-8 text-center">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                    Sudah punya akun?
+                    <a href="{{ route('login') }}" class="text-primary font-semibold hover:underline hover:text-tertiary transition-colors" wire:navigate>Masuk</a>
+                </p>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                    Daftar sebagai mahasiswa?
+                    <a href="{{ route('register', ['role' => 'mahasiswa']) }}" class="text-primary font-semibold hover:underline" wire:navigate>Klik di sini</a>
+                </p>
+            </div>
         </div>
     </main>
 </div>
