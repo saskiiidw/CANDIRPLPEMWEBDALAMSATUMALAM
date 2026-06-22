@@ -14,14 +14,6 @@
             padding: 40px;
             line-height: 1.6;
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 3px solid #E27226;
-            padding-bottom: 20px;
-            margin-bottom: 28px;
-        }
         .brand {
             font-size: 22px;
             font-weight: 900;
@@ -31,24 +23,6 @@
         .brand-sub {
             font-size: 10px;
             color: #8A7160;
-            margin-top: 2px;
-        }
-        .report-meta {
-            text-align: right;
-        }
-        .report-meta .title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #331C0E;
-        }
-        .report-meta .period {
-            font-size: 11px;
-            color: #8A7160;
-            margin-top: 3px;
-        }
-        .report-meta .generated {
-            font-size: 9px;
-            color: #b0a09a;
             margin-top: 2px;
         }
 
@@ -63,14 +37,14 @@
         .store-info h2 { font-size: 14px; font-weight: 800; color: #331C0E; }
         .store-info p { font-size: 10px; color: #8A7160; margin-top: 2px; }
 
-        /* Stats row */
-        .stats-row {
-            display: flex;
-            gap: 14px;
+        /* Stats table */
+        .stats-table {
+            width: 100%;
             margin-bottom: 24px;
+            border-collapse: separate;
+            border-spacing: 10px 0;
         }
         .stat-card {
-            flex: 1;
             background: #FFF8F2;
             border: 1px solid #F4E1D2;
             border-radius: 8px;
@@ -159,22 +133,6 @@
         .status-ditolak { background: #fee2e2; color: #991b1b; }
         .status-lain { background: #FFF1E5; color: #9E460B; }
 
-        /* Footer */
-        .footer {
-            margin-top: 40px;
-            border-top: 1px solid #F4E1D2;
-            padding-top: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .footer p { font-size: 9px; color: #b0a09a; }
-        .footer .disclaimer {
-            font-size: 9px;
-            color: #b0a09a;
-            font-style: italic;
-        }
-
         /* Watermark-ish accent */
         .accent-bar {
             height: 5px;
@@ -186,17 +144,19 @@
 </head>
 <body>
 
-    <div class="header">
-        <div>
-            <div class="brand">SmartCanteen</div>
-            <div class="brand-sub">Platform Pemesanan Kantin Digital</div>
-        </div>
-        <div class="report-meta">
-            <div class="title">Laporan Bulanan</div>
-            <div class="period">{{ \Carbon\Carbon::create($year, $month)->translatedFormat('F Y') }}</div>
-            <div class="generated">Dibuat: {{ now()->translatedFormat('d F Y, H:i') }}</div>
-        </div>
-    </div>
+    <table style="width: 100%; border-bottom: 3px solid #E27226; padding-bottom: 20px; margin-bottom: 28px;">
+        <tr>
+            <td style="width: 60%; vertical-align: top;">
+                <div class="brand">SmartCanteen</div>
+                <div class="brand-sub">Platform Pemesanan Kantin Digital</div>
+            </td>
+            <td style="width: 40%; text-align: right; vertical-align: top;">
+                <div style="font-size: 16px; font-weight: 700; color: #331C0E;">Laporan Bulanan</div>
+                <div style="font-size: 11px; color: #8A7160; margin-top: 3px;">{{ \Carbon\Carbon::create($year, $month)->translatedFormat('F Y') }}</div>
+                <div style="font-size: 9px; color: #b0a09a; margin-top: 2px;">Dibuat: {{ now()->translatedFormat('d F Y, H:i') }}</div>
+            </td>
+        </tr>
+    </table>
 
     <div class="accent-bar"></div>
 
@@ -207,28 +167,31 @@
 
     <!-- Summary Stats -->
     <div class="section-title">Ringkasan Kinerja Bulan Ini</div>
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="label">Total Pendapatan</div>
-            <div class="value">Rp {{ number_format($summary['total_revenue'], 0, ',', '.') }}</div>
-            <div class="sub">Dari pesanan selesai</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Total Pesanan</div>
-            <div class="value">{{ number_format($summary['total_orders']) }}</div>
-            <div class="sub">Semua status</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Pesanan Selesai</div>
-            <div class="value">{{ number_format($summary['completed_orders']) }}</div>
-            <div class="sub">Berhasil diselesaikan</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Rata-rata Per Hari</div>
-            <div class="value">Rp {{ number_format($summary['avg_daily_revenue'], 0, ',', '.') }}</div>
-            <div class="sub">Rata-rata pendapatan</div>
-        </div>
-    </div>
+    
+    <table class="stats-table">
+        <tr>
+            <td class="stat-card" style="width: 25%; vertical-align: top;">
+                <div class="label">Total Pendapatan</div>
+                <div class="value">Rp {{ number_format($summary['total_revenue'], 0, ',', '.') }}</div>
+                <div class="sub">Dari pesanan selesai</div>
+            </td>
+            <td class="stat-card" style="width: 25%; vertical-align: top;">
+                <div class="label">Total Pesanan</div>
+                <div class="value">{{ number_format($summary['total_orders']) }}</div>
+                <div class="sub">Semua status</div>
+            </td>
+            <td class="stat-card" style="width: 25%; vertical-align: top;">
+                <div class="label">Pesanan Selesai</div>
+                <div class="value">{{ number_format($summary['completed_orders']) }}</div>
+                <div class="sub">Berhasil diselesaikan</div>
+            </td>
+            <td class="stat-card" style="width: 25%; vertical-align: top;">
+                <div class="label">Rata-rata Per Hari</div>
+                <div class="value">Rp {{ number_format($summary['avg_daily_revenue'], 0, ',', '.') }}</div>
+                <div class="sub">Rata-rata pendapatan</div>
+            </td>
+        </tr>
+    </table>
 
     <!-- Top Items -->
     <div class="section-title">Item Terlaris Bulan Ini</div>
@@ -298,10 +261,15 @@
         </tbody>
     </table>
 
-    <div class="footer">
-        <p>SmartCanteen · Laporan otomatis · {{ now()->format('d/m/Y H:i') }}</p>
-        <p class="disclaimer">Dokumen ini dibuat secara otomatis oleh sistem SmartCanteen dan bersifat resmi.</p>
-    </div>
+    <table style="width: 100%; border-top: 1px solid #F4E1D2; padding-top: 14px; margin-top: 40px;">
+        <tr>
+            <td style="width: 50%; font-size: 9px; color: #b0a09a;">SmartCanteen · Laporan otomatis · {{ now()->format('d/m/Y H:i') }}</td>
+            <td style="width: 50%; text-align: right; font-size: 9px; color: #b0a09a; font-style: italic;">
+                Dokumen ini dibuat secara otomatis oleh sistem SmartCanteen dan bersifat resmi.
+            </td>
+        </tr>
+    </table>
 
 </body>
 </html>
+
