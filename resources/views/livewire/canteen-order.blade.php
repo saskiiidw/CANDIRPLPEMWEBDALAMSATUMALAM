@@ -477,8 +477,8 @@
                     <div class="w-14 h-14 bg-green-50 text-green-700 mx-auto rounded-full flex items-center justify-center text-2xl shadow-inner">
                         💸
                     </div>
-                    <h3 class="text-xl font-extrabold text-[#231914]">Simulasi Pembayaran</h3>
-                    <p class="text-xs text-gray-500">Ini adalah lingkungan sandbox. Klik 'Bayar Sandbox' untuk menyimulasikan persetujuan pesanan.</p>
+                    <h3 class="text-xl font-extrabold text-[#231914]">Konfirmasi Pembayaran</h3>
+                    <p class="text-xs text-gray-500">Silakan konfirmasi pembayaran Anda menggunakan saldo akun untuk menyelesaikan pesanan.</p>
                 </div>
 
                 <div class="p-4 bg-[#FAF3EB] rounded-2xl border border-[#f2dfd5] space-y-2 text-xs font-semibold text-gray-600">
@@ -488,7 +488,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span>Metode Pembayaran</span>
-                        <span class="text-gray-800 font-bold">Dompet Dummy</span>
+                        <span class="text-gray-800 font-bold">SmartPay (Saldo Akun)</span>
                     </div>
                 </div>
 
@@ -503,7 +503,7 @@
                         wire:click="simulatePayment"
                         class="flex-1 py-3 bg-[#2e7d32] hover:bg-[#1b5e20] text-xs font-extrabold text-white rounded-full transition-all shadow-md active:scale-95"
                     >
-                        Bayar Sandbox
+                        Bayar Sekarang
                     </button>
                 </div>
             </div>

@@ -19,6 +19,10 @@ class SellerDashboard extends Component
     public string $activeTab = 'dashboard';
     public ?int $selectedOrderId = null;
 
+    // Chart & Report properties
+    public string $orderVolumePeriod = 'weekly'; // daily|weekly
+    public bool $showAllTopItems = false;
+
     // Menu and Stock tab properties
     public string $searchQuery = '';
     public string $selectedCategory = 'all';
@@ -276,7 +280,68 @@ class SellerDashboard extends Component
                 ->count(),
         ];
 
-        // 4. Reports top items
+        // 4. Volume Chart Data
+        $weeklyData = [
+            'Sen' => 0, 'Sel' => 0, 'Rab' => 0, 'Kam' => 0, 'Jum' => 0, 'Sab' => 0, 'Min' => 0
+        ];
+        
+        $ordersThisWeek = Order::where('seller_id', $sellerId)
+            ->where('status', 'selesai')
+            ->where('created_at', '>=', now()->startOfWeek())
+            ->select(DB::raw('DAYOFWEEK(created_at) as day_of_week'), DB::raw('COUNT(*) as count'))
+            ->groupBy('day_of_week')
+            ->get();
+            
+        $dayMap = [
+            1 => 'Min',
+            2 => 'Sen',
+            3 => 'Sel',
+            4 => 'Rab',
+            5 => 'Kam',
+            6 => 'Jum',
+            7 => 'Sab',
+        ];
+        
+        foreach ($ordersThisWeek as $o) {
+            $dayName = $dayMap[$o->day_of_week] ?? 'Sen';
+            $weeklyData[$dayName] = $o->count;
+        }
+
+        $dailyData = [
+            '08:00' => 0, '10:00' => 0, '12:00' => 0, '14:00' => 0, '16:00' => 0, '18:00' => 0, '20:00' => 0
+        ];
+        
+        $ordersToday = Order::where('seller_id', $sellerId)
+            ->where('status', 'selesai')
+            ->whereDate('created_at', today())
+            ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('COUNT(*) as count'))
+            ->groupBy('hour')
+            ->get();
+            
+        foreach ($ordersToday as $o) {
+            $h = $o->hour;
+            if ($h >= 20) {
+                $dailyData['20:00'] += $o->count;
+            } elseif ($h >= 18) {
+                $dailyData['18:00'] += $o->count;
+            } elseif ($h >= 16) {
+                $dailyData['16:00'] += $o->count;
+            } elseif ($h >= 14) {
+                $dailyData['14:00'] += $o->count;
+            } elseif ($h >= 12) {
+                $dailyData['12:00'] += $o->count;
+            } elseif ($h >= 10) {
+                $dailyData['10:00'] += $o->count;
+            } else {
+                $dailyData['08:00'] += $o->count;
+            }
+        }
+
+        $chartData = $this->orderVolumePeriod === 'daily' ? $dailyData : $weeklyData;
+        $maxVal = max(max($chartData), 5);
+
+        // 5. Reports top items
+        $topItemsLimit = $this->showAllTopItems ? 20 : 5;
         $topItems = DB::table('order_items')
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
             ->where('orders.seller_id', $sellerId)
@@ -284,7 +349,7 @@ class SellerDashboard extends Component
             ->select('order_items.menu_name_snapshot', DB::raw('SUM(order_items.quantity) as total_qty'), DB::raw('SUM(order_items.subtotal) as total_subtotal'))
             ->groupBy('order_items.menu_name_snapshot')
             ->orderByDesc('total_qty')
-            ->limit(5)
+            ->limit($topItemsLimit)
             ->get();
 
         return view('livewire.seller-dashboard', [
@@ -292,6 +357,8 @@ class SellerDashboard extends Component
             'selectedOrder' => $selectedOrder,
             'menus' => $menus,
             'stats' => $stats,
+            'chartData' => $chartData,
+            'maxVal' => $maxVal,
             'topItems' => $topItems,
         ])->layout('layouts.app');
     }

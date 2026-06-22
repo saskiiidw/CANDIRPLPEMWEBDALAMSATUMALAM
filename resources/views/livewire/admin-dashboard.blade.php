@@ -1,4 +1,4 @@
-<div wire:poll.10000ms>
+<div wire:poll.10000ms class="page-transition">
     @push('header-left')
         <div class="relative w-80">
             <span class="absolute inset-y-0 left-0 flex items-center pl-4">
@@ -33,7 +33,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
 
         <!-- Orders Today (Accent Card) -->
-        <div class="bg-[#8E4E14] rounded-[2rem] p-8 text-white shadow-sm flex flex-col justify-between h-56 relative overflow-hidden">
+        <div class="bg-[#8E4E14] rounded-[2rem] p-8 text-white shadow-sm flex flex-col justify-between h-56 relative overflow-hidden card-hover animate-fade-in-up">
             <div class="flex items-center justify-between">
                 <div class="w-12 h-12 bg-[#B6662E] rounded-full flex items-center justify-center">
                     <span class="material-symbols-outlined text-white text-2xl">description</span>
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Total Students -->
-        <div class="bg-white border border-[#FCEEE5] rounded-[2rem] p-8 shadow-sm flex flex-col justify-between h-56">
+        <div class="bg-white border border-[#FCEEE5] rounded-[2rem] p-8 shadow-sm flex flex-col justify-between h-56 card-hover animate-fade-in-up delay-150">
             <div class="flex items-center justify-between">
                 <div class="w-12 h-12 bg-[#FFF1E5] text-[#E27226] rounded-full flex items-center justify-center">
                     <span class="material-symbols-outlined text-2xl">school</span>
@@ -69,7 +69,7 @@
         </div>
 
         <!-- Completed Today -->
-        <div class="bg-white border border-[#FCEEE5] rounded-[2rem] p-8 shadow-sm flex flex-col justify-between h-56">
+        <div class="bg-white border border-[#FCEEE5] rounded-[2rem] p-8 shadow-sm flex flex-col justify-between h-56 card-hover animate-fade-in-up delay-300">
             <div class="flex items-center justify-between">
                 <div class="w-12 h-12 bg-[#FDF2EA] text-[#E27226] rounded-full flex items-center justify-center">
                     <span class="material-symbols-outlined text-2xl">check_circle</span>
@@ -160,7 +160,7 @@
     @endif
 
     <!-- Recent Activity -->
-    <div class="bg-white rounded-[2rem] border border-[#FCEEE5] p-8 shadow-sm">
+    <div class="bg-white rounded-[2rem] border border-[#FCEEE5] p-8 shadow-sm animate-fade-in-up delay-200">
         <div class="flex justify-between items-center mb-8">
             <div>
                 <h3 class="text-lg font-extrabold text-[#331C0E] font-display">Aktivitas Terbaru</h3>

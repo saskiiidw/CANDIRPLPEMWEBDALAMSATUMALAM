@@ -79,7 +79,7 @@
     <!-- Right Panel: Detail Card -->
     <div class="w-96 shrink-0">
         @if($selectedSeller)
-            <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm flex flex-col h-full justify-between min-h-[500px]">
+            <div class="bg-white rounded-3xl border border-[#f2dfd5] p-6 shadow-sm">
                 <div>
                     <!-- Detail Header Area -->
                     <div class="flex justify-between items-start mb-6">
@@ -136,7 +136,7 @@
 
                 <!-- Detail Panel Action Buttons (Reject & Approve) -->
                 @if(!$selectedSeller->is_verified)
-                    <div class="flex space-x-3 pt-6 border-t border-[#f2dfd5] mt-auto">
+                    <div class="flex space-x-3 pt-6 border-t border-[#f2dfd5]">
                         <button wire:click="reject({{ $selectedSeller->id }})" 
                                 class="flex-1 py-3 px-4 rounded-xl border border-red-200 text-red-500 font-semibold hover:bg-red-50 transition text-sm">
                             Tolak
@@ -150,8 +150,10 @@
                         </button>
                     </div>
                 @else
-                    <div class="text-center text-xs font-semibold text-green-700 bg-green-50 py-3 rounded-xl border border-green-150">
-                        Penjual ini sudah disetujui dan diverifikasi.
+                    <div class="pt-6 border-t border-[#f2dfd5]">
+                        <div class="text-center text-xs font-semibold text-green-700 bg-green-50 py-3 rounded-xl border border-green-150">
+                            Penjual ini sudah disetujui dan diverifikasi.
+                        </div>
                     </div>
                 @endif
             </div>
