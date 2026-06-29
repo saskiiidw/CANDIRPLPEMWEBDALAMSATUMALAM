@@ -357,14 +357,12 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 
 ##  13. Tim Pengembang & Kontribusi
 
-Proyek Rekayasa Perangkat Lunak ini diselesaikan secara kolaboratif oleh Kelompok 3 Informatika Universitas Jenderal Soedirman:
-
 | Nama Pengembang | NIM | Peran Utama | Kontribusi Utama |
-| :--- | :---: | :--- | :--- |
-| **Daffa Salman F. S.** | H1D024117 | Ketua Tim & DevOps | • Pengaturan repositori Git & konfigurasi deployment server.<br>• Integrasi Laravel Reverb WebSocket & SSL Configuration.<br>• Setup environment staging. |
-| **Yoga Adi Nugraha** | H1D024118 | DB Engineer & Analyst | • Perancangan skema relasi database di MySQL.<br>• Penulisan migrasi tabel & seeder data transaksi.<br>• Penyusunan use case detail dan skenario User Story. |
-| **Saskia Dwi Purnama** | H1D024135 | Front-End & QA | • Pembuatan antarmuka visual responsif berbasis Tailwind CSS.<br>• Integrasi framework interaktif Alpine.js pada sisi client.<br>• Penyusunan skenario Unit Testing menggunakan PHPUnit/Pest. |
-| **Moh. Dyandra Maliki** | H1D024130 | Technical Writer | • Penulisan berkas Software Requirements Specification (SRS).<br>• Integrasi library DOMPDF untuk cetak laporan transaksi.<br>• Penyusunan dokumentasi teknis & Markdown README.md. |
+| :--- | :--- | :--- | :--- |
+| **Saskia Dwi Purnama** | H1D024135 | **Project Manager & Front-End Developer (Seller)** | • Mengoordinasikan pembagian tugas dan progres pengembangan tim menggunakan Git dan GitHub.<br>• Mengelola repository, branch, proses merge, serta integrasi hasil pekerjaan setiap anggota.<br>• Mengembangkan antarmuka (UI) untuk fitur **User Penjual** menggunakan Blade, Tailwind CSS, Livewire, dan Alpine.js.<br>• Melakukan integrasi frontend dengan backend pada modul penjual serta membantu proses deployment dan pengujian akhir aplikasi. |
+| **Daffa Salman F. S.** | H1D024117 | **Front-End Developer & UI Integration** | • Mengembangkan antarmuka pengguna untuk berbagai role sesuai rancangan sistem.<br>• Mengintegrasikan komponen frontend dengan backend Laravel dan Livewire.<br>• Menyusun layout utama aplikasi, navigasi, serta memastikan tampilan responsif pada berbagai perangkat.<br>• Membantu penyempurnaan tampilan dan konsistensi antarmuka aplikasi. |
+| **Yoga Adi Nugraha** | H1D024118 | **Backend Developer & Database Engineer** | • Merancang struktur database beserta relasi antar tabel menggunakan MySQL.<br>• Mengembangkan logika bisnis aplikasi menggunakan Laravel dan Livewire.<br>• Membuat migration, model, controller, middleware, event, broadcasting, autentikasi, serta API internal aplikasi.<br>• Mengimplementasikan seluruh proses transaksi, manajemen data, laporan, dan komunikasi real-time menggunakan Laravel Reverb. |
+| **Moh. Dyandra Maliki** | H1D024130 | **Quality Assurance & Technical Documentation** | • Menyusun Software Requirements Specification (SRS), dokumentasi teknis, dan README proyek.<br>• Melakukan pengujian fungsional (Black-box Testing), Integration Testing, serta menyusun laporan hasil pengujian.<br>• Mendokumentasikan bug, melakukan validasi fitur berdasarkan kebutuhan sistem, dan memastikan kualitas aplikasi sebelum deployment.<br>• Membantu penyusunan dokumentasi laporan akhir proyek. |
 
 ---
 
