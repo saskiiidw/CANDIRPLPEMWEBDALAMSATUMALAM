@@ -129,23 +129,12 @@ Tabel berikut menunjukkan status implementasi sesungguhnya dari fitur-fitur apli
 
 SMARTCANTEEN mengadopsi arsitektur reaktif monolitik di mana backend PHP dan state frontend disinkronkan melalui koneksi WebSocket persisten:
 
-```mermaid
-graph TD
-    subgraph Browser Client (Frontend)
-        A[Tailwind CSS UI] --> B[Alpine.js State]
-        B --> C[Livewire JS Engine]
-    end
-
-    subgraph Laravel Application (Backend)
-        C -- Livewire Request (AJAX) --> D[Livewire Component Class]
-        D -- Eloquent ORM --> E[(MySQL Database)]
-        D -- Broadcast Event --> F[Laravel Reverb Server]
-    end
-
-    subgraph Real-Time Sync (WebSocket)
-        F -- WSS Protocol (Pusher Driver) --> C
-        C -- DOM Update (No Reload) --> A
-    end
+```flowchart LR
+    User["👤 User"] --> Browser["🌐 Browser"]
+    Browser --> Laravel["Laravel + Livewire"]
+    Laravel --> MySQL[(MySQL)]
+    Laravel --> Reverb["Laravel Reverb"]
+    Reverb --> Browser
 ```
 
 ---
@@ -210,80 +199,25 @@ CANDIRPLPEMWEBDALAMSATUMALAM/
 
 Basis data SMARTCANTEEN terdiri dari 6 entitas tabel utama di MySQL yang saling berelasi secara presisi:
 
+## 🗄️ Database Overview
+
 ```mermaid
-erDiagram
-    USERS ||--o{ MENUS : "owns"
-    USERS ||--o{ ORDERS : "places/receives"
-    USERS ||--o{ AUDIT_LOGS : "triggers"
-    MENUS ||--o{ ORDER_ITEMS : "included_in"
-    ORDERS ||--o{ ORDER_ITEMS : "contains"
-    ORDERS ||--|| PAYMENTS : "settles"
+flowchart LR
 
-    USERS {
-        bigint id PK
-        string name
-        string email
-        string password
-        string role "admin | penjual | mahasiswa"
-        string store_name "nullable"
-        string phone "nullable"
-        string student_id "nullable"
-        string faculty "nullable"
-        boolean is_verified
-        boolean is_active
-        text rejection_reason
-    }
+User["👤 User"]
+Browser["🌐 Browser"]
+Laravel["Laravel + Livewire"]
+DB[("MySQL")]
+Reverb["Laravel Reverb"]
 
-    MENUS {
-        bigint id PK
-        bigint seller_id FK
-        string name
-        string description
-        integer price
-        integer stock
-        integer cooking_time_minutes
-        boolean is_active
-    }
-
-    ORDERS {
-        bigint id PK
-        bigint buyer_id FK
-        bigint seller_id FK
-        integer total_price
-        integer eta_minutes
-        string status "menunggu_pembayaran | diterima | diproses | siap_diambil | selesai | dibatalkan"
-        text note
-    }
-
-    ORDER_ITEMS {
-        bigint id PK
-        bigint order_id FK
-        bigint menu_id FK
-        string menu_name_snapshot
-        integer price_snapshot
-        integer quantity
-        integer subtotal
-        text notes
-    }
-
-    PAYMENTS {
-        bigint id PK
-        bigint order_id FK
-        integer amount
-        string method "dummy_payment"
-        string status "lunas | pending"
-        timestamp paid_at
-    }
-
-    AUDIT_LOGS {
-        bigint id PK
-        bigint user_id FK
-        string action
-        text description
-        timestamp created_at
-    }
+User --> Browser
+Browser --> Laravel
+Laravel --> DB
+Laravel --> Reverb
+Reverb --> Browser
 ```
 
+Database SMARTCANTEEN terdiri dari tabel utama Users, Menus, Orders, Order Items, Payments, dan Audit Logs yang saling berelasi untuk mendukung proses autentikasi, pemesanan, pembayaran, dan pencatatan aktivitas.
 ---
 
 ## 🔧 8. Panduan Instalasi Lokal
