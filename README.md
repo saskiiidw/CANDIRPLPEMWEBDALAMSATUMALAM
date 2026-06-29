@@ -129,12 +129,14 @@ Tabel berikut menunjukkan status implementasi sesungguhnya dari fitur-fitur apli
 
 SMARTCANTEEN mengadopsi arsitektur reaktif monolitik di mana backend PHP dan state frontend disinkronkan melalui koneksi WebSocket persisten:
 
-```flowchart LR
-    User["👤 User"] --> Browser["🌐 Browser"]
-    Browser --> Laravel["Laravel + Livewire"]
-    Laravel --> MySQL[(MySQL)]
-    Laravel --> Reverb["Laravel Reverb"]
-    Reverb --> Browser
+```mermaid
+flowchart LR
+
+User["👤 User"] --> Browser["🌐 Browser"]
+Browser --> Laravel["Laravel + Livewire"]
+Laravel --> DB[("🗄️ MySQL")]
+Laravel --> Reverb["⚡ Laravel Reverb"]
+Reverb --> Browser
 ```
 
 ---
