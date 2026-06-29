@@ -33,7 +33,7 @@
 *   [ 12. Informasi Proyek (Metadata)](#12-informasi-proyek-metadata)
 *   [ 13. Tim Pengembang & Kontribusi](#13-tim-pengembang-kontribusi)
 *   [ 14. Workflow Kolaborasi Git](#14-workflow-kolaborasi-git)
-*   [ 15. Lisensi & Apresiasi](#15-lisensi)
+*   [ 15. Lisensi](#15-lisensi)
 
 ---
 
