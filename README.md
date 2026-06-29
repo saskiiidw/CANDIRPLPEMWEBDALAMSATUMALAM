@@ -19,21 +19,21 @@
 ---
 
 ## 📌 Daftar Isi
-*   [ 1. Deskripsi & Masalah Projek](#-1-deskripsi--masalah-projek)
-*   [ 2. Fitur Unggulan (Why SMARTCANTEEN?)](#-2-fitur-unggulan-why-smartcanteen)
-*   [ 3. Peran Pengguna & Fitur Sistem](#-3-peran-pengguna--fitur-sistem)
-*   [ 4. Matriks Implementasi Fitur (Checklist)](#-4-matriks-implementasi-fitur-checklist)
-*   [ 5. Arsitektur Sistem](#-5-arsitektur-sistem)
-*   [ 6. Struktur Direktori Utama](#-6-struktur-direktori-utama)
-*   [ 7. Skema & Entitas Database](#-7-skema--entitas-database)
-*   [ 8. Panduan Instalasi Lokal](#-8-panduan-instalasi-lokal)
-*   [ 9. Panduan Menjalankan Sistem](#-9-panduan-menjalankan-sistem)
-*   [ 10. Agile Development & Trello Workflow](#-11-agile-development--trello-workflow)
-*   [ 11. Dokumen Rekayasa Perangkat Lunak](#-12-dokumen-rekayasa-perangkat-lunak)
-*   [ 12. Informasi Proyek (Metadata)](#-13-informasi-proyek-metadata)
-*   [ 13. Tim Pengembang & Kontribusi](#-14-tim-pengembang--kontribusi)
-*   [ 14. Workflow Kolaborasi Git](#-15-workflow-kolaborasi-git)
-*   [ 15. Lisensi & Apresiasi](#-16-lisensi--apresiasi)
+*   [ 1. Deskripsi & Masalah Projek](#1-deskripsi-masalah-projek)
+*   [ 2. Fitur Unggulan (Why SMARTCANTEEN?)](#2-fitur-unggulan-why-smartcanteen)
+*   [ 3. Peran Pengguna & Fitur Sistem](#3-peran-pengguna-fitur-sistem)
+*   [ 4. Matriks Implementasi Fitur (Checklist)](#4-matriks-implementasi-fitur-checklist)
+*   [ 5. Arsitektur Sistem](#5-arsitektur-sistem)
+*   [ 6. Struktur Direktori Utama](#6-struktur-direktori-utama)
+*   [ 7. Skema & Entitas Database](#7-skema-entitas-database)
+*   [ 8. Panduan Instalasi Lokal](#8-panduan-instalasi-lokal)
+*   [ 9. Panduan Menjalankan Sistem](#9-panduan-menjalankan-sistem)
+*   [ 10. Agile Development & Trello Workflow](#10-agile-development-trello-workflow)
+*   [ 11. Dokumen Rekayasa Perangkat Lunak](#11-dokumen-rekayasa-perangkat-lunak)
+*   [ 12. Informasi Proyek (Metadata)](#12-informasi-proyek-metadata)
+*   [ 13. Tim Pengembang & Kontribusi](#13-tim-pengembang-kontribusi)
+*   [ 14. Workflow Kolaborasi Git](#14-workflow-kolaborasi-git)
+*   [ 15. Lisensi & Apresiasi](#15-lisensi)
 
 ---
 
