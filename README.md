@@ -336,6 +336,7 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 *   **✅ Entity Relationship Diagram (ERD):** Struktur fisik skema database (terlampir pada arsitektur).
 *   **✅ Use Case & User Story:** Deskripsi detail aktor dan kriteria penerimaan (Acceptance Criteria).
 *   **✅ Trello Board:** [Akses Kanban Board](https://trello.com/invite/b/6a351081a48f3c87cdf9b7e6/ATTIe6afd4fab2191817b5e87a1b1be96a74B02A2406/candi-rplpemweb)
+*   **✅ Video Presentasi:** [Link Youtube Video](https://youtu.be/VX_G1ka2OGU)
 
 ---
 
@@ -359,10 +360,10 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 
 | Nama Pengembang | NIM | Peran Utama | Kontribusi Utama |
 | :--- | :--- | :--- | :--- |
-| **Saskia Dwi Purnama** | H1D024135 | **Project Manager ** | • Mengoordinasikan pembagian tugas dan progres pengembangan tim menggunakan Git dan GitHub.<br>• Mengelola repository, branch, proses merge, serta integrasi hasil pekerjaan setiap anggota.<br>• Mengembangkan antarmuka (UI) untuk fitur **User Penjual** menggunakan Blade, Tailwind CSS, Livewire, dan Alpine.js.<br>• Melakukan integrasi frontend dengan backend pada modul penjual serta membantu proses deployment dan pengujian akhir aplikasi. |
+| **Saskia Dwi Purnama** | H1D024135 | **Project Manager** | • Mengoordinasikan pembagian tugas dan progres pengembangan tim menggunakan Git dan GitHub.<br>• Mengelola repository, branch, proses merge, serta integrasi hasil pekerjaan setiap anggota.<br>• Mengembangkan antarmuka (UI) untuk fitur **User Penjual** menggunakan Blade, Tailwind CSS, Livewire, dan Alpine.js.<br>• Melakukan integrasi frontend dengan backend pada modul penjual serta membantu proses deployment dan pengujian akhir aplikasi.<br>• dokumentasi teknis.<br> |
 | **Daffa Salman F. S.** | H1D024117 | **Front-End Developer & UI Integration** | • Mengembangkan antarmuka pengguna untuk berbagai role sesuai rancangan sistem.<br>• Mengintegrasikan komponen frontend dengan backend Laravel dan Livewire.<br>• Menyusun layout utama aplikasi, navigasi, serta memastikan tampilan responsif pada berbagai perangkat.<br>• Membantu penyempurnaan tampilan dan konsistensi antarmuka aplikasi. |
 | **Yoga Adi Nugraha** | H1D024118 | **Backend Developer & Database Engineer** | • Merancang struktur database beserta relasi antar tabel menggunakan MySQL.<br>• Mengembangkan logika bisnis aplikasi menggunakan Laravel dan Livewire.<br>• Membuat migration, model, controller, middleware, event, broadcasting, autentikasi, serta API internal aplikasi.<br>• Mengimplementasikan seluruh proses transaksi, manajemen data, laporan, dan komunikasi real-time menggunakan Laravel Reverb. |
-| **Moh. Dyandra Maliki** | H1D024130 | **Quality Assurance & Technical Documentation** | • Menyusun Software Requirements Specification (SRS), dokumentasi teknis, dan README proyek.<br>• Melakukan pengujian fungsional (Black-box Testing), Integration Testing, serta menyusun laporan hasil pengujian.<br>• Mendokumentasikan bug, melakukan validasi fitur berdasarkan kebutuhan sistem, dan memastikan kualitas aplikasi sebelum deployment.<br>• Membantu penyusunan dokumentasi laporan akhir proyek. |
+| **Moh. Dyandra Maliki** | H1D024130 | **Quality Assurance & Technical Documentation** | • Menyusun Software Requirements Specification (SRS), dan README proyek.<br>• Melakukan pengujian fungsional (Black-box Testing), Integration Testing, serta menyusun laporan hasil pengujian.<br>• Mendokumentasikan bug, melakukan validasi fitur berdasarkan kebutuhan sistem, dan memastikan kualitas aplikasi sebelum deployment.<br>• Membantu penyusunan dokumentasi laporan akhir proyek. |
 
 ---
 
