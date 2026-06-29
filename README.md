@@ -352,7 +352,7 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 | **Universitas** | Universitas Jenderal Soedirman (UNSOED) |
 | **Program Studi** | S1 Informatika - Fakultas Teknik |
 | **Mata Kuliah** | Rekayasa Perangkat Lunak (RPL) & Pemrograman Web |
-| **Dosen Pengampu** | Mohammad Irham Akbar, S.Kom., M.Cs. |
+| **Dosen Pengampu** | Mochammad Agri Triansyah, S.Kom.,M.Kom. |
 
 ---
 
