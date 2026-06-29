@@ -28,13 +28,12 @@
 *   [ 7. Skema & Entitas Database](#-7-skema--entitas-database)
 *   [ 8. Panduan Instalasi Lokal](#-8-panduan-instalasi-lokal)
 *   [ 9. Panduan Menjalankan Sistem](#-9-panduan-menjalankan-sistem)
-*   [ 10. Dokumentasi Antarmuka (Screenshot)](#-10-dokumentasi-antarmuka-screenshot)
-*   [ 11. Agile Development & Trello Workflow](#-11-agile-development--trello-workflow)
-*   [ 12. Dokumen Rekayasa Perangkat Lunak](#-12-dokumen-rekayasa-perangkat-lunak)
-*   [ 13. Informasi Proyek (Metadata)](#-13-informasi-proyek-metadata)
-*   [ 14. Tim Pengembang & Kontribusi](#-14-tim-pengembang--kontribusi)
-*   [ 15. Workflow Kolaborasi Git](#-15-workflow-kolaborasi-git)
-*   [ 16. Lisensi & Apresiasi](#-16-lisensi--apresiasi)
+*   [ 10. Agile Development & Trello Workflow](#-11-agile-development--trello-workflow)
+*   [ 11. Dokumen Rekayasa Perangkat Lunak](#-12-dokumen-rekayasa-perangkat-lunak)
+*   [ 12. Informasi Proyek (Metadata)](#-13-informasi-proyek-metadata)
+*   [ 13. Tim Pengembang & Kontribusi](#-14-tim-pengembang--kontribusi)
+*   [ 14. Workflow Kolaborasi Git](#-15-workflow-kolaborasi-git)
+*   [ 15. Lisensi & Apresiasi](#-16-lisensi--apresiasi)
 
 ---
 
@@ -303,41 +302,9 @@ Jika Anda ingin memantau log spesifik dari masing-masing komponen:
     ```
 
 ---
-
-##  10. Dokumentasi Antarmuka (Screenshot)
-
-*Berikut adalah visualisasi antarmuka aplikasi SMARTCANTEEN (Ganti dengan file citra asli di direktori `public/` saat rilis):*
-
-<details>
-  <summary>📸 Lihat Screenshot Halaman Utama & Autentikasi</summary>
-
-  | Welcome & Landing Page | Halaman Login Pengguna |
-  | :---: | :---: |
-  | ![Welcome Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Welcome+Page) | ![Login Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Login+Page) |
-  | *Landing page responsif.* | *Autentikasi aman dengan pelindung throttling lockout.* |
-</details>
-
-<details>
-  <summary>📸 Lihat Screenshot Dashboard Mahasiswa & Merchant</summary>
-
-  | Dashboard Mahasiswa (Student Home) | Dashboard Penjual (Live Queue) |
-  | :---: | :---: |
-  | ![Student Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Student+Dashboard) | ![Seller Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Merchant+Dashboard) |
-  | *Katalog menu aktif, ketersediaan stok, dan ETA dinamis.* | *Antrean pesanan masuk real-time terintegrasi WebSocket.* |
-</details>
-
-<details>
-  <summary>📸 Lihat Screenshot Panel Admin & Laporan Keuangan</summary>
-
-  | Verifikasi Akun Merchant (Admin) | Laporan Penjualan (Ekspor PDF) |
-  | :---: | :---: |
-  | ![Verification Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Admin+Verification) | ![Report Screen](https://placehold.co/600x400/1e293b/ffffff?text=SMARTCANTEEN+-+Sales+Report) |
-  | *Panel persetujuan merchant dengan penulisan alasan penolakan.* | *Laporan ringkasan penjualan toko dengan fitur ekspor PDF.* |
-</details>
-
 ---
 
-##  11. Agile Development & Trello Workflow
+##  10. Agile Development & Trello Workflow
 
 Pengembangan sistem SMARTCANTEEN dikelola menggunakan kerangka kerja **Agile Scrum** dengan pembagian tugas melalui Trello Board:
 
@@ -360,7 +327,7 @@ Pengembangan sistem SMARTCANTEEN dikelola menggunakan kerangka kerja **Agile Scr
 
 ---
 
-##  12. Dokumen Rekayasa Perangkat Lunak
+##  11. Dokumen Rekayasa Perangkat Lunak
 
 Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat ditelusuri pada berkas pendukung berikut:
 
@@ -372,7 +339,7 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 
 ---
 
-##  13. Informasi Proyek (Metadata)
+##  12. Informasi Proyek (Metadata)
 
 | Detail Metadata | Deskripsi Nilai |
 | :--- | :--- |
@@ -388,7 +355,7 @@ Seluruh dokumentasi perancangan sistem telah disusun secara terperinci dan dapat
 
 ---
 
-##  14. Tim Pengembang & Kontribusi
+##  13. Tim Pengembang & Kontribusi
 
 Proyek Rekayasa Perangkat Lunak ini diselesaikan secara kolaboratif oleh Kelompok 3 Informatika Universitas Jenderal Soedirman:
 
@@ -401,7 +368,7 @@ Proyek Rekayasa Perangkat Lunak ini diselesaikan secara kolaboratif oleh Kelompo
 
 ---
 
-##  15. Workflow Kolaborasi Git
+##  14. Workflow Kolaborasi Git
 
 Demi menjaga kualitas kode dan menghindari konflik branch (*conflict merging*), tim menerapkan workflow git yang disiplin:
 
@@ -414,7 +381,7 @@ Demi menjaga kualitas kode dan menghindari konflik branch (*conflict merging*), 
 
 ---
 
-##  16. Lisensi 
+##  15. Lisensi 
 
 ### Lisensi
 Proyek ini dilisensikan di bawah ketentuan **[Lisensi MIT](LICENSE)** - Hak Cipta © 2026 Tim SMARTCANTEEN.
